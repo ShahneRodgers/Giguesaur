@@ -1,0 +1,1282 @@
+configure: WARNING: if you wanted to set the --build type, don't use --host.
+    If a cross compiler is detected then cross compile mode will be used
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for arm-apple-darwin10-strip... no
+checking for strip... strip
+checking for a thread-safe mkdir -p... config/install-sh -c -d
+checking for gawk... no
+checking for mawk... no
+checking for nawk... no
+checking for awk... awk
+checking whether make sets $(MAKE)... yes
+checking how to create a ustar tar archive... gnutar
+checking whether make supports nested variables... yes
+checking for arm-apple-darwin10-gcc... no
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking for style of include used by make... GNU
+checking dependency style of gcc... none
+checking for gcc option to accept ISO C99... none needed
+checking for arm-apple-darwin10-g++... no
+checking for arm-apple-darwin10-c++... no
+checking for arm-apple-darwin10-gpp... no
+checking for arm-apple-darwin10-aCC... no
+checking for arm-apple-darwin10-CC... no
+checking for arm-apple-darwin10-cxx... no
+checking for arm-apple-darwin10-cc++... no
+checking for arm-apple-darwin10-cl.exe... no
+checking for arm-apple-darwin10-FCC... no
+checking for arm-apple-darwin10-KCC... no
+checking for arm-apple-darwin10-RCC... no
+checking for arm-apple-darwin10-xlC_r... no
+checking for arm-apple-darwin10-xlC... no
+checking for g++... g++
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ accepts -g... yes
+checking dependency style of g++... none
+checking whether gcc and cc understand -c and -o together... yes
+checking for a sed that does not truncate output... /usr/bin/sed
+checking for gawk... (cached) awk
+checking for xmlto... no
+checking for asciidoc... no
+checking build system type... x86_64-apple-darwin14.1.0
+checking host system type... arm-apple-darwin10
+checking how to print strings... printf
+checking for a sed that does not truncate output... (cached) /usr/bin/sed
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for fgrep... /usr/bin/grep -F
+checking for ld used by gcc... /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld
+checking if the linker (/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld) is GNU ld... no
+checking for BSD- or MS-compatible name lister (nm)... no
+checking for arm-apple-darwin10-dumpbin... no
+checking for arm-apple-darwin10-link... no
+checking for dumpbin... no
+checking for link... link -dump
+checking the name lister (nm) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 196608
+checking whether the shell understands some XSI constructs... yes
+checking whether the shell understands "+="... yes
+checking how to convert x86_64-apple-darwin14.1.0 file names to arm-apple-darwin10 format... func_convert_file_noop
+checking how to convert x86_64-apple-darwin14.1.0 file names to toolchain format... func_convert_file_noop
+checking for /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld option to reload object files... -r
+checking for arm-apple-darwin10-objdump... objdump
+checking how to recognize dependent libraries... pass_all
+checking for arm-apple-darwin10-dlltool... dlltool
+checking how to associate runtime and link libraries... printf %s\n
+checking for arm-apple-darwin10-ar... no
+checking for ar... ar
+checking for archiver @FILE support... no
+checking for arm-apple-darwin10-strip... strip
+checking for arm-apple-darwin10-ranlib... no
+checking for ranlib... ranlib
+checking command to parse nm output from gcc object... ok
+checking for sysroot... no
+checking for arm-apple-darwin10-mt... no
+checking for mt... no
+checking if : is a manifest tool... no
+checking for arm-apple-darwin10-dsymutil... no
+checking for dsymutil... dsymutil
+checking for arm-apple-darwin10-nmedit... no
+checking for nmedit... nmedit
+checking for arm-apple-darwin10-lipo... no
+checking for lipo... lipo
+checking for arm-apple-darwin10-otool... no
+checking for otool... otool
+checking for arm-apple-darwin10-otool64... no
+checking for otool64... no
+checking for -single_module linker flag... yes
+checking for -exported_symbols_list linker flag... yes
+checking for -force_load linker flag... yes
+checking how to run the C preprocessor... gcc -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if gcc supports -fno-rtti -fno-exceptions... yes
+checking for gcc option to produce PIC... -fno-common -DPIC
+checking if gcc PIC flag -fno-common -DPIC works... yes
+checking if gcc static flag -static works... no
+checking if gcc supports -c -o file.o... yes
+checking if gcc supports -c -o file.o... (cached) yes
+checking whether the gcc linker (/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld) supports shared libraries... yes
+checking dynamic linker characteristics... darwin10 dyld
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... no
+checking whether to build static libraries... yes
+checking how to run the C++ preprocessor... g++ -E
+checking for ld used by g++... /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld
+checking if the linker (/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld) is GNU ld... no
+checking whether the g++ linker (/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld) supports shared libraries... yes
+checking for g++ option to produce PIC... -fno-common -DPIC
+checking if g++ PIC flag -fno-common -DPIC works... yes
+checking if g++ static flag -static works... no
+checking if g++ supports -c -o file.o... yes
+checking if g++ supports -c -o file.o... (cached) yes
+checking whether the g++ linker (/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld) supports shared libraries... yes
+checking dynamic linker characteristics... darwin10 dyld
+checking how to hardcode library paths into programs... immediate
+checking whether the C compiler works... yes
+checking whether we are using Intel C compiler... no
+checking whether we are using Sun Studio C compiler... no
+checking whether we are using clang C compiler... yes
+checking whether we are using gcc >= 4 C compiler... yes
+checking whether the C++ compiler works... yes
+checking whether we are using Intel C++ compiler... no
+checking whether we are using Sun Studio C++ compiler... no
+checking whether we are using clang C++ compiler... yes
+checking whether we are using gcc >= 4 C++ compiler... yes
+checking whether to enable debugging information... no
+checking whether to enable code coverage... no
+checking whether C++ compiler supports -Wno-uninitialized... yes
+checking for pthread_create in -lpthread... yes
+checking for clock_gettime in -lrt... no
+checking for sodium_init in -lsodium... no
+configure: WARNING: libsodium is needed for CURVE security
+checking whether C++ compiler supports -fvisibility=hidden... yes
+checking whether C++ compiler supports dso visibility... yes
+checking for asciidoc... no
+checking for xmlto... no
+checking whether to build documentation... no
+checking whether to install manpages... yes
+checking for suitable polling system... using kqueue
+checking for ANSI C header files... (cached) yes
+checking errno.h usability... yes
+checking errno.h presence... yes
+checking for errno.h... yes
+checking arpa/inet.h usability... yes
+checking arpa/inet.h presence... yes
+checking for arpa/inet.h... yes
+checking netinet/tcp.h usability... yes
+checking netinet/tcp.h presence... yes
+checking for netinet/tcp.h... yes
+checking netinet/in.h usability... yes
+checking netinet/in.h presence... yes
+checking for netinet/in.h... yes
+checking stddef.h usability... yes
+checking stddef.h presence... yes
+checking for stddef.h... yes
+checking for stdlib.h... (cached) yes
+checking for string.h... (cached) yes
+checking sys/socket.h usability... yes
+checking sys/socket.h presence... yes
+checking for sys/socket.h... yes
+checking sys/time.h usability... yes
+checking sys/time.h presence... yes
+checking for sys/time.h... yes
+checking time.h usability... yes
+checking time.h presence... yes
+checking for time.h... yes
+checking for unistd.h... (cached) yes
+checking limits.h usability... yes
+checking limits.h presence... yes
+checking for limits.h... yes
+checking ifaddrs.h usability... yes
+checking ifaddrs.h presence... yes
+checking for ifaddrs.h... yes
+checking sys/uio.h usability... yes
+checking sys/uio.h presence... yes
+checking for sys/uio.h... yes
+checking sys/eventfd.h usability... no
+checking sys/eventfd.h presence... no
+checking for sys/eventfd.h... no
+checking for stdbool.h that conforms to C99... yes
+checking for _Bool... no
+checking for an ANSI C-conforming const... yes
+checking for inline... inline
+checking for size_t... yes
+checking for ssize_t... yes
+checking whether time.h and sys/time.h may both be included... yes
+checking for uint32_t... yes
+checking for working volatile... yes
+checking how to enable additional warnings for C++ compiler... -Wall
+checking return type of signal handlers... void
+checking for perror... yes
+checking for gettimeofday... yes
+checking for clock_gettime... no
+checking for memset... yes
+checking for socket... yes
+checking for getifaddrs... yes
+checking for freeifaddrs... yes
+checking for fork... yes
+checking alloca.h usability... yes
+checking alloca.h presence... yes
+checking for alloca.h... yes
+checking whether SOCK_CLOEXEC is supported... no
+checking whether SO_KEEPALIVE is supported... yes
+checking whether TCP_KEEPCNT is supported... yes
+checking whether TCP_KEEPIDLE is supported... no
+checking whether TCP_KEEPINTVL is supported... yes
+checking whether TCP_KEEPALIVE is supported... yes
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating src/Makefile
+config.status: creating src/libzmq.pc
+config.status: creating doc/Makefile
+config.status: creating perf/Makefile
+config.status: creating tests/Makefile
+config.status: creating tools/Makefile
+config.status: creating builds/msvc/Makefile
+config.status: creating foreign/openpgm/Makefile
+config.status: creating builds/redhat/zeromq.spec
+config.status: creating src/platform.hpp
+config.status: executing depfiles commands
+config.status: executing libtool commands
+Making all in src
+/Applications/Xcode.app/Contents/Developer/usr/bin/make  all-am
+  CXX    libzmq_la-address.lo
+  CXX    libzmq_la-clock.lo
+  CXX    libzmq_la-ctx.lo
+  CXX    libzmq_la-curve_client.lo
+  CXX    libzmq_la-curve_server.lo
+  CXX    libzmq_la-devpoll.lo
+  CXX    libzmq_la-dist.lo
+  CXX    libzmq_la-epoll.lo
+  CXX    libzmq_la-err.lo
+  CXX    libzmq_la-fq.lo
+  CXX    libzmq_la-io_object.lo
+  CXX    libzmq_la-io_thread.lo
+  CXX    libzmq_la-ip.lo
+  CXX    libzmq_la-ipc_address.lo
+  CXX    libzmq_la-ipc_connecter.lo
+  CXX    libzmq_la-ipc_listener.lo
+ipc_listener.cpp:127:24: warning: 'tempnam' is deprecated: This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of tempnam(3), it is highly recommended that you use mkstemp(3) instead. [-Wdeprecated-declarations]
+        char *tmpstr = tempnam (NULL, NULL);
+                       ^
+/usr/include/stdio.h:391:7: note: 'tempnam' has been explicitly marked deprecated here
+char    *tempnam(const char *, const char *) __DARWIN_ALIAS(tempnam);
+         ^
+1 warning generated.
+  CXX    libzmq_la-kqueue.lo
+  CXX    libzmq_la-lb.lo
+  CXX    libzmq_la-mailbox.lo
+  CXX    libzmq_la-mechanism.lo
+  CXX    libzmq_la-msg.lo
+  CXX    libzmq_la-mtrie.lo
+  CXX    libzmq_la-null_mechanism.lo
+  CXX    libzmq_la-object.lo
+  CXX    libzmq_la-options.lo
+  CXX    libzmq_la-own.lo
+  CXX    libzmq_la-pair.lo
+  CXX    libzmq_la-pgm_receiver.lo
+  CXX    libzmq_la-pgm_sender.lo
+  CXX    libzmq_la-pgm_socket.lo
+  CXX    libzmq_la-pipe.lo
+  CXX    libzmq_la-plain_mechanism.lo
+  CXX    libzmq_la-poll.lo
+  CXX    libzmq_la-poller_base.lo
+  CXX    libzmq_la-pull.lo
+  CXX    libzmq_la-push.lo
+  CXX    libzmq_la-proxy.lo
+  CXX    libzmq_la-reaper.lo
+  CXX    libzmq_la-pub.lo
+  CXX    libzmq_la-random.lo
+  CXX    libzmq_la-rep.lo
+  CXX    libzmq_la-req.lo
+  CXX    libzmq_la-select.lo
+  CXX    libzmq_la-session_base.lo
+  CXX    libzmq_la-signaler.lo
+  CXX    libzmq_la-socket_base.lo
+  CXX    libzmq_la-stream.lo
+  CXX    libzmq_la-stream_engine.lo
+  CXX    libzmq_la-sub.lo
+  CXX    libzmq_la-tcp.lo
+  CXX    libzmq_la-tcp_address.lo
+  CXX    libzmq_la-tcp_connecter.lo
+  CXX    libzmq_la-tcp_listener.lo
+  CXX    libzmq_la-thread.lo
+  CXX    libzmq_la-trie.lo
+  CXX    libzmq_la-xpub.lo
+  CXX    libzmq_la-router.lo
+  CXX    libzmq_la-dealer.lo
+  CXX    libzmq_la-v1_decoder.lo
+  CXX    libzmq_la-v1_encoder.lo
+  CXX    libzmq_la-v2_decoder.lo
+  CXX    libzmq_la-v2_encoder.lo
+  CXX    libzmq_la-xsub.lo
+  CXX    libzmq_la-zmq.lo
+  CXX    libzmq_la-zmq_utils.lo
+  CXX    libzmq_la-raw_decoder.lo
+  CXX    libzmq_la-raw_encoder.lo
+  CXXLD  libzmq.la
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-curve_client.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-curve_server.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-devpoll.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-epoll.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-pgm_receiver.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-pgm_sender.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-pgm_socket.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-poll.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-select.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-curve_client.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-curve_server.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-devpoll.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-epoll.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-pgm_receiver.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-pgm_sender.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-pgm_socket.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-poll.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: .libs/libzmq.a(libzmq_la-select.o) has no symbols
+Making all in doc
+make[1]: Nothing to be done for `all'.
+Making all in perf
+  CXX    local_lat.o
+  CXXLD  local_lat
+  CXX    remote_lat.o
+  CXXLD  remote_lat
+  CXX    local_thr.o
+  CXXLD  local_thr
+  CXX    remote_thr.o
+  CXXLD  remote_thr
+  CXX    inproc_lat.o
+  CXXLD  inproc_lat
+  CXX    inproc_thr.o
+  CXXLD  inproc_thr
+Making all in tests
+  CXX    test_system.o
+  CXXLD  test_system
+  CXX    test_pair_inproc.o
+  CXXLD  test_pair_inproc
+  CXX    test_pair_tcp.o
+  CXXLD  test_pair_tcp
+  CXX    test_reqrep_inproc.o
+  CXXLD  test_reqrep_inproc
+  CXX    test_reqrep_tcp.o
+  CXXLD  test_reqrep_tcp
+  CXX    test_hwm.o
+  CXXLD  test_hwm
+  CXX    test_reqrep_device.o
+  CXXLD  test_reqrep_device
+  CXX    test_sub_forward.o
+  CXXLD  test_sub_forward
+  CXX    test_invalid_rep.o
+  CXXLD  test_invalid_rep
+  CXX    test_msg_flags.o
+  CXXLD  test_msg_flags
+  CXX    test_connect_resolve.o
+  CXXLD  test_connect_resolve
+  CXX    test_immediate.o
+  CXXLD  test_immediate
+  CXX    test_last_endpoint.o
+  CXXLD  test_last_endpoint
+  CXX    test_term_endpoint.o
+  CXXLD  test_term_endpoint
+  CXX    test_monitor.o
+  CXXLD  test_monitor
+  CXX    test_router_mandatory.o
+  CXXLD  test_router_mandatory
+  CXX    test_router_raw_empty.o
+  CXXLD  test_router_raw_empty
+  CXX    test_probe_router.o
+  CXXLD  test_probe_router
+  CXX    test_stream.o
+  CXXLD  test_stream
+  CXX    test_disconnect_inproc.o
+  CXXLD  test_disconnect_inproc
+  CXX    test_ctx_options.o
+  CXXLD  test_ctx_options
+  CXX    test_ctx_destroy.o
+  CXXLD  test_ctx_destroy
+  CXX    test_security_null.o
+  CXXLD  test_security_null
+  CXX    test_security_plain.o
+  CXXLD  test_security_plain
+  CXX    test_security_curve.o
+  CXXLD  test_security_curve
+  CXX    test_iov.o
+  CXXLD  test_iov
+  CXX    test_spec_req.o
+  CXXLD  test_spec_req
+  CXX    test_spec_rep.o
+  CXXLD  test_spec_rep
+  CXX    test_spec_dealer.o
+  CXXLD  test_spec_dealer
+  CXX    test_spec_router.o
+  CXXLD  test_spec_router
+  CXX    test_spec_pushpull.o
+  CXXLD  test_spec_pushpull
+  CXX    test_req_correlate.o
+  CXXLD  test_req_correlate
+  CXX    test_req_relaxed.o
+  CXXLD  test_req_relaxed
+  CXX    test_conflate.o
+  CXXLD  test_conflate
+  CXX    test_inproc_connect.o
+  CXXLD  test_inproc_connect
+  CXX    test_issue_566.o
+  CXXLD  test_issue_566
+  CXX    test_abstract_ipc.o
+  CXXLD  test_abstract_ipc
+  CXX    test_many_sockets.o
+  CXXLD  test_many_sockets
+  CXX    test_shutdown_stress.o
+  CXXLD  test_shutdown_stress
+  CXX    test_pair_ipc.o
+  CXXLD  test_pair_ipc
+  CXX    test_reqrep_ipc.o
+  CXXLD  test_reqrep_ipc
+  CXX    test_timeo.o
+  CXXLD  test_timeo
+  CXX    test_fork.o
+  CXXLD  test_fork
+Making all in tools
+  CC     curve_keygen.o
+  CCLD   curve_keygen
+Undefined symbols for architecture x86_64:
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::find(char const*, unsigned long, unsigned long) const", referenced from:
+      zmq::socket_base_t::parse_uri(char const*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-socket_base.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::compare(char const*) const", referenced from:
+      zmq::socket_base_t::check_protocol(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::term_endpoint(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::monitor(char const*, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::tcp_address_t::resolve(char const*, bool, bool) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::tcp_address_mask_t::resolve(char const*, bool) in libzmq.a(libzmq_la-tcp_address.o)
+      ...
+  "std::__1::__vector_base_common<true>::__throw_length_error() const", referenced from:
+      void std::__1::vector<zmq::pipe_t*, std::__1::allocator<zmq::pipe_t*> >::__push_back_slow_path<zmq::pipe_t* const>(zmq::pipe_t* const&) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> >::vector(std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> > const&) in libzmq.a(libzmq_la-socket_base.o)
+      void std::__1::vector<zmq::socket_base_t*, std::__1::allocator<zmq::socket_base_t*> >::__push_back_slow_path<zmq::socket_base_t* const>(zmq::socket_base_t* const&) in libzmq.a(libzmq_la-ctx.o)
+      void std::__1::vector<unsigned int, std::__1::allocator<unsigned int> >::__push_back_slow_path<unsigned int const>(unsigned int const&) in libzmq.a(libzmq_la-ctx.o)
+      void std::__1::vector<zmq::io_thread_t*, std::__1::allocator<zmq::io_thread_t*> >::__push_back_slow_path<zmq::io_thread_t* const>(zmq::io_thread_t* const&) in libzmq.a(libzmq_la-ctx.o)
+      std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> >::vector(std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> > const&) in libzmq.a(libzmq_la-ctx.o)
+      std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> >::vector(std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> > const&) in libzmq.a(libzmq_la-own.o)
+      ...
+  "std::__1::__basic_string_common<true>::__throw_length_error() const", referenced from:
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str() const in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str() const in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::pipe_t::get_identity() in libzmq.a(libzmq_la-pipe.o)
+      std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> >::__grow_by_and_replace(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned char const*) in libzmq.a(libzmq_la-pipe.o)
+      zmq::xpub_t::xread_activated(zmq::pipe_t*) in libzmq.a(libzmq_la-xpub.o)
+      zmq::xpub_t::send_unsubscription(unsigned char*, unsigned long, void*) in libzmq.a(libzmq_la-xpub.o)
+      std::__1::deque<std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> >, std::__1::allocator<std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> > > >::push_back(std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> > const&) in libzmq.a(libzmq_la-xpub.o)
+      ...
+  "std::__1::locale::use_facet(std::__1::locale::id&) const", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::ios_base::getloc() const", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::__init(char const*, unsigned long)", referenced from:
+      zmq::socket_base_t::stop_monitor() in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::parse_uri(char const*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::add_endpoint(char const*, zmq::own_t*, zmq::pipe_t*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::term_endpoint(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ctx_t::register_endpoint(char const*, zmq::endpoint_t&) in libzmq.a(libzmq_la-ctx.o)
+      zmq::ctx_t::find_endpoint(char const*) in libzmq.a(libzmq_la-ctx.o)
+      ...
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::__init(unsigned long, char)", referenced from:
+      std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> > std::__1::__pad_and_output<char, std::__1::char_traits<char> >(std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> >, char const*, char const*, char const*, std::__1::ios_base&, char) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> > std::__1::__pad_and_output<char, std::__1::char_traits<char> >(std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> >, char const*, char const*, char const*, std::__1::ios_base&, char) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> > std::__1::__pad_and_output<char, std::__1::char_traits<char> >(std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> >, char const*, char const*, char const*, std::__1::ios_base&, char) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::assign(char const*)", referenced from:
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::tcp_address_mask_t::resolve(char const*, bool) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::ipc_listener_t::set_address(char const*) in libzmq.a(libzmq_la-ipc_listener.o)
+      zmq::get_peer_ip_address(int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ip.o)
+      zmq::stream_engine_t::stream_engine_t(int, zmq::options_t const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-stream_engine.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::assign(char const*, unsigned long)", referenced from:
+      zmq::tcp_address_mask_t::resolve(char const*, bool) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::options_t::setsockopt(int, void const*, unsigned long) in libzmq.a(libzmq_la-options.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::resize(unsigned long, char)", referenced from:
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::push_back(char)", referenced from:
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::basic_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)", referenced from:
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::add_endpoint(char const*, zmq::own_t*, zmq::pipe_t*) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> > > >::__insert_multi(std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> > const&) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*> > >::__insert_multi(std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*> const&) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ctx_t::terminate() in libzmq.a(libzmq_la-ctx.o)
+      zmq::ctx_t::register_endpoint(char const*, zmq::endpoint_t&) in libzmq.a(libzmq_la-ctx.o)
+      ...
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::basic_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, unsigned long, unsigned long, std::__1::allocator<char> const&)", referenced from:
+      zmq::socket_base_t::parse_uri(char const*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::tcp_address_t::resolve(char const*, bool, bool) in libzmq.a(libzmq_la-tcp_address.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_string()", referenced from:
+      zmq::socket_base_t::socket_base_t(zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::stop_monitor() in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::parse_uri(char const*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::add_endpoint(char const*, zmq::own_t*, zmq::pipe_t*) in libzmq.a(libzmq_la-socket_base.o)
+      ...
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::operator=(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)", referenced from:
+      zmq::socket_base_t::parse_uri(char const*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ipc_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-ipc_address.o)
+      zmq::tcp_address_t::resolve(char const*, bool, bool) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::tcp_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::tcp_address_mask_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-tcp_address.o)
+      ...
+  "std::__1::basic_istream<char, std::__1::char_traits<char> >::~basic_istream()", referenced from:
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_istream<char, std::__1::char_traits<char> >::~basic_istream()", referenced from:
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_ostream<char, std::__1::char_traits<char> >::sentry::sentry(std::__1::basic_ostream<char, std::__1::char_traits<char> >&)", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_ostream<char, std::__1::char_traits<char> >::sentry::~sentry()", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_ostream<char, std::__1::char_traits<char> >::~basic_ostream()", referenced from:
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_ostream<char, std::__1::char_traits<char> >::~basic_ostream()", referenced from:
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_ostream<char, std::__1::char_traits<char> >::operator<<(int)", referenced from:
+      zmq::tcp_address_mask_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+  "std::__1::basic_ostream<char, std::__1::char_traits<char> >::operator<<(unsigned short)", referenced from:
+      zmq::tcp_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+  "std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      zmq::ipc_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      ...
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::sync()", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::imbue(std::__1::locale const&)", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::uflow()", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::setbuf(char*, long)", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::xsgetn(char*, long)", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::xsputn(char const*, long)", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::showmanyc()", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::basic_streambuf()", referenced from:
+      zmq::ipc_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ipc_address.o)
+      zmq::tcp_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::tcp_address_mask_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) const in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::~basic_streambuf()", referenced from:
+      zmq::ipc_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      ...
+  "std::__1::ctype<char>::id", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::locale::~locale()", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::ios_base::__set_badbit_and_consider_rethrow()", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::ios_base::init(void*)", referenced from:
+      zmq::ipc_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ipc_address.o)
+      zmq::tcp_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::tcp_address_mask_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) const in libzmq.a(libzmq_la-address.o)
+  "std::__1::ios_base::clear(unsigned int)", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_ios<char, std::__1::char_traits<char> >::~basic_ios()", referenced from:
+      zmq::ipc_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      ...
+  "std::nothrow", referenced from:
+      _zmq_ctx_new in libzmq.a(libzmq_la-zmq.o)
+      zmq::socket_base_t::create(int, zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ctx_t::create_socket(int) in libzmq.a(libzmq_la-ctx.o)
+      zmq::io_thread_t::io_thread_t(zmq::ctx_t*, unsigned int) in libzmq.a(libzmq_la-io_thread.o)
+      zmq::ipc_listener_t::in_event() in libzmq.a(libzmq_la-ipc_listener.o)
+      ...
+  "std::terminate()", referenced from:
+      ___clang_call_terminate in libzmq.a(libzmq_la-zmq.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-socket_base.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-ctx.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-io_thread.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-ipc_address.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-tcp_address.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-ipc_listener.o)
+      ...
+  "typeinfo for std::__1::basic_istream<char, std::__1::char_traits<char> >", referenced from:
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "typeinfo for std::__1::basic_ostream<char, std::__1::char_traits<char> >", referenced from:
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "typeinfo for std::__1::basic_iostream<char, std::__1::char_traits<char> >", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      typeinfo for std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      typeinfo for std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+      typeinfo for std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "typeinfo for std::__1::basic_streambuf<char, std::__1::char_traits<char> >", referenced from:
+      typeinfo for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      typeinfo for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      typeinfo for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "vtable for __cxxabiv1::__class_type_info", referenced from:
+      typeinfo for zmq::array_item_t<0> in libzmq.a(libzmq_la-socket_base.o)
+      typeinfo for zmq::i_poll_events in libzmq.a(libzmq_la-socket_base.o)
+      typeinfo for zmq::i_pipe_events in libzmq.a(libzmq_la-socket_base.o)
+      typeinfo for zmq::i_poll_events in libzmq.a(libzmq_la-io_thread.o)
+      typeinfo for zmq::tcp_address_t in libzmq.a(libzmq_la-tcp_address.o)
+      typeinfo for zmq::i_pipe_events in libzmq.a(libzmq_la-session_base.o)
+      typeinfo for zmq::array_item_t<1> in libzmq.a(libzmq_la-pipe.o)
+      ...
+  NOTE: a missing vtable usually means the first non-inline virtual member function has no definition.
+  "vtable for __cxxabiv1::__si_class_type_info", referenced from:
+      typeinfo for std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      typeinfo for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      typeinfo for zmq::tcp_address_mask_t in libzmq.a(libzmq_la-tcp_address.o)
+      typeinfo for std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      typeinfo for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      typeinfo for zmq::own_t in libzmq.a(libzmq_la-own.o)
+      typeinfo for zmq::pub_t in libzmq.a(libzmq_la-pub.o)
+      ...
+  NOTE: a missing vtable usually means the first non-inline virtual member function has no definition.
+  "vtable for __cxxabiv1::__vmi_class_type_info", referenced from:
+      typeinfo for zmq::socket_base_t in libzmq.a(libzmq_la-socket_base.o)
+      typeinfo for zmq::io_thread_t in libzmq.a(libzmq_la-io_thread.o)
+      typeinfo for zmq::ipc_listener_t in libzmq.a(libzmq_la-ipc_listener.o)
+      typeinfo for zmq::session_base_t in libzmq.a(libzmq_la-session_base.o)
+      typeinfo for zmq::tcp_listener_t in libzmq.a(libzmq_la-tcp_listener.o)
+      typeinfo for zmq::pipe_t in libzmq.a(libzmq_la-pipe.o)
+      typeinfo for zmq::reaper_t in libzmq.a(libzmq_la-reaper.o)
+      ...
+  NOTE: a missing vtable usually means the first non-inline virtual member function has no definition.
+  "non-virtual thunk to std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_istream<char, std::__1::char_traits<char> >::~basic_istream()", referenced from:
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_istream<char, std::__1::char_traits<char> >::~basic_istream()", referenced from:
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_ostream<char, std::__1::char_traits<char> >::~basic_ostream()", referenced from:
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_ostream<char, std::__1::char_traits<char> >::~basic_ostream()", referenced from:
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "operator delete(void*)", referenced from:
+      _zmq_threadclose in libzmq.a(libzmq_la-zmq_utils.o)
+      zmq::socket_base_t::socket_base_t(zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      non-virtual thunk to zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      non-virtual thunk to zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      non-virtual thunk to zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      ...
+  "operator delete(void*, std::nothrow_t const&)", referenced from:
+      _zmq_ctx_new in libzmq.a(libzmq_la-zmq.o)
+      zmq::socket_base_t::create(int, zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ctx_t::create_socket(int) in libzmq.a(libzmq_la-ctx.o)
+      zmq::io_thread_t::io_thread_t(zmq::ctx_t*, unsigned int) in libzmq.a(libzmq_la-io_thread.o)
+      zmq::ipc_listener_t::in_event() in libzmq.a(libzmq_la-ipc_listener.o)
+      ...
+  "operator new(unsigned long)", referenced from:
+      _zmq_threadstart in libzmq.a(libzmq_la-zmq_utils.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> > > >::__insert_multi(std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> > const&) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*> > >::__insert_multi(std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*> const&) in libzmq.a(libzmq_la-socket_base.o)
+      void std::__1::vector<zmq::pipe_t*, std::__1::allocator<zmq::pipe_t*> >::__push_back_slow_path<zmq::pipe_t* const>(zmq::pipe_t* const&) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> >::vector(std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> > const&) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::endpoint_t, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, zmq::endpoint_t> > >::__construct_node_with_key(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-ctx.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pending_connection_t>, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pending_connection_t>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pending_connection_t> > >::__construct_node(std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pending_connection_t> const&) in libzmq.a(libzmq_la-ctx.o)
+      ...
+  "operator new(unsigned long, std::nothrow_t const&)", referenced from:
+      _zmq_ctx_new in libzmq.a(libzmq_la-zmq.o)
+      zmq::socket_base_t::create(int, zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ctx_t::create_socket(int) in libzmq.a(libzmq_la-ctx.o)
+      zmq::io_thread_t::io_thread_t(zmq::ctx_t*, unsigned int) in libzmq.a(libzmq_la-io_thread.o)
+      zmq::ipc_listener_t::in_event() in libzmq.a(libzmq_la-ipc_listener.o)
+      ...
+  "___cxa_begin_catch", referenced from:
+      ___clang_call_terminate in libzmq.a(libzmq_la-zmq.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-socket_base.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-ctx.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-io_thread.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-ipc_address.o)
+      ...
+  "___cxa_call_unexpected", referenced from:
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> >::vector(std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> > const&) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> > > >::destroy(std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, void*>*) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*> > >::destroy(std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, void*>*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ctx_t::terminate() in libzmq.a(libzmq_la-ctx.o)
+      zmq::ctx_t::register_endpoint(char const*, zmq::endpoint_t&) in libzmq.a(libzmq_la-ctx.o)
+      ...
+  "___cxa_end_catch", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::deque<unsigned char, std::__1::allocator<unsigned char> >::__add_back_capacity() in libzmq.a(libzmq_la-xpub.o)
+      std::__1::deque<std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> >, std::__1::allocator<std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> > > >::__add_back_capacity() in libzmq.a(libzmq_la-xpub.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+      ...
+  "___cxa_pure_virtual", referenced from:
+      vtable for zmq::socket_base_t in libzmq.a(libzmq_la-socket_base.o)
+      vtable for zmq::mechanism_t in libzmq.a(libzmq_la-mechanism.o)
+      vtable for zmq::decoder_base_t<zmq::v1_decoder_t> in libzmq.a(libzmq_la-v1_decoder.o)
+      vtable for zmq::decoder_base_t<zmq::v2_decoder_t> in libzmq.a(libzmq_la-v2_decoder.o)
+  "___cxa_rethrow", referenced from:
+      std::__1::deque<unsigned char, std::__1::allocator<unsigned char> >::__add_back_capacity() in libzmq.a(libzmq_la-xpub.o)
+      std::__1::deque<std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> >, std::__1::allocator<std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> > > >::__add_back_capacity() in libzmq.a(libzmq_la-xpub.o)
+  "___gxx_personality_v0", referenced from:
+      _zmq_ctx_new in libzmq.a(libzmq_la-zmq.o)
+      _zmq_poll in libzmq.a(libzmq_la-zmq.o)
+      Dwarf Exception Unwind Info (__eh_frame) in libzmq.a(libzmq_la-zmq.o)
+      zmq::socket_base_t::create(int, zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::socket_base_t(zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::stop_monitor() in libzmq.a(libzmq_la-socket_base.o)
+      ...
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make[1]: *** [curve_keygen] Error 1
+make: *** [all-recursive] Error 1
+Making install in src
+test -z "/Users/localshahne/Desktop/zeromq-4.0.5/build/lib" || ../config/install-sh -c -d "/Users/localshahne/Desktop/zeromq-4.0.5/build/lib"
+ /bin/sh ../libtool   --mode=install /usr/bin/install -c   libzmq.la '/Users/localshahne/Desktop/zeromq-4.0.5/build/lib'
+libtool: install: /usr/bin/install -c .libs/libzmq.lai /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.la
+libtool: install: /usr/bin/install -c .libs/libzmq.a /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.a
+libtool: install: chmod 644 /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.a
+libtool: install: ranlib /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.a
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.a(libzmq_la-curve_client.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.a(libzmq_la-curve_server.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.a(libzmq_la-devpoll.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.a(libzmq_la-epoll.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.a(libzmq_la-pgm_receiver.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.a(libzmq_la-pgm_sender.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.a(libzmq_la-pgm_socket.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.a(libzmq_la-poll.o) has no symbols
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: /Users/localshahne/Desktop/zeromq-4.0.5/build/lib/libzmq.a(libzmq_la-select.o) has no symbols
+test -z "/Users/localshahne/Desktop/zeromq-4.0.5/build/include" || ../config/install-sh -c -d "/Users/localshahne/Desktop/zeromq-4.0.5/build/include"
+ /usr/bin/install -c -m 644 ../include/zmq.h ../include/zmq_utils.h '/Users/localshahne/Desktop/zeromq-4.0.5/build/include'
+test -z "/Users/localshahne/Desktop/zeromq-4.0.5/build/lib/pkgconfig" || ../config/install-sh -c -d "/Users/localshahne/Desktop/zeromq-4.0.5/build/lib/pkgconfig"
+ /usr/bin/install -c -m 644 libzmq.pc '/Users/localshahne/Desktop/zeromq-4.0.5/build/lib/pkgconfig'
+Making install in doc
+make[2]: Nothing to be done for `install-exec-am'.
+test -z "/Users/localshahne/Desktop/zeromq-4.0.5/build/share/man/man3" || ../config/install-sh -c -d "/Users/localshahne/Desktop/zeromq-4.0.5/build/share/man/man3"
+ /usr/bin/install -c -m 644 zmq_bind.3 zmq_unbind.3 zmq_connect.3 zmq_disconnect.3 zmq_close.3 zmq_ctx_new.3 zmq_ctx_term.3 zmq_ctx_destroy.3 zmq_ctx_get.3 zmq_ctx_set.3 zmq_msg_init.3 zmq_msg_init_data.3 zmq_msg_init_size.3 zmq_msg_move.3 zmq_msg_copy.3 zmq_msg_size.3 zmq_msg_data.3 zmq_msg_close.3 zmq_msg_send.3 zmq_msg_recv.3 zmq_send.3 zmq_recv.3 zmq_send_const.3 zmq_msg_get.3 zmq_msg_set.3 zmq_msg_more.3 zmq_getsockopt.3 zmq_setsockopt.3 zmq_socket.3 zmq_socket_monitor.3 zmq_poll.3 zmq_errno.3 zmq_strerror.3 zmq_version.3 zmq_proxy.3 zmq_proxy_steerable.3 zmq_sendmsg.3 zmq_recvmsg.3 zmq_init.3 zmq_term.3 '/Users/localshahne/Desktop/zeromq-4.0.5/build/share/man/man3'
+ /usr/bin/install -c -m 644 zmq_z85_encode.3 zmq_z85_decode.3 zmq_curve_keypair.3 '/Users/localshahne/Desktop/zeromq-4.0.5/build/share/man/man3'
+test -z "/Users/localshahne/Desktop/zeromq-4.0.5/build/share/man/man7" || ../config/install-sh -c -d "/Users/localshahne/Desktop/zeromq-4.0.5/build/share/man/man7"
+ /usr/bin/install -c -m 644 zmq.7 zmq_tcp.7 zmq_pgm.7 zmq_epgm.7 zmq_inproc.7 zmq_ipc.7 zmq_null.7 zmq_plain.7 zmq_curve.7 '/Users/localshahne/Desktop/zeromq-4.0.5/build/share/man/man7'
+Making install in perf
+make[2]: Nothing to be done for `install-exec-am'.
+make[2]: Nothing to be done for `install-data-am'.
+Making install in tests
+make[2]: Nothing to be done for `install-exec-am'.
+make[2]: Nothing to be done for `install-data-am'.
+Making install in tools
+  CCLD   curve_keygen
+Undefined symbols for architecture x86_64:
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::find(char const*, unsigned long, unsigned long) const", referenced from:
+      zmq::socket_base_t::parse_uri(char const*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-socket_base.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::compare(char const*) const", referenced from:
+      zmq::socket_base_t::check_protocol(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::term_endpoint(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::monitor(char const*, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::tcp_address_t::resolve(char const*, bool, bool) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::tcp_address_mask_t::resolve(char const*, bool) in libzmq.a(libzmq_la-tcp_address.o)
+      ...
+  "std::__1::__vector_base_common<true>::__throw_length_error() const", referenced from:
+      void std::__1::vector<zmq::pipe_t*, std::__1::allocator<zmq::pipe_t*> >::__push_back_slow_path<zmq::pipe_t* const>(zmq::pipe_t* const&) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> >::vector(std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> > const&) in libzmq.a(libzmq_la-socket_base.o)
+      void std::__1::vector<zmq::socket_base_t*, std::__1::allocator<zmq::socket_base_t*> >::__push_back_slow_path<zmq::socket_base_t* const>(zmq::socket_base_t* const&) in libzmq.a(libzmq_la-ctx.o)
+      void std::__1::vector<unsigned int, std::__1::allocator<unsigned int> >::__push_back_slow_path<unsigned int const>(unsigned int const&) in libzmq.a(libzmq_la-ctx.o)
+      void std::__1::vector<zmq::io_thread_t*, std::__1::allocator<zmq::io_thread_t*> >::__push_back_slow_path<zmq::io_thread_t* const>(zmq::io_thread_t* const&) in libzmq.a(libzmq_la-ctx.o)
+      std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> >::vector(std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> > const&) in libzmq.a(libzmq_la-ctx.o)
+      std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> >::vector(std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> > const&) in libzmq.a(libzmq_la-own.o)
+      ...
+  "std::__1::__basic_string_common<true>::__throw_length_error() const", referenced from:
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str() const in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str() const in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::pipe_t::get_identity() in libzmq.a(libzmq_la-pipe.o)
+      std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> >::__grow_by_and_replace(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned char const*) in libzmq.a(libzmq_la-pipe.o)
+      zmq::xpub_t::xread_activated(zmq::pipe_t*) in libzmq.a(libzmq_la-xpub.o)
+      zmq::xpub_t::send_unsubscription(unsigned char*, unsigned long, void*) in libzmq.a(libzmq_la-xpub.o)
+      std::__1::deque<std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> >, std::__1::allocator<std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> > > >::push_back(std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> > const&) in libzmq.a(libzmq_la-xpub.o)
+      ...
+  "std::__1::locale::use_facet(std::__1::locale::id&) const", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::ios_base::getloc() const", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::__init(char const*, unsigned long)", referenced from:
+      zmq::socket_base_t::stop_monitor() in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::parse_uri(char const*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::add_endpoint(char const*, zmq::own_t*, zmq::pipe_t*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::term_endpoint(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ctx_t::register_endpoint(char const*, zmq::endpoint_t&) in libzmq.a(libzmq_la-ctx.o)
+      zmq::ctx_t::find_endpoint(char const*) in libzmq.a(libzmq_la-ctx.o)
+      ...
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::__init(unsigned long, char)", referenced from:
+      std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> > std::__1::__pad_and_output<char, std::__1::char_traits<char> >(std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> >, char const*, char const*, char const*, std::__1::ios_base&, char) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> > std::__1::__pad_and_output<char, std::__1::char_traits<char> >(std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> >, char const*, char const*, char const*, std::__1::ios_base&, char) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> > std::__1::__pad_and_output<char, std::__1::char_traits<char> >(std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> >, char const*, char const*, char const*, std::__1::ios_base&, char) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::assign(char const*)", referenced from:
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::tcp_address_mask_t::resolve(char const*, bool) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::ipc_listener_t::set_address(char const*) in libzmq.a(libzmq_la-ipc_listener.o)
+      zmq::get_peer_ip_address(int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ip.o)
+      zmq::stream_engine_t::stream_engine_t(int, zmq::options_t const&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-stream_engine.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::assign(char const*, unsigned long)", referenced from:
+      zmq::tcp_address_mask_t::resolve(char const*, bool) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::options_t::setsockopt(int, void const*, unsigned long) in libzmq.a(libzmq_la-options.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::resize(unsigned long, char)", referenced from:
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::push_back(char)", referenced from:
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::basic_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)", referenced from:
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::add_endpoint(char const*, zmq::own_t*, zmq::pipe_t*) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> > > >::__insert_multi(std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> > const&) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*> > >::__insert_multi(std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*> const&) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ctx_t::terminate() in libzmq.a(libzmq_la-ctx.o)
+      zmq::ctx_t::register_endpoint(char const*, zmq::endpoint_t&) in libzmq.a(libzmq_la-ctx.o)
+      ...
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::basic_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, unsigned long, unsigned long, std::__1::allocator<char> const&)", referenced from:
+      zmq::socket_base_t::parse_uri(char const*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::tcp_address_t::resolve(char const*, bool, bool) in libzmq.a(libzmq_la-tcp_address.o)
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_string()", referenced from:
+      zmq::socket_base_t::socket_base_t(zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::stop_monitor() in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::parse_uri(char const*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::add_endpoint(char const*, zmq::own_t*, zmq::pipe_t*) in libzmq.a(libzmq_la-socket_base.o)
+      ...
+  "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >::operator=(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)", referenced from:
+      zmq::socket_base_t::parse_uri(char const*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ipc_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-ipc_address.o)
+      zmq::tcp_address_t::resolve(char const*, bool, bool) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::tcp_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::tcp_address_mask_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::str(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-tcp_address.o)
+      ...
+  "std::__1::basic_istream<char, std::__1::char_traits<char> >::~basic_istream()", referenced from:
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_istream<char, std::__1::char_traits<char> >::~basic_istream()", referenced from:
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_ostream<char, std::__1::char_traits<char> >::sentry::sentry(std::__1::basic_ostream<char, std::__1::char_traits<char> >&)", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_ostream<char, std::__1::char_traits<char> >::sentry::~sentry()", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_ostream<char, std::__1::char_traits<char> >::~basic_ostream()", referenced from:
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_ostream<char, std::__1::char_traits<char> >::~basic_ostream()", referenced from:
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_ostream<char, std::__1::char_traits<char> >::operator<<(int)", referenced from:
+      zmq::tcp_address_mask_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+  "std::__1::basic_ostream<char, std::__1::char_traits<char> >::operator<<(unsigned short)", referenced from:
+      zmq::tcp_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+  "std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      zmq::ipc_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      ...
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::sync()", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::imbue(std::__1::locale const&)", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::uflow()", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::setbuf(char*, long)", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::xsgetn(char*, long)", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::xsputn(char const*, long)", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::showmanyc()", referenced from:
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      vtable for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::basic_streambuf()", referenced from:
+      zmq::ipc_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ipc_address.o)
+      zmq::tcp_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::tcp_address_mask_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) const in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_streambuf<char, std::__1::char_traits<char> >::~basic_streambuf()", referenced from:
+      zmq::ipc_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      ...
+  "std::__1::ctype<char>::id", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::locale::~locale()", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::ios_base::__set_badbit_and_consider_rethrow()", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::ios_base::init(void*)", referenced from:
+      zmq::ipc_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ipc_address.o)
+      zmq::tcp_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::tcp_address_mask_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-tcp_address.o)
+      zmq::address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) const in libzmq.a(libzmq_la-address.o)
+  "std::__1::ios_base::clear(unsigned int)", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+  "std::__1::basic_ios<char, std::__1::char_traits<char> >::~basic_ios()", referenced from:
+      zmq::ipc_address_t::to_string(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >&) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      non-virtual thunk to std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> >::~basic_stringstream() in libzmq.a(libzmq_la-ipc_address.o)
+      ...
+  "std::nothrow", referenced from:
+      _zmq_ctx_new in libzmq.a(libzmq_la-zmq.o)
+      zmq::socket_base_t::create(int, zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ctx_t::create_socket(int) in libzmq.a(libzmq_la-ctx.o)
+      zmq::io_thread_t::io_thread_t(zmq::ctx_t*, unsigned int) in libzmq.a(libzmq_la-io_thread.o)
+      zmq::ipc_listener_t::in_event() in libzmq.a(libzmq_la-ipc_listener.o)
+      ...
+  "std::terminate()", referenced from:
+      ___clang_call_terminate in libzmq.a(libzmq_la-zmq.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-socket_base.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-ctx.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-io_thread.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-ipc_address.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-tcp_address.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-ipc_listener.o)
+      ...
+  "typeinfo for std::__1::basic_istream<char, std::__1::char_traits<char> >", referenced from:
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "typeinfo for std::__1::basic_ostream<char, std::__1::char_traits<char> >", referenced from:
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "typeinfo for std::__1::basic_iostream<char, std::__1::char_traits<char> >", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      typeinfo for std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      typeinfo for std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+      typeinfo for std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "typeinfo for std::__1::basic_streambuf<char, std::__1::char_traits<char> >", referenced from:
+      typeinfo for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      typeinfo for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      typeinfo for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "vtable for __cxxabiv1::__class_type_info", referenced from:
+      typeinfo for zmq::array_item_t<0> in libzmq.a(libzmq_la-socket_base.o)
+      typeinfo for zmq::i_poll_events in libzmq.a(libzmq_la-socket_base.o)
+      typeinfo for zmq::i_pipe_events in libzmq.a(libzmq_la-socket_base.o)
+      typeinfo for zmq::i_poll_events in libzmq.a(libzmq_la-io_thread.o)
+      typeinfo for zmq::tcp_address_t in libzmq.a(libzmq_la-tcp_address.o)
+      typeinfo for zmq::i_pipe_events in libzmq.a(libzmq_la-session_base.o)
+      typeinfo for zmq::array_item_t<1> in libzmq.a(libzmq_la-pipe.o)
+      ...
+  NOTE: a missing vtable usually means the first non-inline virtual member function has no definition.
+  "vtable for __cxxabiv1::__si_class_type_info", referenced from:
+      typeinfo for std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      typeinfo for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      typeinfo for zmq::tcp_address_mask_t in libzmq.a(libzmq_la-tcp_address.o)
+      typeinfo for std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      typeinfo for std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      typeinfo for zmq::own_t in libzmq.a(libzmq_la-own.o)
+      typeinfo for zmq::pub_t in libzmq.a(libzmq_la-pub.o)
+      ...
+  NOTE: a missing vtable usually means the first non-inline virtual member function has no definition.
+  "vtable for __cxxabiv1::__vmi_class_type_info", referenced from:
+      typeinfo for zmq::socket_base_t in libzmq.a(libzmq_la-socket_base.o)
+      typeinfo for zmq::io_thread_t in libzmq.a(libzmq_la-io_thread.o)
+      typeinfo for zmq::ipc_listener_t in libzmq.a(libzmq_la-ipc_listener.o)
+      typeinfo for zmq::session_base_t in libzmq.a(libzmq_la-session_base.o)
+      typeinfo for zmq::tcp_listener_t in libzmq.a(libzmq_la-tcp_listener.o)
+      typeinfo for zmq::pipe_t in libzmq.a(libzmq_la-pipe.o)
+      typeinfo for zmq::reaper_t in libzmq.a(libzmq_la-reaper.o)
+      ...
+  NOTE: a missing vtable usually means the first non-inline virtual member function has no definition.
+  "non-virtual thunk to std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_istream<char, std::__1::char_traits<char> >::~basic_istream()", referenced from:
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_istream<char, std::__1::char_traits<char> >::~basic_istream()", referenced from:
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_istream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_ostream<char, std::__1::char_traits<char> >::~basic_ostream()", referenced from:
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_ostream<char, std::__1::char_traits<char> >::~basic_ostream()", referenced from:
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_ostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "non-virtual thunk to std::__1::basic_iostream<char, std::__1::char_traits<char> >::~basic_iostream()", referenced from:
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-ipc_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-tcp_address.o)
+      construction vtable for std::__1::basic_iostream<char, std::__1::char_traits<char> >-in-std::__1::basic_stringstream<char, std::__1::char_traits<char>, std::__1::allocator<char> > in libzmq.a(libzmq_la-address.o)
+  "operator delete(void*)", referenced from:
+      _zmq_threadclose in libzmq.a(libzmq_la-zmq_utils.o)
+      zmq::socket_base_t::socket_base_t(zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      non-virtual thunk to zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      non-virtual thunk to zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      non-virtual thunk to zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      ...
+  "operator delete(void*, std::nothrow_t const&)", referenced from:
+      _zmq_ctx_new in libzmq.a(libzmq_la-zmq.o)
+      zmq::socket_base_t::create(int, zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ctx_t::create_socket(int) in libzmq.a(libzmq_la-ctx.o)
+      zmq::io_thread_t::io_thread_t(zmq::ctx_t*, unsigned int) in libzmq.a(libzmq_la-io_thread.o)
+      zmq::ipc_listener_t::in_event() in libzmq.a(libzmq_la-ipc_listener.o)
+      ...
+  "operator new(unsigned long)", referenced from:
+      _zmq_threadstart in libzmq.a(libzmq_la-zmq_utils.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> > > >::__insert_multi(std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> > const&) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*> > >::__insert_multi(std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*> const&) in libzmq.a(libzmq_la-socket_base.o)
+      void std::__1::vector<zmq::pipe_t*, std::__1::allocator<zmq::pipe_t*> >::__push_back_slow_path<zmq::pipe_t* const>(zmq::pipe_t* const&) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> >::vector(std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> > const&) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::map<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::endpoint_t, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, std::__1::allocator<std::__1::pair<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const, zmq::endpoint_t> > >::__construct_node_with_key(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) in libzmq.a(libzmq_la-ctx.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pending_connection_t>, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pending_connection_t>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pending_connection_t> > >::__construct_node(std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pending_connection_t> const&) in libzmq.a(libzmq_la-ctx.o)
+      ...
+  "operator new(unsigned long, std::nothrow_t const&)", referenced from:
+      _zmq_ctx_new in libzmq.a(libzmq_la-zmq.o)
+      zmq::socket_base_t::create(int, zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ctx_t::create_socket(int) in libzmq.a(libzmq_la-ctx.o)
+      zmq::io_thread_t::io_thread_t(zmq::ctx_t*, unsigned int) in libzmq.a(libzmq_la-io_thread.o)
+      zmq::ipc_listener_t::in_event() in libzmq.a(libzmq_la-ipc_listener.o)
+      ...
+  "___cxa_begin_catch", referenced from:
+      ___clang_call_terminate in libzmq.a(libzmq_la-zmq.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-socket_base.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-ctx.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-io_thread.o)
+      ___clang_call_terminate in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-ipc_address.o)
+      ...
+  "___cxa_call_unexpected", referenced from:
+      zmq::socket_base_t::bind(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::connect(char const*) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> >::vector(std::__1::vector<zmq::tcp_address_mask_t, std::__1::allocator<zmq::tcp_address_mask_t> > const&) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> > > >::destroy(std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::pair<zmq::own_t*, zmq::pipe_t*> >, void*>*) in libzmq.a(libzmq_la-socket_base.o)
+      std::__1::__tree<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, std::__1::__map_value_compare<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, std::__1::less<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, true>, std::__1::allocator<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*> > >::destroy(std::__1::__tree_node<std::__1::__value_type<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, zmq::pipe_t*>, void*>*) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::ctx_t::terminate() in libzmq.a(libzmq_la-ctx.o)
+      zmq::ctx_t::register_endpoint(char const*, zmq::endpoint_t&) in libzmq.a(libzmq_la-ctx.o)
+      ...
+  "___cxa_end_catch", referenced from:
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-ipc_address.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::basic_stringbuf<char, std::__1::char_traits<char>, std::__1::allocator<char> >::overflow(int) in libzmq.a(libzmq_la-tcp_address.o)
+      std::__1::deque<unsigned char, std::__1::allocator<unsigned char> >::__add_back_capacity() in libzmq.a(libzmq_la-xpub.o)
+      std::__1::deque<std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> >, std::__1::allocator<std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> > > >::__add_back_capacity() in libzmq.a(libzmq_la-xpub.o)
+      std::__1::basic_ostream<char, std::__1::char_traits<char> >& std::__1::__put_character_sequence<char, std::__1::char_traits<char> >(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, char const*, unsigned long) in libzmq.a(libzmq_la-address.o)
+      ...
+  "___cxa_pure_virtual", referenced from:
+      vtable for zmq::socket_base_t in libzmq.a(libzmq_la-socket_base.o)
+      vtable for zmq::mechanism_t in libzmq.a(libzmq_la-mechanism.o)
+      vtable for zmq::decoder_base_t<zmq::v1_decoder_t> in libzmq.a(libzmq_la-v1_decoder.o)
+      vtable for zmq::decoder_base_t<zmq::v2_decoder_t> in libzmq.a(libzmq_la-v2_decoder.o)
+  "___cxa_rethrow", referenced from:
+      std::__1::deque<unsigned char, std::__1::allocator<unsigned char> >::__add_back_capacity() in libzmq.a(libzmq_la-xpub.o)
+      std::__1::deque<std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> >, std::__1::allocator<std::__1::basic_string<unsigned char, std::__1::char_traits<unsigned char>, std::__1::allocator<unsigned char> > > >::__add_back_capacity() in libzmq.a(libzmq_la-xpub.o)
+  "___gxx_personality_v0", referenced from:
+      _zmq_ctx_new in libzmq.a(libzmq_la-zmq.o)
+      _zmq_poll in libzmq.a(libzmq_la-zmq.o)
+      Dwarf Exception Unwind Info (__eh_frame) in libzmq.a(libzmq_la-zmq.o)
+      zmq::socket_base_t::create(int, zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::socket_base_t(zmq::ctx_t*, unsigned int, int) in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::~socket_base_t() in libzmq.a(libzmq_la-socket_base.o)
+      zmq::socket_base_t::stop_monitor() in libzmq.a(libzmq_la-socket_base.o)
+      ...
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make[1]: *** [curve_keygen] Error 1
+make: *** [install-recursive] Error 1
