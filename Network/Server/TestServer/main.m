@@ -11,7 +11,8 @@
 #import "PublishingDelegate.h"
 #import "zhelpers.h"
 
-#define PIECES_SIZE 9
+#define PIECES_ROW 1
+#define PIECES_COLUMN 150
 #define BOARD_LENGTH 100
 #define BOARD_WIDTH 100
 
@@ -21,7 +22,8 @@ CFNetServiceRef broadcaster;
 PublishingDelegate *delegate;
 void *boardState;
 NSMutableArray *heldPieces;
-int pieceLocations[PIECES_SIZE][3];
+NSMutableArray *players;
+int pieceLocations[PIECES_ROW*PIECES_COLUMN][3];
 void *publisher;
 void *receiver;
 int imageLen;
@@ -45,18 +47,6 @@ void publishService(){
         NSLog(@"Error registering the service %i", error.error);
     }
     
-    /*broadcaster = [[NSNetService alloc] initWithDomain:@""
-                                                  type:@"_zeromq._tcp"
-                                                  name:@"Giguesaur"
-                                                  port:5555];
-    PublishingDelegate *delegate = [[PublishingDelegate alloc] init];
-    
-    if (broadcaster && delegate){
-        [broadcaster setDelegate:delegate];
-        [broadcaster publish];
-    } else {
-        NSLog(@"An error occurred broadcasting the service");
-    } */
 }
 
 const char* getStringFromInt(int num){
@@ -66,7 +56,9 @@ const char* getStringFromInt(int num){
 void sendBoard(){
     zmq_send(publisher, "SetupMode", 9, ZMQ_SNDMORE);
     int pic = zmq_send(publisher, boardState, imageLen, ZMQ_SNDMORE);
-    char *numPieces = (char *)getStringFromInt(PIECES_SIZE);
+    char *numPieces = (char *)getStringFromInt(PIECES_ROW);
+    zmq_send(publisher, numPieces, sizeof(numPieces), ZMQ_SNDMORE);
+    numPieces = (char *)getStringFromInt(PIECES_COLUMN);
     zmq_send(publisher, numPieces, sizeof(numPieces), ZMQ_SNDMORE);
     int arr = zmq_send(publisher, pieceLocations, sizeof(pieceLocations), 0);
     if (pic < 0 || arr < 0)
@@ -104,7 +96,6 @@ void dropPiece(int pieceNum, zmq_msg_t x, zmq_msg_t y, zmq_msg_t r){
     zmq_msg_close(&y);
     zmq_msg_close(&r);
 }
-
 
 
 void receiveMessage(){
@@ -179,10 +170,20 @@ void receiveMessage(){
     } else if ([stringType hasPrefix:@"KeepAlive"]){
         int pieceNum = getIntFromMessage();
         heldPieces[pieceNum] = [NSDate date];
-        
-        //Otherwise we'll assume it's a chat message.
+    //Ensure no duplicate names
+    } else if ([stringType hasPrefix:@"Intro"]){
+        NSString *name = [[NSString alloc]initWithFormat:@"%s", zmq_msg_data(&identity)];
+        if ([players indexOfObject:name] == NSNotFound)
+            [players addObject:name];
+        else{
+            NSLog(@"Pre-existing name");
+            zmq_send(publisher, "Error", 5, ZMQ_SNDMORE);
+            zmq_send(publisher, zmq_msg_data(&identity), zmq_msg_size(&identity), 0);
+        }
+        NSLog(@"Intro: %@", players);
+    //Otherwise we'll assume it's a chat message.
     } else {
-        NSLog(@"Chat message");
+      /*  NSLog(@"Chat message");
         int64_t more;
         size_t more_size = sizeof (more);
         NSLog(@"Identity %s Type: %@", zmq_msg_data(&identity), stringType);
@@ -202,7 +203,7 @@ void receiveMessage(){
             zmq_send(publisher, iden, ilen, ZMQ_SNDMORE);
             zmq_send(publisher, [message UTF8String], [message length], 0);
             
-        }
+        } */
     }
     
 }
@@ -277,9 +278,9 @@ int main(int argc, const char * argv[]) {
     
     NSString *path = [[NSMutableString alloc] initWithFormat:@"%@/IMAGE.jpg", [[NSBundle mainBundle] resourcePath]];
     readImage(path);
-    
+    players = [NSMutableArray array];
     heldPieces = [NSMutableArray array];
-    for (int i = 0; i < PIECES_SIZE; i++){
+    for (int i = 0; i < PIECES_COLUMN*PIECES_ROW; i++){
         [heldPieces addObject:[NSNull null]];
         pieceLocations[i][0] = randof(BOARD_WIDTH);
         pieceLocations[i][1] = randof(BOARD_LENGTH);
