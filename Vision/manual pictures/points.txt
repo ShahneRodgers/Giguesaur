@@ -1,0 +1,6 @@
+origin 10 - tvec : (0,0,100) rvec : (0,0,0)
+origin 15 - tvec : (0,0,150) rvec : (0,0,0)
+origin 30 - tvec : (0,0,300) rvec : (0,0,0)
+middle 10 - tvec : (112,42,100) rvec : (0,0,0)
+middle 15 - tvec : (112,42,150) rvec : (0,0,0)
+middle 30 - tvec : (112,42,300) rvec : (0,0,0)
