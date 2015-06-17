@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		165683E01AB668E30085CB9F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 165683DF1AB668E30085CB9F /* main.m */; };
-		218C31401AC37DB000833608 /* PublishingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 218C313F1AC37DB000833608 /* PublishingDelegate.m */; };
 		21B380181ABBA41C00205860 /* address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21B37F781ABBA41B00205860 /* address.cpp */; };
 		21B380191ABBA41C00205860 /* clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21B37F7E1ABBA41B00205860 /* clock.cpp */; };
 		21B3801A1ABBA41C00205860 /* ctx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21B37F821ABBA41B00205860 /* ctx.cpp */; };
@@ -96,8 +95,6 @@
 		165683DF1AB668E30085CB9F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2163E0FD1B0174C4000CBFBD /* zhelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zhelpers.h; sourceTree = "<group>"; };
 		217D79C11AC65AA00047DD11 /* zmq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = zmq.h; path = ../../include/zmq.h; sourceTree = "<group>"; };
-		218C313E1AC37B6E00833608 /* PublishingDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishingDelegate.h; sourceTree = "<group>"; };
-		218C313F1AC37DB000833608 /* PublishingDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishingDelegate.m; sourceTree = "<group>"; };
 		21B37F781ABBA41B00205860 /* address.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = address.cpp; sourceTree = "<group>"; };
 		21B37F791ABBA41B00205860 /* address.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = address.hpp; sourceTree = "<group>"; };
 		21B37F7A1ABBA41B00205860 /* array.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = array.hpp; sourceTree = "<group>"; };
@@ -293,8 +290,6 @@
 			isa = PBXGroup;
 			children = (
 				165683DF1AB668E30085CB9F /* main.m */,
-				218C313E1AC37B6E00833608 /* PublishingDelegate.h */,
-				218C313F1AC37DB000833608 /* PublishingDelegate.m */,
 			);
 			path = TestServer;
 			sourceTree = "<group>";
@@ -578,7 +573,6 @@
 				21B380191ABBA41C00205860 /* clock.cpp in Sources */,
 				21B380461ABBA41C00205860 /* router.cpp in Sources */,
 				21B380391ABBA41C00205860 /* poll.cpp in Sources */,
-				218C31401AC37DB000833608 /* PublishingDelegate.m in Sources */,
 				21B3804D1ABBA41C00205860 /* sub.cpp in Sources */,
 				21B380371ABBA41C00205860 /* pipe.cpp in Sources */,
 				21B380581ABBA41C00205860 /* xpub.cpp in Sources */,

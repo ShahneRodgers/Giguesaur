@@ -11,8 +11,8 @@
 #import "PublishingDelegate.h"
 #import "zhelpers.h"
 
-#define PIECES_ROW 1
-#define PIECES_COLUMN 150
+#define PIECES_ROW 1000
+#define PIECES_COLUMN 1
 #define BOARD_LENGTH 100
 #define BOARD_WIDTH 100
 
@@ -70,13 +70,22 @@ int getIntFromMessage(){
     zmq_msg_t message;
     zmq_msg_init(&message);
     
-    zmq_msg_recv(&message, receiver, 0);
-    int num = atoi(zmq_msg_data(&message));
+    int size = zmq_msg_recv(&message, receiver, 0);
+    char buf[size+1];
+    memcpy(buf, zmq_msg_data(&message), size);
+    buf[size] = '\0';
+    int num = atoi(buf);
+    if (num < 0){
+        NSLog(@"Error converting num: %s", zmq_msg_data(&message));
+    }
     zmq_msg_close(&message);
     return num;
 }
 
 void dropPiece(int pieceNum, zmq_msg_t x, zmq_msg_t y, zmq_msg_t r){
+    if (pieceNum >= [heldPieces count]){
+        return;
+    }
     heldPieces[pieceNum] = [NSNull null];
     const char *piece = getStringFromInt(pieceNum);
     
@@ -122,9 +131,9 @@ void receiveMessage(){
         int pieceNum = getIntFromMessage();
         const char* pieceString = getStringFromInt(pieceNum);
         
-        NSLog(@"%s wants to pick up %i", zmq_msg_data(&identity), pieceNum);
         //If the piece is not being held
         if ([heldPieces[pieceNum] isEqual:[NSNull null]]){
+            //NSLog(@"%s picked up %i", zmq_msg_data(&identity), pieceNum);
             //Inform everyone that a piece has been picked up.
             zmq_send(publisher, "PickUp", 6, ZMQ_SNDMORE);
             
@@ -141,7 +150,7 @@ void receiveMessage(){
             pieceLocations[pieceNum][0] = -1;
             pieceLocations[pieceNum][1] = -1;
         } else {
-            NSLog(@"Piece has already been taken");
+            NSLog(@"Piece %i has already been taken %@", pieceNum, heldPieces[pieceNum]);
         }
         
         //If the message is a notification that a piece has been dropped
@@ -163,49 +172,31 @@ void receiveMessage(){
         zmq_msg_recv(&rotation, receiver, 0);
         
         dropPiece(pieceNum, x, y, rotation);
-        NSLog(@"%s dropped %i", zmq_msg_data(&identity), pieceNum);
+        //NSLog(@"%s dropped %i", zmq_msg_data(&identity), pieceNum);
         
         
         //If the message is to inform the server that the client is still around
     } else if ([stringType hasPrefix:@"KeepAlive"]){
         int pieceNum = getIntFromMessage();
-        heldPieces[pieceNum] = [NSDate date];
+        if (![heldPieces[pieceNum] isEqual:[NSNull null]])
+            heldPieces[pieceNum] = [NSDate date];
     //Ensure no duplicate names
     } else if ([stringType hasPrefix:@"Intro"]){
         NSString *name = [[NSString alloc]initWithFormat:@"%s", zmq_msg_data(&identity)];
-        if ([players indexOfObject:name] == NSNotFound)
-            [players addObject:name];
-        else{
-            NSLog(@"Pre-existing name");
-            zmq_send(publisher, "Error", 5, ZMQ_SNDMORE);
-            zmq_send(publisher, zmq_msg_data(&identity), zmq_msg_size(&identity), 0);
+        NSLog(@"Name %@", name);
+        for (NSString *p in players){
+            if ([name hasPrefix:p]){
+                NSLog(@"Pre-existing name");
+                zmq_send(publisher, "Error", 5, ZMQ_SNDMORE);
+                zmq_send(publisher, zmq_msg_data(&identity), zmq_msg_size(&identity), 0);
+                return;
+            }
         }
-        NSLog(@"Intro: %@", players);
+        [players addObject:name];
     //Otherwise we'll assume it's a chat message.
     } else {
-      /*  NSLog(@"Chat message");
-        int64_t more;
-        size_t more_size = sizeof (more);
-        NSLog(@"Identity %s Type: %@", zmq_msg_data(&identity), stringType);
-        int len = (int)[stringType length];
-        //This check shouldn't be necessary.
-        if (len > 0){
-            NSString *message = [[NSString alloc]initWithFormat:@"%@", stringType];
-            zmq_getsockopt(receiver, ZMQ_RCVMORE, &more, &more_size);
-            while (more == 1){
-                zmq_msg_recv(&type, receiver, 0);
-                const char *messagePart = zmq_msg_data(&type);
-                message = [[NSString alloc]initWithFormat:@"%@%s", message, messagePart];
-            }
-            NSLog(@"Received %@", message);
-            zmq_send(publisher, "ChatMode", 8, ZMQ_SNDMORE);
-            const char* iden = zmq_msg_data(&identity);
-            zmq_send(publisher, iden, ilen, ZMQ_SNDMORE);
-            zmq_send(publisher, [message UTF8String], [message length], 0);
-            
-        } */
     }
-    
+    //NSLog(@"Held pieces: %@", heldPieces);
 }
 
 void checkPieces(){
@@ -215,13 +206,13 @@ void checkPieces(){
             NSTimeInterval interval = -1 * [piece timeIntervalSinceNow];
             if (interval > TIMEOUT){
                 zmq_msg_t xMes;
-                char* x = (char*)getStringFromInt(pieceLocations[i][0]);
+                char* x = (char*)getStringFromInt(arc4random() % BOARD_WIDTH);
                 zmq_msg_init_data(&xMes, x, sizeof(x), nil, nil);
                 zmq_msg_t yMes;
-                char* y = (char *)getStringFromInt(pieceLocations[i][1]);
+                char* y = (char *)getStringFromInt(arc4random() % BOARD_LENGTH);
                 zmq_msg_init_data(&yMes, y, sizeof(y), nil, nil);
                 zmq_msg_t rMes;
-                char* r = (char *)getStringFromInt(pieceLocations[i][0]);
+                char* r = (char *)getStringFromInt(arc4random() % 360);
                 zmq_msg_init_data(&rMes, r, sizeof(r), nil, nil);
                 
                 dropPiece(i, xMes, yMes, rMes);
@@ -235,10 +226,11 @@ void startServer(){
     //  Socket to talk to clients
     void *context = zmq_ctx_new ();
     receiver = zmq_socket(context, ZMQ_ROUTER);
+    zmq_setsockopt(receiver, ZMQ_SNDHWM, "", 1);
+    zmq_setsockopt(receiver, ZMQ_RCVHWM, "", 50000);
     publisher = zmq_socket(context, ZMQ_PUB);
     int rb = zmq_bind(receiver, "tcp://*:5555");
     int pb = zmq_bind(publisher, "tcp://*:5556");
-    
     if (rb < 0 || pb < 0){
         NSLog(@"Error binding: %s", strerror(errno));
         return;
@@ -252,9 +244,10 @@ void startServer(){
         if ([date timeIntervalSinceNow] < -TIMEOUT){
             sendBoard();
             date = [NSDate date];
+            checkPieces();
         }
         receiveMessage();
-        checkPieces();
+        
     }
     
 }
@@ -282,9 +275,9 @@ int main(int argc, const char * argv[]) {
     heldPieces = [NSMutableArray array];
     for (int i = 0; i < PIECES_COLUMN*PIECES_ROW; i++){
         [heldPieces addObject:[NSNull null]];
-        pieceLocations[i][0] = randof(BOARD_WIDTH);
-        pieceLocations[i][1] = randof(BOARD_LENGTH);
-        pieceLocations[i][2] = randof(360);
+        pieceLocations[i][0] = arc4random() % BOARD_WIDTH;
+        pieceLocations[i][1] = arc4random() % BOARD_LENGTH;
+        pieceLocations[i][2] = arc4random() % 360;
         
     }
     startServer();

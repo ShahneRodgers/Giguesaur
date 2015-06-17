@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>8AB63547-860C-4C3C-9FB5-41D0980AAD26</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>TestServer</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>1644B812076777FF6B9B78767F105F05F850C5D0</key>
 		<string>https://github.com/ShahneRodgers/Giguesaur.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Network/Server/TestServer.xcodeproj/project.xcworkspace</string>
+	<string>Network/Server/TestServer.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>1644B812076777FF6B9B78767F105F05F850C5D0</key>
