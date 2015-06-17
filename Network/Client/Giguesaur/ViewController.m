@@ -25,7 +25,7 @@
 - (IBAction)joinGame:(UIButton *)sender {
     NSString *address = sender.titleLabel.text;
     if ([address isEqualToString:@"Localhost"])
-        address = @"10.249.157.221";
+        address = @"169.254.41.16";
     NSLog(@"Joining: %@", address);
     [self switchViews:address];
 }

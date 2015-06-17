@@ -24,6 +24,9 @@
 @property (nonatomic) NSDate *date;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic) NSMutableArray *buttons;
+@property BOOL hasImage;
+@property BOOL nameIssue;
+@property NSDate *lastRequest;
 
 -(void)setAddress:(NSString *) address;
 @end
