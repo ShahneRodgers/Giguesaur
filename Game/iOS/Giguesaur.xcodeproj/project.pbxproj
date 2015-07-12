@@ -1,0 +1,515 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CE21F3F41B2F9F580099B71B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE21F3F31B2F9F580099B71B /* main.m */; };
+		CE21F3F71B2F9F580099B71B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE21F3F61B2F9F580099B71B /* AppDelegate.m */; };
+		CE21F3FD1B2F9F580099B71B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE21F3FB1B2F9F580099B71B /* Main.storyboard */; };
+		CE21F3FF1B2F9F580099B71B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE21F3FE1B2F9F580099B71B /* Images.xcassets */; };
+		CE21F4021B2F9F580099B71B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE21F4001B2F9F580099B71B /* LaunchScreen.xib */; };
+		CE21F40E1B2F9F580099B71B /* GiguesaurTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CE21F40D1B2F9F580099B71B /* GiguesaurTests.m */; };
+		CE3CFEF11B3102C100165040 /* OpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE3CFEF01B3102C100165040 /* OpenGLView.m */; };
+		CE3CFEF51B31061100165040 /* SimpleFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = CE3CFEF31B31061100165040 /* SimpleFragment.glsl */; };
+		CE3CFEF61B31061100165040 /* SimpleVertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = CE3CFEF41B31061100165040 /* SimpleVertex.glsl */; };
+		CE3CFEFF1B310DB100165040 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE21F3F91B2F9F580099B71B /* ViewController.m */; };
+		CE6701E51B3A34590005B854 /* SimpleMath.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6701E41B3A34590005B854 /* SimpleMath.m */; };
+		CE6701ED1B3A47C80005B854 /* Puzzle.c in Sources */ = {isa = PBXBuildFile; fileRef = CE6701EC1B3A47C80005B854 /* Puzzle.c */; };
+		CE6A512A1B2FA021000993DE /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6A51291B2FA021000993DE /* OpenGLES.framework */; };
+		CE6A512C1B2FA027000993DE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6A512B1B2FA027000993DE /* QuartzCore.framework */; };
+		CEA2E6ED1B49E96100474889 /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA2E6EC1B49E96100474889 /* puppy.png */; };
+		CEA2E6F41B4CA70900474889 /* kitty.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA2E6F31B4CA70900474889 /* kitty.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CE21F4081B2F9F580099B71B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE21F3E61B2F9F580099B71B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE21F3ED1B2F9F580099B71B;
+			remoteInfo = Giguesaur;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		CE21F3EE1B2F9F580099B71B /* Giguesaur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Giguesaur.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE21F3F21B2F9F580099B71B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE21F3F31B2F9F580099B71B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CE21F3F51B2F9F580099B71B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		CE21F3F61B2F9F580099B71B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		CE21F3F81B2F9F580099B71B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		CE21F3F91B2F9F580099B71B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		CE21F3FC1B2F9F580099B71B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CE21F3FE1B2F9F580099B71B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		CE21F4011B2F9F580099B71B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		CE21F4071B2F9F580099B71B /* GiguesaurTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiguesaurTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE21F40C1B2F9F580099B71B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE21F40D1B2F9F580099B71B /* GiguesaurTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GiguesaurTests.m; sourceTree = "<group>"; };
+		CE3CFEF01B3102C100165040 /* OpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLView.m; sourceTree = "<group>"; };
+		CE3CFEF21B3102F200165040 /* OpenGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLView.h; sourceTree = "<group>"; };
+		CE3CFEF31B31061100165040 /* SimpleFragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimpleFragment.glsl; sourceTree = "<group>"; };
+		CE3CFEF41B31061100165040 /* SimpleVertex.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimpleVertex.glsl; sourceTree = "<group>"; };
+		CE3CFF001B310EC300165040 /* Piece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Piece.h; path = Giguesaur/Piece.h; sourceTree = "<group>"; };
+		CE3CFF011B310EC300165040 /* Puzzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Puzzle.h; path = Giguesaur/Puzzle.h; sourceTree = "<group>"; };
+		CE6701E11B3908FD0005B854 /* SimpleMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMath.h; sourceTree = "<group>"; };
+		CE6701E41B3A34590005B854 /* SimpleMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleMath.m; sourceTree = "<group>"; };
+		CE6701EC1B3A47C80005B854 /* Puzzle.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Puzzle.c; path = Giguesaur/Puzzle.c; sourceTree = "<group>"; };
+		CE6701EE1B3BA38D0005B854 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
+		CE6A51291B2FA021000993DE /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		CE6A512B1B2FA027000993DE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		CEA2E6EC1B49E96100474889 /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = puppy.png; path = Giguesaur/resources/puppy.png; sourceTree = "<group>"; };
+		CEA2E6F31B4CA70900474889 /* kitty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = kitty.png; path = Giguesaur/resources/kitty.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CE21F3EB1B2F9F580099B71B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE6A512C1B2FA027000993DE /* QuartzCore.framework in Frameworks */,
+				CE6A512A1B2FA021000993DE /* OpenGLES.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE21F4041B2F9F580099B71B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CE21F3E51B2F9F580099B71B = {
+			isa = PBXGroup;
+			children = (
+				CE6A512B1B2FA027000993DE /* QuartzCore.framework */,
+				CE6A51291B2FA021000993DE /* OpenGLES.framework */,
+				CE21F3F01B2F9F580099B71B /* Giguesaur */,
+				CE21F40A1B2F9F580099B71B /* GiguesaurTests */,
+				CE21F3EF1B2F9F580099B71B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CE21F3EF1B2F9F580099B71B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE21F3EE1B2F9F580099B71B /* Giguesaur.app */,
+				CE21F4071B2F9F580099B71B /* GiguesaurTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CE21F3F01B2F9F580099B71B /* Giguesaur */ = {
+			isa = PBXGroup;
+			children = (
+				CEA2E6EE1B49E96A00474889 /* resources */,
+				CE3CFF021B310ECC00165040 /* Giguesaur */,
+				CE3CFEFE1B310D0800165040 /* SimpleMath */,
+				CE21F3F51B2F9F580099B71B /* AppDelegate.h */,
+				CE21F3F61B2F9F580099B71B /* AppDelegate.m */,
+				CE3CFEF21B3102F200165040 /* OpenGLView.h */,
+				CE3CFEF01B3102C100165040 /* OpenGLView.m */,
+				CE6701EE1B3BA38D0005B854 /* Debug.h */,
+				CE3CFEF31B31061100165040 /* SimpleFragment.glsl */,
+				CE3CFEF41B31061100165040 /* SimpleVertex.glsl */,
+				CE21F3FB1B2F9F580099B71B /* Main.storyboard */,
+				CE21F3FE1B2F9F580099B71B /* Images.xcassets */,
+				CE21F4001B2F9F580099B71B /* LaunchScreen.xib */,
+				CE21F3F11B2F9F580099B71B /* Supporting Files */,
+			);
+			path = Giguesaur;
+			sourceTree = "<group>";
+		};
+		CE21F3F11B2F9F580099B71B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CE21F3F81B2F9F580099B71B /* ViewController.h */,
+				CE21F3F91B2F9F580099B71B /* ViewController.m */,
+				CE21F3F21B2F9F580099B71B /* Info.plist */,
+				CE21F3F31B2F9F580099B71B /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CE21F40A1B2F9F580099B71B /* GiguesaurTests */ = {
+			isa = PBXGroup;
+			children = (
+				CE21F40D1B2F9F580099B71B /* GiguesaurTests.m */,
+				CE21F40B1B2F9F580099B71B /* Supporting Files */,
+			);
+			path = GiguesaurTests;
+			sourceTree = "<group>";
+		};
+		CE21F40B1B2F9F580099B71B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CE21F40C1B2F9F580099B71B /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CE3CFEFE1B310D0800165040 /* SimpleMath */ = {
+			isa = PBXGroup;
+			children = (
+				CE6701E11B3908FD0005B854 /* SimpleMath.h */,
+				CE6701E41B3A34590005B854 /* SimpleMath.m */,
+			);
+			name = SimpleMath;
+			sourceTree = "<group>";
+		};
+		CE3CFF021B310ECC00165040 /* Giguesaur */ = {
+			isa = PBXGroup;
+			children = (
+				CE3CFF001B310EC300165040 /* Piece.h */,
+				CE3CFF011B310EC300165040 /* Puzzle.h */,
+				CE6701EC1B3A47C80005B854 /* Puzzle.c */,
+			);
+			name = Giguesaur;
+			sourceTree = "<group>";
+		};
+		CEA2E6EE1B49E96A00474889 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				CEA2E6F31B4CA70900474889 /* kitty.png */,
+				CEA2E6EC1B49E96100474889 /* puppy.png */,
+			);
+			name = resources;
+			path = ..;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CE21F3ED1B2F9F580099B71B /* Giguesaur */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE21F4111B2F9F580099B71B /* Build configuration list for PBXNativeTarget "Giguesaur" */;
+			buildPhases = (
+				CE21F3EA1B2F9F580099B71B /* Sources */,
+				CE21F3EB1B2F9F580099B71B /* Frameworks */,
+				CE21F3EC1B2F9F580099B71B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Giguesaur;
+			productName = Giguesaur;
+			productReference = CE21F3EE1B2F9F580099B71B /* Giguesaur.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CE21F4061B2F9F580099B71B /* GiguesaurTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE21F4141B2F9F580099B71B /* Build configuration list for PBXNativeTarget "GiguesaurTests" */;
+			buildPhases = (
+				CE21F4031B2F9F580099B71B /* Sources */,
+				CE21F4041B2F9F580099B71B /* Frameworks */,
+				CE21F4051B2F9F580099B71B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE21F4091B2F9F580099B71B /* PBXTargetDependency */,
+			);
+			name = GiguesaurTests;
+			productName = GiguesaurTests;
+			productReference = CE21F4071B2F9F580099B71B /* GiguesaurTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CE21F3E61B2F9F580099B71B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "Local Ash";
+				TargetAttributes = {
+					CE21F3ED1B2F9F580099B71B = {
+						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = W3WEK8S6RC;
+					};
+					CE21F4061B2F9F580099B71B = {
+						CreatedOnToolsVersion = 6.3.2;
+						TestTargetID = CE21F3ED1B2F9F580099B71B;
+					};
+				};
+			};
+			buildConfigurationList = CE21F3E91B2F9F580099B71B /* Build configuration list for PBXProject "Giguesaur" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CE21F3E51B2F9F580099B71B;
+			productRefGroup = CE21F3EF1B2F9F580099B71B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CE21F3ED1B2F9F580099B71B /* Giguesaur */,
+				CE21F4061B2F9F580099B71B /* GiguesaurTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CE21F3EC1B2F9F580099B71B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE21F3FD1B2F9F580099B71B /* Main.storyboard in Resources */,
+				CE21F4021B2F9F580099B71B /* LaunchScreen.xib in Resources */,
+				CEA2E6F41B4CA70900474889 /* kitty.png in Resources */,
+				CE21F3FF1B2F9F580099B71B /* Images.xcassets in Resources */,
+				CE3CFEF51B31061100165040 /* SimpleFragment.glsl in Resources */,
+				CEA2E6ED1B49E96100474889 /* puppy.png in Resources */,
+				CE3CFEF61B31061100165040 /* SimpleVertex.glsl in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE21F4051B2F9F580099B71B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CE21F3EA1B2F9F580099B71B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE3CFEFF1B310DB100165040 /* ViewController.m in Sources */,
+				CE6701ED1B3A47C80005B854 /* Puzzle.c in Sources */,
+				CE21F3F71B2F9F580099B71B /* AppDelegate.m in Sources */,
+				CE6701E51B3A34590005B854 /* SimpleMath.m in Sources */,
+				CE21F3F41B2F9F580099B71B /* main.m in Sources */,
+				CE3CFEF11B3102C100165040 /* OpenGLView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE21F4031B2F9F580099B71B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE21F40E1B2F9F580099B71B /* GiguesaurTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CE21F4091B2F9F580099B71B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE21F3ED1B2F9F580099B71B /* Giguesaur */;
+			targetProxy = CE21F4081B2F9F580099B71B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CE21F3FB1B2F9F580099B71B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE21F3FC1B2F9F580099B71B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CE21F4001B2F9F580099B71B /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE21F4011B2F9F580099B71B /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE21F40F1B2F9F580099B71B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE21F4101B2F9F580099B71B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CE21F4121B2F9F580099B71B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = Giguesaur/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		CE21F4131B2F9F580099B71B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = Giguesaur/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		CE21F4151B2F9F580099B71B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = GiguesaurTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Giguesaur.app/Giguesaur";
+			};
+			name = Debug;
+		};
+		CE21F4161B2F9F580099B71B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = GiguesaurTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Giguesaur.app/Giguesaur";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE21F3E91B2F9F580099B71B /* Build configuration list for PBXProject "Giguesaur" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE21F40F1B2F9F580099B71B /* Debug */,
+				CE21F4101B2F9F580099B71B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE21F4111B2F9F580099B71B /* Build configuration list for PBXNativeTarget "Giguesaur" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE21F4121B2F9F580099B71B /* Debug */,
+				CE21F4131B2F9F580099B71B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE21F4141B2F9F580099B71B /* Build configuration list for PBXNativeTarget "GiguesaurTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE21F4151B2F9F580099B71B /* Debug */,
+				CE21F4161B2F9F580099B71B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CE21F3E61B2F9F580099B71B /* Project object */;
+}
