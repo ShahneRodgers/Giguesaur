@@ -541,7 +541,7 @@ const GLubyte Indices[] = {
         [self compileShaders];
         [self setupVBOs];
         //[self setupDisplayLink];
-        _puzzleTexture = [self setupTexture:@"puppy.png"];
+        _puzzleTexture = [self setupTexture:@"kitty.png"];
         simpleMath = [[SimpleMath alloc] init];
         generatePieces(pieces);
         [self render];
