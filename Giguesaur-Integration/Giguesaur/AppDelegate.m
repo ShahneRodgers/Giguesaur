@@ -14,9 +14,16 @@
 
 @implementation AppDelegate
 
+// Add when necessary
+//@synthesize glView=_glView;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    // Add when nescessary
+    //CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    //self.glView = [[OpenGLView alloc] initWithFrame:screenBounds];
+    //[self.window makeKeyAndVisible];
+    //[self.window addSubview:_glView];
     return YES;
 }
 
