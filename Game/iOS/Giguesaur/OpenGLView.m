@@ -8,6 +8,9 @@
 
 #import "OpenGLView.h"
 
+#define PIECE_Z 0
+#define HOLDING_Z 0.01
+
 /***** Global Varibles for the Puzzle *****/
 Piece pieces[NUM_OF_PIECES];
 int holdingPiece = -1;
@@ -19,16 +22,27 @@ typedef struct {
     float TexCoord[2];
 } Vertex;
 
-const Vertex Vertices[] = {
-    {{1, -1, 0}, {0, 0, 0, 1}, {1, 0}},
-    {{1, 1, 0}, {0, 0, 0, 1}, {1, 1}},
-    {{-1, 1, 0}, {0, 0, 0, 1}, {0, 1}},
-    {{-1, -1, 0}, {0, 0, 0, 1}, {0, 0}}
+const Vertex DefaultPiece[] = {
+    {{SIDE_HALF, -SIDE_HALF, PIECE_Z}, C_BLACK, {1, 0}},
+    {{SIDE_HALF, SIDE_HALF, PIECE_Z}, C_BLACK, {1, 1}},
+    {{-SIDE_HALF, SIDE_HALF, PIECE_Z}, C_BLACK, {0, 1}},
+    {{-SIDE_HALF, -SIDE_HALF, PIECE_Z}, C_BLACK, {0, 0}}
+};
+
+const Vertex BackgroundVertices[] = {
+    {{BOARD_WIDTH, 0, 0}, C_WHITE, {1, 1}},
+    {{BOARD_WIDTH, BOARD_HIEGHT, 0}, C_WHITE, {1, 0}},
+    {{0, BOARD_HIEGHT, 0}, C_WHITE, {0, 0}},
+    {{0, 0, 0}, C_WHITE, {0, 1}}
 };
 
 const GLubyte Indices[] = {
     0, 1, 2,
     2, 3, 0
+};
+
+const GLubyte Indices2[] = {
+    1, 0, 2, 3
 };
 
 @implementation OpenGLView
@@ -145,15 +159,23 @@ const GLubyte Indices[] = {
 }
 
 - (void) setupVBOs {
-    GLuint vertexBuffer;
-    glGenBuffers(1, &vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-    
-    GLuint indexBuffer;
-    glGenBuffers(1, &indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+
+    glGenBuffers(1, &_vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(DefaultPiece), DefaultPiece, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &_indexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &_vertexBuffer2);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(BackgroundVertices), BackgroundVertices, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &_indexBuffer2);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices2), Indices2, GL_STATIC_DRAW);
+
 }
 
 - (GLuint) setupTexture: (NSString *) fileName {
@@ -164,12 +186,12 @@ const GLubyte Indices[] = {
         exit(1);
     }
     
-    size_t width = CGImageGetWidth(spriteImage);
-    size_t height = CGImageGetHeight(spriteImage);
+    int width = (int)CGImageGetWidth(spriteImage);
+    int height = (int)CGImageGetHeight(spriteImage);
     
     GLubyte *spriteData = (GLubyte *)calloc(width*height*4, sizeof(GLubyte));
     
-    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4, CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
+    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4, CGImageGetColorSpace(spriteImage), (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
     
     CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
     
@@ -178,9 +200,14 @@ const GLubyte Indices[] = {
     GLuint texName;
     glGenTextures(1, &texName);
     glBindTexture(GL_TEXTURE_2D, texName);
-    
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    
+
+    // use linear filetring
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    // clamp to edge
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
     
     free(spriteData);
@@ -363,8 +390,20 @@ const GLubyte Indices[] = {
     
     // Get the specific point that was touched
     CGPoint point = [touch locationInView:touch.view];
-    
-    point.y = BOARD_HIEGHT - point.y;
+
+    // Convert Screen to World Coordinates (Orthagraphic Projection)
+    float new_x = 2.0 * point.x / BOARD_WIDTH - 1;
+    float new_y = -2.0 * point.y / BOARD_HIEGHT + 1;
+    bool success;
+
+    GLKMatrix4 viewProjectionInverse = GLKMatrix4Invert(GLKMatrix4Multiply(_projectionMatrix, _modelViewMatrix), &success);
+    GLKVector3 newPoints = GLKVector3Make(new_x, new_y, 0);
+    GLKVector3 result = GLKMatrix4MultiplyVector3(viewProjectionInverse, newPoints);
+
+    point.x = result.v[0] + (BOARD_WIDTH / 2);
+    point.y = result.v[1] + (BOARD_HIEGHT / 2);
+
+    DEBUG_PRINT_2("touchesBegan :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
     
     if (holdingPiece >= 0) {
         DEBUG_PRINT_1("touchesBegan :: Placed piece %i\n", holdingPiece);
@@ -407,46 +446,46 @@ const GLubyte Indices[] = {
 }
 
 /***** DRAW CODE *****/
-- (void)render{//:(CADisplayLink*)displayLink {
+- (void) render {//:(CADisplayLink*)displayLink {
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+
     // Clear the screen
     glClearColor(230.0/255.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     
     // Sort out projection Matrix
-    //float aspectFrustum = 4.0f * BOARD_HIEGHT / BOARD_WIDTH;
-    //float aspect = BOARD_HIEGHT / BOARD_WIDTH;
-    //GLKMatrix4 projection = GLKMatrix4MakeFrustum(-2, 2, -aspectFrustum/2, aspectFrustum/2, 1, 1000);
-    //GLKMatrix4 projection = GLKMatrix4MakePerspective(degToRad(90), aspect, 0.01f, 1000.0f);
-    GLKMatrix4 projection = GLKMatrix4MakeOrtho(0, BOARD_WIDTH, 0, BOARD_HIEGHT, 1, 1000);
+    GLKMatrix4 projection = GLKMatrix4MakeOrtho(0, BOARD_WIDTH, 0, BOARD_HIEGHT, 0.1, 1000);
+    //float h = 4.0 * BOARD_WIDTH / BOARD_HIEGHT;
+    //GLKMatrix4 projection = GLKMatrix4MakeFrustum(-2, 2, -h/2, h/2, 0.1, 1000);
+
+    _projectionMatrix = projection;
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.m);
     
-    /*
-     GLKMatrix4 identity = GLKMatrix4Identity;
-     GLKMatrix4 lookAt = GLKMatrix4MakeLookAt(0, 0, 0, self.frame.size.width/2, self.frame.size.height/2, 1, 0, 1, 0);
-     GLKMatrix4 plusTranslate = GLKMatrix4MakeTranslation(self.frame.size.width/2, self.frame.size.height/2, 0.0);
-     GLKMatrix4 negTranslate = GLKMatrix4MakeTranslation(-self.frame.size.width/2, -self.frame.size.height/2, 0.0);
-     GLKMatrix4 rotateY = GLKMatrix4MakeYRotation(degToRad(-90.0f));
-     GLKMatrix4 rotateX = GLKMatrix4MakeXRotation(degToRad(45.0f));
-     
-     GLKMatrix4 result1 = GLKMatrix4Multiply(identity, lookAt);
-     GLKMatrix4 result2 = GLKMatrix4Multiply(result1, plusTranslate);
-     result1 = GLKMatrix4Multiply(result2, rotateY);
-     result2 = GLKMatrix4Multiply(result1, rotateX);
-     GLKMatrix4 modelView = GLKMatrix4Multiply(result2, negTranslate);
-     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.m);
-     */
-    //_currentRotation += displayLink.duration * 90;
-    
-    // Sort out Model-View Matrix (For Orthographic View)
+    // Sort out Model-View Matrix
     GLKMatrix4 translation = GLKMatrix4MakeTranslation(0,0,-1);
+    //GLKMatrix4 translation = GLKMatrix4MakeTranslation(-BOARD_WIDTH/2,-BOARD_HIEGHT/2,-25);
     GLKMatrix4 rotation = GLKMatrix4MakeRotation(degToRad(0), 0, 0, 1);
     GLKMatrix4 modelView = GLKMatrix4Multiply(translation, rotation);
     
+    _modelViewMatrix = modelView;
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.m);
     
     glViewport(0, 0, BOARD_WIDTH, BOARD_HIEGHT);
-    
+
+    // Draw Default Piece
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(DefaultPiece), DefaultPiece, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
+    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+
+    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+
+    // Draw each Puzzle Piece
     for (int i = 0; i < NUM_OF_PIECES; i++) {
         // set row and col to get the sub-section of the texture
         int row = 0;
@@ -460,26 +499,27 @@ const GLubyte Indices[] = {
                 row++;
             }
         }
+
         Vertex NewPiece[4];
         // Piece on the board
         if (i != holdingPiece) {
             NewPiece[0] = (Vertex) {
-                {pieces[i].x_location + SIDE_HALF, pieces[i].y_location - SIDE_HALF, -0.1},
+                {pieces[i].x_location + SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
                 C_WHITE,
                 {TEXTURE_WIDTH * (col+1), TEXTURE_HEIGHT * (row + 1)}
             };
             NewPiece[1] = (Vertex) {
-                {pieces[i].x_location + SIDE_HALF, pieces[i].y_location + SIDE_HALF, -0.1},
+                {pieces[i].x_location + SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
                 C_WHITE,
                 {TEXTURE_WIDTH * (col+1), TEXTURE_HEIGHT * row}
             };
             NewPiece[2] = (Vertex) {
-                {pieces[i].x_location - SIDE_HALF, pieces[i].y_location + SIDE_HALF, -0.1},
+                {pieces[i].x_location - SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
                 C_WHITE,
                 {TEXTURE_WIDTH * col, TEXTURE_HEIGHT * row}
             };
             NewPiece[3] = (Vertex) {
-                {pieces[i].x_location - SIDE_HALF, pieces[i].y_location - SIDE_HALF, -0.1},
+                {pieces[i].x_location - SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
                 C_WHITE,
                 {TEXTURE_WIDTH * col, TEXTURE_HEIGHT * (row+1)}
             };
@@ -487,52 +527,77 @@ const GLubyte Indices[] = {
         // Piece being held
         else {
             NewPiece[0] = (Vertex) {
-                {SIDE_LENGTH*2+10, 10, 0},
+                {SIDE_LENGTH*2+10, 10, HOLDING_Z},
                 C_GOLD,
                 {TEXTURE_WIDTH * (col+1), TEXTURE_HEIGHT * (row + 1)}
             };
             NewPiece[1] = (Vertex) {
-                {SIDE_LENGTH*2+10, SIDE_LENGTH*2+10, 0},
+                {SIDE_LENGTH*2+10, SIDE_LENGTH*2+10, HOLDING_Z},
                 C_GOLD,
                 {TEXTURE_WIDTH * (col+1), TEXTURE_HEIGHT * row}
             };
             NewPiece[2] = (Vertex) {
-                {10, SIDE_LENGTH*2+10, 0},
+                {10, SIDE_LENGTH*2+10, HOLDING_Z},
                 C_GOLD,
                 {TEXTURE_WIDTH * col, TEXTURE_HEIGHT * row}
             };
             NewPiece[3] = (Vertex) {
-                {10, 10, 0},
+                {10, 10, HOLDING_Z},
                 C_GOLD,
                 {TEXTURE_WIDTH * col, TEXTURE_HEIGHT * (row+1)}
             };
         }
-        GLuint vertexBuffer;
-        glGenBuffers(1, &vertexBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(NewPiece), NewPiece, GL_STATIC_DRAW);
         
         glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
         glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
         glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, _puzzleTexture);
         glUniform1i(_textureUniform, 0);
+        
         glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
     }
+
+    // Set Orthographic Projection for Background Image
+    projection = GLKMatrix4MakeOrtho(0, BOARD_WIDTH, 0, BOARD_HIEGHT, 0.1, 1000);
+    glUniformMatrix4fv(_projectionUniform, 1, 0, projection.m);
+
+    // Send Background Image to the back
+    modelView = GLKMatrix4MakeTranslation(0, 0, -999);
+    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.m);
+
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
+    glBindTexture(GL_TEXTURE_2D, _backgroundTexture);
+
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
+    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+
+    glDrawElements(GL_TRIANGLE_STRIP, sizeof(Indices2)/sizeof(Indices2[0]), GL_UNSIGNED_BYTE, 0);
+
+    // Flush everything to the screen
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
+/*
+// Renders the game in 60fps
 - (void)setupDisplayLink {
     CADisplayLink* displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(render:)];
     [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
+*/
 
 /* "Main" for the frame */
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Call all the openGl setup code
+        // Call all the OpenGL setup code
         [self setupLayer];
         [self setupContext];
         [self setupDepthBuffer];
@@ -541,7 +606,8 @@ const GLubyte Indices[] = {
         [self compileShaders];
         [self setupVBOs];
         //[self setupDisplayLink];
-        _puzzleTexture = [self setupTexture:@"kitty.png"];
+        _puzzleTexture = [self setupTexture:@"puppy.png"];
+        _backgroundTexture = [self setupTexture:@"background.jpg"];
         simpleMath = [[SimpleMath alloc] init];
         generatePieces(pieces);
         [self render];

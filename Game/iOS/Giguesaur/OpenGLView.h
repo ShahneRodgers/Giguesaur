@@ -31,13 +31,19 @@
     GLuint _projectionUniform;
     GLuint _modelViewUniform;
     GLuint _depthRenderBuffer;
+
+    GLKMatrix4 _projectionMatrix;
+    GLKMatrix4 _modelViewMatrix;
+
     GLuint _puzzleTexture;
     GLuint _backgroundTexture;
     GLuint _texCoordSlot;
     GLuint _textureUniform;
-    
-    float _currentRotation;
-    
+
+    GLuint _vertexBuffer;
+    GLuint _indexBuffer;
+    GLuint _vertexBuffer2;
+    GLuint _indexBuffer2;
 }
 
 @end

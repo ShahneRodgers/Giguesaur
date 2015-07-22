@@ -23,6 +23,8 @@
 		CE6A512C1B2FA027000993DE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6A512B1B2FA027000993DE /* QuartzCore.framework */; };
 		CEA2E6ED1B49E96100474889 /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA2E6EC1B49E96100474889 /* puppy.png */; };
 		CEA2E6F41B4CA70900474889 /* kitty.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA2E6F31B4CA70900474889 /* kitty.png */; };
+		CEDD57501B5DA6D70092EB1C /* ExtraCode.c in Sources */ = {isa = PBXBuildFile; fileRef = CEDD574F1B5DA6D70092EB1C /* ExtraCode.c */; };
+		CEDD57521B5DC1740092EB1C /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEDD57511B5DC1740092EB1C /* background.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,8 @@
 		CE6A512B1B2FA027000993DE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CEA2E6EC1B49E96100474889 /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = puppy.png; path = Giguesaur/resources/puppy.png; sourceTree = "<group>"; };
 		CEA2E6F31B4CA70900474889 /* kitty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = kitty.png; path = Giguesaur/resources/kitty.png; sourceTree = "<group>"; };
+		CEDD574F1B5DA6D70092EB1C /* ExtraCode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ExtraCode.c; sourceTree = "<group>"; };
+		CEDD57511B5DC1740092EB1C /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background.jpg; path = Giguesaur/resources/background.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +137,7 @@
 				CE21F3F91B2F9F580099B71B /* ViewController.m */,
 				CE21F3F21B2F9F580099B71B /* Info.plist */,
 				CE21F3F31B2F9F580099B71B /* main.m */,
+				CEDD574F1B5DA6D70092EB1C /* ExtraCode.c */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 		CEA2E6EE1B49E96A00474889 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				CEDD57511B5DC1740092EB1C /* background.jpg */,
 				CEA2E6F31B4CA70900474889 /* kitty.png */,
 				CEA2E6EC1B49E96100474889 /* puppy.png */,
 			);
@@ -269,6 +275,7 @@
 				CEA2E6F41B4CA70900474889 /* kitty.png in Resources */,
 				CE21F3FF1B2F9F580099B71B /* Images.xcassets in Resources */,
 				CE3CFEF51B31061100165040 /* SimpleFragment.glsl in Resources */,
+				CEDD57521B5DC1740092EB1C /* background.jpg in Resources */,
 				CEA2E6ED1B49E96100474889 /* puppy.png in Resources */,
 				CE3CFEF61B31061100165040 /* SimpleVertex.glsl in Resources */,
 			);
@@ -288,6 +295,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEDD57501B5DA6D70092EB1C /* ExtraCode.c in Sources */,
 				CE3CFEFF1B310DB100165040 /* ViewController.m in Sources */,
 				CE6701ED1B3A47C80005B854 /* Puzzle.c in Sources */,
 				CE21F3F71B2F9F580099B71B /* AppDelegate.m in Sources */,
