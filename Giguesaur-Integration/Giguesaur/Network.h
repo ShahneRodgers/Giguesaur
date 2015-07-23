@@ -10,9 +10,7 @@
 #import "zmq.h"
 
 @interface Network : NSObject
-@property (weak, nonatomic) IBOutlet UITextField *messages;
-@property (strong, nonatomic) IBOutlet UIView *messageLog;
-@property (weak, nonatomic) IBOutlet UITextView *chatLog;
+
 
 @property (nonatomic) void* socket;
 @property (nonatomic) void* recvSocket;
@@ -21,7 +19,6 @@
 @property (nonatomic) NSString *name;
 @property (nonatomic) int wantedPiece;
 @property (nonatomic) NSDate *date;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic) NSMutableArray *buttons;
 @property BOOL hasImage;
 @property BOOL nameIssue;

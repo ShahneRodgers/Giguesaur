@@ -11,6 +11,7 @@
 
 @implementation ViewController
 
+
 /* Called when the view is loaded. Sets up a BrowsingDelegate and starts searching
  * for a Giguesaur server
  */
@@ -20,6 +21,9 @@
     self.xLocation = 70;
     self.delegate = [[BrowsingDelegate alloc]init];
     [self.delegate searchForService:self];
+    self.vision = [[Vision alloc]init];
+    [self.vision visionInit];
+    
 }
 
 
@@ -56,7 +60,7 @@
     Network *network = [[Network alloc]init];
     [network prepare:address];
     //Should give the network the chosen client name and check this is okay.
-    [controller prepare:network];
+    [controller prepare:network and:self.vision];
     [controller setModalPresentationStyle:UIModalPresentationFullScreen];
     [self presentViewController:controller animated:YES completion:nil];
     

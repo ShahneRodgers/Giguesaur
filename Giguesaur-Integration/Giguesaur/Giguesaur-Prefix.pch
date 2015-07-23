@@ -1,0 +1,36 @@
+//
+//  iPad-Vision-Alpha-Prefix.pch
+//  iPad-Vision-Alpha
+//
+//  Created by Local Joshua La Pine on 6/19/15.
+//  Copyright (c) 2015 Local Joshua La Pine. All rights reserved.
+//
+
+#ifndef Giguesaur_Prefix_pch
+#define Giguesaur_Prefix_pch
+
+#import <Availability.h>
+
+#ifdef __cplusplus
+//#import <opencv2/opencv.hpp>
+#import "opencv2/core/core_c.h"
+#import "opencv2/core/core.hpp"
+#import "opencv2/flann/miniflann.hpp"
+#import "opencv2/imgproc/imgproc_c.h"
+#import "opencv2/imgproc/imgproc.hpp"
+#import "opencv2/photo/photo.hpp"
+#import "opencv2/features2d/features2d.hpp"
+#import "opencv2/objdetect/objdetect.hpp"
+#import "opencv2/calib3d/calib3d.hpp"
+#import "opencv2/ml/ml.hpp"
+#import "opencv2/highgui/highgui_c.h"
+#import "opencv2/highgui/highgui.hpp"
+#import "opencv2/contrib/contrib.hpp"
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#endif
+
+#endif

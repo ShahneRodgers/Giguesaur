@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "Network.h"
+#import "Vision.h"
 
 @interface GameController : UIViewController
 
 @property Network* network;
+@property Vision* vision;
 
--(void)prepare:(Network *)network;
+-(void)prepare:(Network *)network and:(Vision *) vision;
 
 @end

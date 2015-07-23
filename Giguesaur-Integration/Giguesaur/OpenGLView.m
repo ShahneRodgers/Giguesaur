@@ -586,7 +586,7 @@ const GLubyte Indices2[] = {
 }
 
 /*
-// Renders the game in 60fps
+// Renders the game to the screens refresh rate
 - (void)setupDisplayLink {
     CADisplayLink* displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(render:)];
     [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];

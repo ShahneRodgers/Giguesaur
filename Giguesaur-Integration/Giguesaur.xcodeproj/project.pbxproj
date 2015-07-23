@@ -15,6 +15,8 @@
 		74A2090C1B604C7E00578FBE /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 74A209091B604C7E00578FBE /* background.jpg */; };
 		74A2090D1B604C7E00578FBE /* kitty.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A2090A1B604C7E00578FBE /* kitty.png */; };
 		74A2090E1B604C7E00578FBE /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A2090B1B604C7E00578FBE /* puppy.png */; };
+		74A209121B607CEA00578FBE /* Vision.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74A209111B607CEA00578FBE /* Vision.mm */; };
+		74A209161B60894700578FBE /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74A209151B60894700578FBE /* opencv2.framework */; };
 		74D60E951B5CA81C00F5008F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D60E941B5CA81C00F5008F /* main.m */; };
 		74D60E981B5CA81C00F5008F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D60E971B5CA81C00F5008F /* AppDelegate.m */; };
 		74D60E9E1B5CA81C00F5008F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74D60E9C1B5CA81C00F5008F /* Main.storyboard */; };
@@ -31,7 +33,6 @@
 		74D60EC91B5CA87A00F5008F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74D60EBF1B5CA87A00F5008F /* Foundation.framework */; };
 		74D60ECA1B5CA87A00F5008F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74D60EC01B5CA87A00F5008F /* QuartzCore.framework */; };
 		74D60ECB1B5CA87A00F5008F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74D60EC11B5CA87A00F5008F /* UIKit.framework */; };
-		74D60ECD1B5CA88800F5008F /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74D60ECC1B5CA88800F5008F /* opencv2.framework */; };
 		74D60F791B5CA93A00F5008F /* address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74D60ED91B5CA93900F5008F /* address.cpp */; };
 		74D60F7A1B5CA93A00F5008F /* clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74D60EDF1B5CA93900F5008F /* clock.cpp */; };
 		74D60F7B1B5CA93A00F5008F /* ctx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74D60EE31B5CA93900F5008F /* ctx.cpp */; };
@@ -131,6 +132,10 @@
 		74A209091B604C7E00578FBE /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background.jpg; path = resources/background.jpg; sourceTree = "<group>"; };
 		74A2090A1B604C7E00578FBE /* kitty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = kitty.png; path = resources/kitty.png; sourceTree = "<group>"; };
 		74A2090B1B604C7E00578FBE /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = puppy.png; path = resources/puppy.png; sourceTree = "<group>"; };
+		74A209111B607CEA00578FBE /* Vision.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Vision.mm; sourceTree = "<group>"; };
+		74A209131B607D0B00578FBE /* Vision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vision.h; sourceTree = "<group>"; };
+		74A209141B607E6C00578FBE /* Giguesaur-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Giguesaur-Prefix.pch"; sourceTree = "<group>"; };
+		74A209151B60894700578FBE /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../../opencv2.framework; sourceTree = "<group>"; };
 		74D60E8F1B5CA81C00F5008F /* Giguesaur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Giguesaur.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74D60E931B5CA81C00F5008F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74D60E941B5CA81C00F5008F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -152,7 +157,6 @@
 		74D60EBF1B5CA87A00F5008F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		74D60EC01B5CA87A00F5008F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		74D60EC11B5CA87A00F5008F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		74D60ECC1B5CA88800F5008F /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../opencv2.framework; sourceTree = "<group>"; };
 		74D60ED51B5CA93300F5008F /* zhelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zhelpers.h; sourceTree = "<group>"; };
 		74D60ED61B5CA93300F5008F /* zmq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zmq.h; sourceTree = "<group>"; };
 		74D60ED71B5CA93300F5008F /* zmq_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zmq_utils.h; sourceTree = "<group>"; };
@@ -332,8 +336,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74A209161B60894700578FBE /* opencv2.framework in Frameworks */,
 				74D60FBE1B5CA96100F5008F /* OpenGLES.framework in Frameworks */,
-				74D60ECD1B5CA88800F5008F /* opencv2.framework in Frameworks */,
 				74D60EC21B5CA87A00F5008F /* Accelerate.framework in Frameworks */,
 				74D60EC31B5CA87A00F5008F /* AssetsLibrary.framework in Frameworks */,
 				74D60EC41B5CA87A00F5008F /* AVFoundation.framework in Frameworks */,
@@ -430,6 +434,8 @@
 				74D60E971B5CA81C00F5008F /* AppDelegate.m */,
 				74D60FBF1B5CA9AE00F5008F /* ViewController.h */,
 				74D60FC01B5CA9AE00F5008F /* ViewController.m */,
+				74A209131B607D0B00578FBE /* Vision.h */,
+				74A209111B607CEA00578FBE /* Vision.mm */,
 				74D9A93F1B5DE2730088C8A4 /* Network.h */,
 				74D9A9401B5DE2730088C8A4 /* Network.m */,
 				74D9A93C1B5DD88D0088C8A4 /* GameController.h */,
@@ -449,6 +455,7 @@
 			children = (
 				74D60E931B5CA81C00F5008F /* Info.plist */,
 				74D60E941B5CA81C00F5008F /* main.m */,
+				74A209141B607E6C00578FBE /* Giguesaur-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -474,7 +481,7 @@
 			isa = PBXGroup;
 			children = (
 				74D60FBD1B5CA96100F5008F /* OpenGLES.framework */,
-				74D60ECC1B5CA88800F5008F /* opencv2.framework */,
+				74A209151B60894700578FBE /* opencv2.framework */,
 				74D60EB81B5CA87A00F5008F /* Accelerate.framework */,
 				74D60EB91B5CA87A00F5008F /* AssetsLibrary.framework */,
 				74D60EBA1B5CA87A00F5008F /* AVFoundation.framework */,
@@ -774,6 +781,7 @@
 				74D60F991B5CA93A00F5008F /* plain_mechanism.cpp in Sources */,
 				74D60FC11B5CA9AE00F5008F /* ViewController.m in Sources */,
 				74D60F7F1B5CA93A00F5008F /* devpoll.cpp in Sources */,
+				74A209121B607CEA00578FBE /* Vision.mm in Sources */,
 				74D60FB41B5CA93A00F5008F /* trie.cpp in Sources */,
 				74D60F921B5CA93A00F5008F /* options.cpp in Sources */,
 				74D60FB61B5CA93A00F5008F /* v1_encoder.cpp in Sources */,

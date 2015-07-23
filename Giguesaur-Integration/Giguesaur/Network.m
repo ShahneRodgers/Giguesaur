@@ -10,18 +10,19 @@
 
 #define TIMEOUT = 1;
 
-@implementation ChatController
+@implementation Network
 
 /*
  * Sets up the ClientDelegate - this method must be called manually,
  * everything else will happen automatically.
  */
--(void)prepare:(NSString*) address{
+-(void)prepare:(NSString*) address called:(NSString*)name{
     self.address = address;
     self.heldPiece = -1;
     self.wantedPiece = -1;
     self.hasImage = NO;
     self.nameIssue = NO;
+    self.name = name;
     void *context = zmq_ctx_new();
     [self startSendSocket:context];
     [self startRecvSocket:context];
@@ -38,7 +39,7 @@ void free_data(void* data, void* hint){
     free(data);
 }
 
-//For testing.
+/*For testing.
 - (IBAction)sendMessage:(UIButton *)sender {
     for (int i = 0; i < self.buttons.count; i++){
         //NSLog(@"%i", i);
@@ -65,13 +66,12 @@ void free_data(void* data, void* hint){
     self.messages.text = @"";
     
     zmq_msg_close(&msg);
-}
+} */
 
 
 /*Creates the socket responsible for sending data and saves it to the client. */
 -(void)startSendSocket:(void *)context{
     void *socket = zmq_socket(context, ZMQ_DEALER);
-    self.name = [UIDevice currentDevice].name;
     const char* ip = [[[NSString alloc] initWithFormat:@"tcp://%@:5555", self.address] UTF8String];
     char* id = (char *)[self.name UTF8String];
     zmq_setsockopt (socket, ZMQ_IDENTITY, id, strlen (id));
@@ -98,7 +98,7 @@ void free_data(void* data, void* hint){
     self.recvSocket = socket;
 }
 
-//For testing.
+/*For testing.
 -(void)addButton:(int)x withTitle:(NSString*)title{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [button addTarget:self action:@selector(sendMessage:) forControlEvents:UIControlEventTouchUpInside];
@@ -116,6 +116,7 @@ void free_data(void* data, void* hint){
         [self addButton:30*i+160 withTitle:title];
     }
 }
+ */
 
 /* Receives the board image and initial piece locations from the server */
 -(void)setUpMode{
@@ -135,7 +136,7 @@ void free_data(void* data, void* hint){
     zmq_msg_recv(&numRow, self.recvSocket, 0);
     zmq_msg_recv(&numCol, self.recvSocket, 0);
     //Display the image so that we can see it's working.
-    self.imageView.image = [UIImage imageWithData:data];
+    //self.imageView.image = [UIImage imageWithData:data];
     
     
     zmq_msg_recv(&pieceLocations, self.recvSocket, 0);
@@ -146,7 +147,7 @@ void free_data(void* data, void* hint){
     memcpy(&pieces, zmq_msg_data(&pieceLocations), zmq_msg_size(&pieceLocations));
     
     //[self displayPieces:pieces withSize:atoi(zmq_msg_data(&numPieces))];
-    [self displayPieces:pieces withSize:(row+col)];
+    //[self displayPieces:pieces withSize:(row+col)];
     
     //Needs to call the appropriate method in Ash's class.
     
@@ -197,20 +198,19 @@ void free_data(void* data, void* hint){
     
     NSString *identity = [[NSString alloc] initWithFormat:@"%s", zmq_msg_data(&ident)];
     int pieceNum = atoi(zmq_msg_data(&piece));
-    UIButton *button = [self.buttons objectAtIndex:pieceNum];
+    //UIButton *button = [self.buttons objectAtIndex:pieceNum];
     if ([identity hasPrefix:self.name]){
         self.heldPiece = pieceNum;
-        [button setTitle:@"I have this" forState:normal];
+        //[button setTitle:@"I have this" forState:normal];
         NSLog(@"I have %i", self.heldPiece);
         self.wantedPiece = -1;
     } else {
         if (pieceNum == self.wantedPiece){
-            NSString *title = [[NSString alloc]initWithFormat:@"%@ has stolen this piece!",identity];
-            [button setTitle:title forState:normal];
+            NSLog(@"%@ stole my piece!", identity);
             self.wantedPiece = -1;
         } else {
-            NSString *title = [[NSString alloc]initWithFormat:@"%@ has this", identity];
-            [button setTitle:title forState:normal];
+            //NSString *title = [[NSString alloc]initWithFormat:@"%@ has this", identity];
+            //[button setTitle:title forState:normal];
         }
     }
 }
@@ -239,7 +239,7 @@ void free_data(void* data, void* hint){
                        zmq_msg_data(&x),
                        zmq_msg_data(&y),
                        zmq_msg_data(&rotation)];
-    [[self.buttons objectAtIndex:atoi(zmq_msg_data(&piece))]setTitle:title forState:normal];
+   // [[self.buttons objectAtIndex:atoi(zmq_msg_data(&piece))]setTitle:title forState:normal];
     
     
     zmq_msg_close(&piece);
