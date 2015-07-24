@@ -17,9 +17,11 @@
 
 @interface ViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UITextField *name;
 @property int xLocation;
 @property BrowsingDelegate *delegate;
 @property Vision *vision;
+@property int anon;
 
 -(void)addButton:(NSString*)title;
 

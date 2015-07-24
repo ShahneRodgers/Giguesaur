@@ -24,6 +24,6 @@
 @property BOOL nameIssue;
 @property NSDate *lastRequest;
 
--(void)setAddress:(NSString *) address;
--(void)prepare:(NSString*) address;
+
+-(void)prepare:(NSString*) address called:(NSString *)name;
 @end

@@ -18,11 +18,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.xLocation = 70;
+   /* self.xLocation = 70;
+    self.anon = 0;
     self.delegate = [[BrowsingDelegate alloc]init];
-    [self.delegate searchForService:self];
-    self.vision = [[Vision alloc]init];
-    [self.vision visionInit];
+    [self.delegate searchForService:self];*/
+    //self.vision = [[Vision alloc]init];
+    //[self.vision visionInit];
     
 }
 
@@ -58,7 +59,13 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     GameController *controller = [storyboard instantiateViewControllerWithIdentifier:@"GameController"];
     Network *network = [[Network alloc]init];
-    [network prepare:address];
+    NSString *name = self.name.text;
+    if (name.length < 3){
+        NSLog(@"Please enter a proper name");
+        name = [[NSString alloc]initWithFormat:@"Anonymous%i", self.anon];
+        self.anon += 1;
+    }
+    [network prepare:address called:name];
     //Should give the network the chosen client name and check this is okay.
     [controller prepare:network and:self.vision];
     [controller setModalPresentationStyle:UIModalPresentationFullScreen];
