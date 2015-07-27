@@ -29,18 +29,18 @@ cv::Mat cameraMatrix, distCoeffs;
         }
     }
     
-    /* NSBundle *mainBundle = [NSBundle mainBundle];
+     NSBundle *mainBundle = [NSBundle mainBundle];
      NSString *myFile = [mainBundle pathForResource: @"camera_params" ofType: @"xml"];
      //std::string *path = new std::string([myFile UTF8String]);
      const char *path = [myFile UTF8String];
      
-     FileStorage fs(path, FileStorage::READ);
+     cv::FileStorage fs(path, cv::FileStorage::READ);
      if(!fs.isOpened())
      std::cout << "File io is not working" << std::endl;
      
      fs["Camera_Matrix"] >> cameraMatrix;
      fs["Distortion_Coefficients"] >> distCoeffs;
-     fs.release();*/
+     fs.release();
     
     session = [[AVCaptureSession alloc]init];
     session.sessionPreset = AVCaptureSessionPresetHigh;
@@ -112,7 +112,7 @@ fromConnection:(AVCaptureConnection *)connection {
     [self calculatePose:frame];
     //cv::cvtColor(frame, frame, CV_BGRA2GRAY);
     
-    UIImage *image = [self UIImageFromCVMat:frame];
+    //UIImage *image = [self UIImageFromCVMat:frame];
     
     //    imageView.image = image;
    /* [[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];*/

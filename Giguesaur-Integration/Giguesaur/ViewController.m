@@ -18,13 +18,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-   /* self.xLocation = 70;
+    self.xLocation = 70;
     self.anon = 0;
     self.delegate = [[BrowsingDelegate alloc]init];
-    [self.delegate searchForService:self];*/
-    //self.vision = [[Vision alloc]init];
-    //[self.vision visionInit];
-    
+    [self.delegate searchForService:self];
+    self.vision = [[Vision alloc]init];
+    [self.vision visionInit];
+    self.graphics = [[Graphics alloc] init];
 }
 
 

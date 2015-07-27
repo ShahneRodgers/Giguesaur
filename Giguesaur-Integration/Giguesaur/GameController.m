@@ -13,14 +13,16 @@
 /*
  * Stores the set-up Network
  */
--(void)prepare:(Network *)network and:(Vision *) vision{
+-(void)prepare:(Network *)network and:(Vision *) vision and:(Graphics *) graphics {
     self.network = network;
     self.vision = vision;
+    self.graphics = graphics;
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self.vision.session startRunning];
     // Do any additional setup after loading the view, typically from a nib.
    

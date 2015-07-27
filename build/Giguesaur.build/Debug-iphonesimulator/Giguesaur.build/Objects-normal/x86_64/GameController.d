@@ -23,4 +23,9 @@ dependencies: \
   /Users/localjosh/Desktop/opencv2.framework/Headers/ml/ml.hpp \
   /Users/localjosh/Desktop/opencv2.framework/Headers/highgui/highgui_c.h \
   /Users/localjosh/Desktop/opencv2.framework/Headers/highgui/highgui.hpp \
-  /Users/localjosh/Desktop/opencv2.framework/Headers/contrib/contrib.hpp
+  /Users/localjosh/Desktop/opencv2.framework/Headers/contrib/contrib.hpp \
+  /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/Giguesaur/Graphics.h \
+  /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/Giguesaur/SimpleMath.h \
+  /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/Giguesaur/Giguesaur/Piece.h \
+  /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/Giguesaur/Giguesaur/Puzzle.h \
+  /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/Giguesaur/Debug.h
