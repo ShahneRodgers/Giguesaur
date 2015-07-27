@@ -11,6 +11,7 @@
 #import <OpenGLES/ES2/glext.h>
 #import <GLKit/GLKit.h>
 #import "SimpleMath.h"
+#import "Network.h"
 #import "Giguesaur/Puzzle.h"
 #include "Debug.h"
 
@@ -18,6 +19,8 @@
 #define C_GRAY {0.5, 0.5, 0.5, 1}
 #define C_WHITE {1, 1, 1, 1}
 #define C_GOLD {255.0/255.0, 223.0/255.0, 0.0/255.0, 1}
+
+@class Network;
 
 @interface Graphics: UIView {
     
@@ -44,6 +47,13 @@
     GLuint _indexBuffer;
     GLuint _vertexBuffer2;
     GLuint _indexBuffer2;
+    
 }
+
+- (id)initWithFrame:(CGRect)frame andNetwork:(Network*) theNetwork;
+- (void) placePiece: (int) pieceID andCoord: (int[3]) coord;
+- (void) pickupPiece: (int) pieceID;
+
+@property Network* network;
 
 @end

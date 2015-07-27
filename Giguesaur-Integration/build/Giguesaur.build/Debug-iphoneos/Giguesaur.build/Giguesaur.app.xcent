@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>application-identifier</key>
+	<string>W3WEK8S6RC.nz.ac.otago.cs.Giguesaur</string>
+	<key>com.apple.developer.team-identifier</key>
+	<string>W3WEK8S6RC</string>
+	<key>get-task-allow</key>
+	<true/>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>W3WEK8S6RC.nz.ac.otago.cs.Giguesaur</string>
+	</array>
+</dict>
+</plist>

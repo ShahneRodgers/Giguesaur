@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 // Add when necessary
-//#import "OpenGLView.h"
+//#import "Graphics.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 // Add when necessary
-// { OpenGLView* _glView; }
+// { Graphics* _graphics; }
 
 @property (strong, nonatomic) UIWindow *window;
 // Add when necessary
-//@property (nonatomic, retain) IBOutlet OpenGLView *glView;
+//@property (nonatomic, retain) IBOutlet Graphics *graphics;
 
 @end
 

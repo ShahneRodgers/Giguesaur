@@ -16,7 +16,7 @@
 #define BOARD_LENGTH 100
 #define BOARD_WIDTH 100
 
-double TIMEOUT = 2;
+double TIMEOUT = 200;
 
 CFNetServiceRef broadcaster;
 PublishingDelegate *delegate;

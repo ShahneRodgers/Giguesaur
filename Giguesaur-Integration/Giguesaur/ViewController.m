@@ -17,6 +17,8 @@
  */
 - (void)viewDidLoad {
     [super viewDidLoad];
+    printf("Hello\n");
+    NSLog(@"Hello2");
     // Do any additional setup after loading the view, typically from a nib.
     self.xLocation = 70;
     self.anon = 0;
@@ -56,8 +58,12 @@
  * Sets up an instance of the network and passes this to the main game loop.
  */
 -(void)switchViews:(NSString *)address{
+    /*
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     GameController *controller = [storyboard instantiateViewControllerWithIdentifier:@"GameController"];
+     */
+    GameController *controller = [[GameController alloc] init];
+    //controller.delegate = self.delegate;
     Network *network = [[Network alloc]init];
     NSString *name = self.name.text;
     if (name.length < 3){

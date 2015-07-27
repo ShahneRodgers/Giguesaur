@@ -384,6 +384,26 @@ const GLubyte Indices2[] = {
     }
 }
 
+// Coord is x and y plus rotation hence 3 array
+- (void) placePiece: (int) pieceID andCoord: (int[3]) coord {
+    DEBUG_PRINT_1("touchesBegan :: Placed piece %i\n", pieceID);
+    pieces[pieceID].x_location = coord[0];
+    pieces[pieceID].y_location = coord[1];
+    pieces[pieceID].rotation = coord[2];
+    // call by server
+    [self checkThenSnapPiece:pieceID];
+    [self checkThenCloseEdge:pieceID];
+    // change this lol
+    reset = 0;
+}
+
+- (void) pickupPiece: (int) pieceID  {
+    DEBUG_PRINT_1("touchesBegan :: Picked up piece %i\n", pieceID);
+    [self openClosedEdges:pieceID];
+    holdingPiece = pieceID;
+    reset = 0;
+}
+
 /***** Screen Touch *****/
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [[event allTouches] anyObject];
@@ -406,23 +426,18 @@ const GLubyte Indices2[] = {
     DEBUG_PRINT_2("touchesBegan :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
     
     if (holdingPiece >= 0) {
-        DEBUG_PRINT_1("touchesBegan :: Placed piece %i\n", holdingPiece);
-        pieces[holdingPiece].x_location = point.x;
-        pieces[holdingPiece].y_location = point.y;
-        [self checkThenSnapPiece:holdingPiece];
-        [self checkThenCloseEdge:holdingPiece];
+        // TO DO: move other mehtods
+        [self.network droppedPiece:point.x WithY:point.y WithRotation:0];
         holdingPiece = -1;
-        reset = 0;
     }
     else {
         for (int i = 0; i < NUM_OF_PIECES; i++) {
             if(point.x >= pieces[i].x_location - SIDE_HALF && point.x < pieces[i].x_location + SIDE_HALF) {
                 if (point.y >= pieces[i].y_location - SIDE_HALF && point.y < pieces[i].y_location + SIDE_HALF) {
-                    DEBUG_PRINT_1("touchesBegan :: Picked up piece %i\n", i);
-                    [self openClosedEdges:i];
-                    holdingPiece = i;
+                    // TO DO: Someting
+                    [self.network requestPiece:i];
                     i = NUM_OF_PIECES;
-                    reset = 0;
+                    
                 }
             }
         }
@@ -594,7 +609,7 @@ const GLubyte Indices2[] = {
 */
 
 /* "Main" for the frame */
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame andNetwork:(Network*) theNetwork {
     self = [super initWithFrame:frame];
     if (self) {
         // Call all the OpenGL setup code
@@ -605,6 +620,8 @@ const GLubyte Indices2[] = {
         [self setupFrameBuffer];
         [self compileShaders];
         [self setupVBOs];
+        self.network = theNetwork;
+        self.network.graphics = self;
         //[self setupDisplayLink];
         _puzzleTexture = [self setupTexture:@"puppy.png"];
         _backgroundTexture = [self setupTexture:@"background.jpg"];

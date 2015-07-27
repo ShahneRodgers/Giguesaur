@@ -26,7 +26,7 @@
     void *context = zmq_ctx_new();
     [self startSendSocket:context];
     [self startRecvSocket:context];
-    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)0.5
+    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)2.0
                                      target:self
                                    selector:@selector(checkMessages)
                                    userInfo:nil
@@ -203,8 +203,9 @@ void free_data(void* data, void* hint){
         self.heldPiece = pieceNum;
         //[button setTitle:@"I have this" forState:normal];
         NSLog(@"I have %i", self.heldPiece);
+        [self.graphics pickupPiece:self.heldPiece];
         self.wantedPiece = -1;
-    } else {
+    } else { // TO DO: Yeah
         if (pieceNum == self.wantedPiece){
             NSLog(@"%@ stole my piece!", identity);
             self.wantedPiece = -1;
@@ -239,7 +240,10 @@ void free_data(void* data, void* hint){
                        zmq_msg_data(&x),
                        zmq_msg_data(&y),
                        zmq_msg_data(&rotation)];
+    int pieceNum = atoi(zmq_msg_data(&piece));
+    int locs[3] = {atoi(zmq_msg_data(&x)), atoi(zmq_msg_data(&y)), atoi(zmq_msg_data(&rotation))};
    // [[self.buttons objectAtIndex:atoi(zmq_msg_data(&piece))]setTitle:title forState:normal];
+    [self.graphics placePiece:pieceNum andCoord:locs];
     
     
     zmq_msg_close(&piece);

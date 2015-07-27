@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "zmq.h"
+#import "Graphics.h"
+
+@class Graphics;
 
 @interface Network : NSObject
 
@@ -23,7 +26,10 @@
 @property BOOL hasImage;
 @property BOOL nameIssue;
 @property NSDate *lastRequest;
-
+@property Graphics* graphics;
 
 -(void)prepare:(NSString*) address called:(NSString *)name;
+-(void)droppedPiece:(int)xNum WithY:(int)yNum WithRotation:(int)rotationNum;
+-(void)requestPiece:(int)pieceNum;
+
 @end
