@@ -22,7 +22,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *name;
 @property int xLocation;
 @property BrowsingDelegate *delegate;
-@property Vision *vision;
+//@property Vision *vision;
 @property Graphics *graphics;
 @property int anon;
 

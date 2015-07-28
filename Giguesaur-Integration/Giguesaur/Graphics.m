@@ -30,10 +30,10 @@ const Vertex DefaultPiece[] = {
 };
 
 const Vertex BackgroundVertices[] = {
-    {{BOARD_WIDTH, 0, 0}, C_WHITE, {1, 1}},
-    {{BOARD_WIDTH, BOARD_HIEGHT, 0}, C_WHITE, {1, 0}},
-    {{0, BOARD_HIEGHT, 0}, C_WHITE, {0, 0}},
-    {{0, 0, 0}, C_WHITE, {0, 1}}
+    {{BOARD_WIDTH, 0, 0}, C_TRANS, {1, 1}},
+    {{BOARD_WIDTH, BOARD_HIEGHT, 0}, C_TRANS, {1, 0}},
+    {{0, BOARD_HIEGHT, 0}, C_TRANS, {0, 0}},
+    {{0, 0, 0}, C_TRANS, {0, 1}}
 };
 
 const GLubyte Indices[] = {
@@ -54,8 +54,14 @@ const GLubyte Indices2[] = {
 
 - (void) setupLayer {
     _eaglLayer = (CAEAGLLayer*) self.layer;
-    _eaglLayer.opaque = YES;
+    _eaglLayer.opaque = NO;
+    _eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 }
+
+/*- (void) bringSublayerToFront { Attempting to overlay pieces on preview
+    [_eaglLayer removeFromSuperlayer];
+    [self insertSubview:_eaglLayer atIndex:[self.layer.sublayers count]];
+}*/
 
 - (void) setupContext {
     EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES2;
@@ -178,9 +184,18 @@ const GLubyte Indices2[] = {
 
 }
 
+- (void) initImage: (UIImage *)data withPieces:(Piece[])pieces{
+    puzzleImage = data;
+    
+    
+}
+
 - (GLuint) setupTexture: (NSString *) fileName {
     
+    // TO DO: Change how the image texture is loaded
     CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
+    //CGImageRef spriteImage = puzzleImage.CGImage;
+    
     if (!spriteImage) {
         NSLog(@"Failed to load image %@", fileName);
         exit(1);
@@ -466,7 +481,8 @@ const GLubyte Indices2[] = {
     glEnable(GL_BLEND);
 
     // Clear the screen
-    glClearColor(230.0/255.0, 1.0, 1.0, 1.0);
+    //glClearColor(230.0/255.0, 1.0, 1.0, 0.0);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     
@@ -624,9 +640,9 @@ const GLubyte Indices2[] = {
         self.network.graphics = self;
         //[self setupDisplayLink];
         _puzzleTexture = [self setupTexture:@"puppy.png"];
-        _backgroundTexture = [self setupTexture:@"background.jpg"];
+        //_backgroundTexture = [self setupTexture:@"background.jpg"];
         simpleMath = [[SimpleMath alloc] init];
-        generatePieces(pieces);
+        //generatePieces(pieces);
         [self render];
     }
     return self;

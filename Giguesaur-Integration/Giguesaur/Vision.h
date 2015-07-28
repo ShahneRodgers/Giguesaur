@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "Graphics.h"
 //#import <opencv2/opencv.hpp>
 #import "opencv2/core/core_c.h"
 #import "opencv2/core/core.hpp"
@@ -32,9 +33,10 @@
 @property AVCaptureSession *session;
 @property AVCaptureDevice *videoCaptureDevice;
 @property AVCaptureVideoDataOutput *videoDataOutput;
+@property Graphics *graphics;
 //@property IBOutlet UIImageView *imageView;
 
-- (void) visionInit;
+- (void) visionInit:(Graphics *) graphics;
 
 #ifdef __cplusplus
 - (void) fromSampleBuffer:(CMSampleBufferRef)sampleBuffer

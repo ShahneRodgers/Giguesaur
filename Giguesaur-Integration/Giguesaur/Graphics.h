@@ -19,6 +19,7 @@
 #define C_GRAY {0.5, 0.5, 0.5, 1}
 #define C_WHITE {1, 1, 1, 1}
 #define C_GOLD {255.0/255.0, 223.0/255.0, 0.0/255.0, 1}
+#define C_TRANS {0, 0, 0, 0}
 
 @class Network;
 
@@ -42,6 +43,7 @@
     GLuint _backgroundTexture;
     GLuint _texCoordSlot;
     GLuint _textureUniform;
+    UIImage *puzzleImage;
 
     GLuint _vertexBuffer;
     GLuint _indexBuffer;
@@ -53,7 +55,13 @@
 - (id)initWithFrame:(CGRect)frame andNetwork:(Network*) theNetwork;
 - (void) placePiece: (int) pieceID andCoord: (int[3]) coord;
 - (void) pickupPiece: (int) pieceID;
+//- (void) bringSublayerToFront;
+- (void) checkThenSnapPiece: (int) pieceID;
+- (void) checkThenCloseEdge: (int) pieceID;
+- (void) openClosedEdges: (int) pieceID;
+- (void) initImage: (UIImage *)data withPieces:(Piece[])pieces;
 
 @property Network* network;
+@property void* pieces;
 
 @end

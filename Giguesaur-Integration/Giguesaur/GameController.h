@@ -17,6 +17,7 @@
 @property Vision* vision;
 @property Graphics* graphics;
 
--(void)prepare:(Network *)network and:(Vision *) vision;
+//-(void)prepare:(Network *)network and:(Vision *) vision;
+-(void)prepare:(Network *)network;
 
 @end

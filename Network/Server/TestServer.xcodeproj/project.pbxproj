@@ -76,6 +76,8 @@
 		21B380591ABBA41C00205860 /* xsub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21B380101ABBA41C00205860 /* xsub.cpp */; };
 		21B3805A1ABBA41C00205860 /* zmq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21B380161ABBA41C00205860 /* zmq.cpp */; };
 		21B3805B1ABBA41C00205860 /* zmq_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21B380171ABBA41C00205860 /* zmq_utils.cpp */; };
+		74926DEB1B671B10009B7980 /* SimpleMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 74926DE81B671B10009B7980 /* SimpleMath.m */; };
+		74926DF01B671B51009B7980 /* Puzzle.c in Sources */ = {isa = PBXBuildFile; fileRef = 74926DEE1B671B51009B7980 /* Puzzle.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -255,6 +257,11 @@
 		21B380151ABBA41C00205860 /* yqueue.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = yqueue.hpp; sourceTree = "<group>"; };
 		21B380161ABBA41C00205860 /* zmq.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = zmq.cpp; sourceTree = "<group>"; };
 		21B380171ABBA41C00205860 /* zmq_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = zmq_utils.cpp; sourceTree = "<group>"; };
+		74926DE71B671B10009B7980 /* SimpleMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMath.h; sourceTree = "<group>"; };
+		74926DE81B671B10009B7980 /* SimpleMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleMath.m; sourceTree = "<group>"; };
+		74926DED1B671B51009B7980 /* Piece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Piece.h; sourceTree = "<group>"; };
+		74926DEE1B671B51009B7980 /* Puzzle.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Puzzle.c; sourceTree = "<group>"; };
+		74926DEF1B671B51009B7980 /* Puzzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Puzzle.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +297,11 @@
 			isa = PBXGroup;
 			children = (
 				165683DF1AB668E30085CB9F /* main.m */,
+				74926DE71B671B10009B7980 /* SimpleMath.h */,
+				74926DE81B671B10009B7980 /* SimpleMath.m */,
+				74926DED1B671B51009B7980 /* Piece.h */,
+				74926DEE1B671B51009B7980 /* Puzzle.c */,
+				74926DEF1B671B51009B7980 /* Puzzle.h */,
 			);
 			path = TestServer;
 			sourceTree = "<group>";
@@ -565,11 +577,13 @@
 				21B3804F1ABBA41C00205860 /* tcp_address.cpp in Sources */,
 				21B3801F1ABBA41C00205860 /* dist.cpp in Sources */,
 				21B3801E1ABBA41C00205860 /* devpoll.cpp in Sources */,
+				74926DEB1B671B10009B7980 /* SimpleMath.m in Sources */,
 				21B3804C1ABBA41C00205860 /* stream_engine.cpp in Sources */,
 				21B380301ABBA41C00205860 /* object.cpp in Sources */,
 				21B3802D1ABBA41C00205860 /* msg.cpp in Sources */,
 				21B3802F1ABBA41C00205860 /* null_mechanism.cpp in Sources */,
 				21B380431ABBA41C00205860 /* reaper.cpp in Sources */,
+				74926DF01B671B51009B7980 /* Puzzle.c in Sources */,
 				21B380191ABBA41C00205860 /* clock.cpp in Sources */,
 				21B380461ABBA41C00205860 /* router.cpp in Sources */,
 				21B380391ABBA41C00205860 /* poll.cpp in Sources */,

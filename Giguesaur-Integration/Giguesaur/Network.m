@@ -26,7 +26,7 @@
     void *context = zmq_ctx_new();
     [self startSendSocket:context];
     [self startRecvSocket:context];
-    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)2.0
+    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)1.0
                                      target:self
                                    selector:@selector(checkMessages)
                                    userInfo:nil
@@ -142,9 +142,12 @@ void free_data(void* data, void* hint){
     zmq_msg_recv(&pieceLocations, self.recvSocket, 0);
     int row = atoi(zmq_msg_data(&numRow));
     int col = atoi(zmq_msg_data(&numCol));
-    int pieces[row][3];
-
-    memcpy(&pieces, zmq_msg_data(&pieceLocations), zmq_msg_size(&pieceLocations));
+    Piece pieces[row*col];
+    
+    memcpy(pieces, zmq_msg_data(&pieceLocations), zmq_msg_size(&pieceLocations));
+    
+    [self.graphics initImage:[UIImage imageWithData:data] withPieces:pieces];
+    
     
     //[self displayPieces:pieces withSize:atoi(zmq_msg_data(&numPieces))];
     //[self displayPieces:pieces withSize:(row+col)];

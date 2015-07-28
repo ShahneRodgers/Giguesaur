@@ -13,22 +13,25 @@
 /*
  * Stores the set-up Network
  */
--(void)prepare:(Network *)network and:(Vision *) vision {
+-(void)prepare:(Network *)network {
     self.network = network;
-    self.vision = vision;
+    //self.vision = vision;
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //[self.vision.session startRunning];
+    [self.vision.session startRunning];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void) loadView {
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.view = [[Graphics alloc] initWithFrame:screenBounds andNetwork: self.network];
+    
+    self.vision = [[Vision alloc]init];
+    [self.vision visionInit:(Graphics *)self.view];
 }
 
 @end

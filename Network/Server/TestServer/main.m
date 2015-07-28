@@ -10,23 +10,30 @@
 #import "zmq.h"
 #import "PublishingDelegate.h"
 #import "zhelpers.h"
+#import "Puzzle.h"
+#import "SimpleMath.h"
 
-#define PIECES_ROW 1000
-#define PIECES_COLUMN 1
-#define BOARD_LENGTH 100
-#define BOARD_WIDTH 100
+#define PIECES_ROW NUM_OF_ROWS
+#define PIECES_COLUMN NUM_OF_COLS
 
 double TIMEOUT = 200;
 
 CFNetServiceRef broadcaster;
 PublishingDelegate *delegate;
+SimpleMath *simpleMath;
 void *boardState;
 NSMutableArray *heldPieces;
 NSMutableArray *players;
 int pieceLocations[PIECES_ROW*PIECES_COLUMN][3];
+Piece pieces[NUM_OF_PIECES];
 void *publisher;
 void *receiver;
 int imageLen;
+
+void checkThenSnapPiece(int pieceID);
+void checkThenCloseEdge(int pieceID);
+void openClosedEdges(int pieceID);
+
 
 void registerCallback (
                        CFNetServiceRef theService,
@@ -56,11 +63,11 @@ const char* getStringFromInt(int num){
 void sendBoard(){
     zmq_send(publisher, "SetupMode", 9, ZMQ_SNDMORE);
     int pic = zmq_send(publisher, boardState, imageLen, ZMQ_SNDMORE);
-    char *numPieces = (char *)getStringFromInt(PIECES_ROW);
-    zmq_send(publisher, numPieces, sizeof(numPieces), ZMQ_SNDMORE);
-    numPieces = (char *)getStringFromInt(PIECES_COLUMN);
-    zmq_send(publisher, numPieces, sizeof(numPieces), ZMQ_SNDMORE);
-    int arr = zmq_send(publisher, pieceLocations, sizeof(pieceLocations), 0);
+    char *numRows = (char *)getStringFromInt(PIECES_ROW);
+    char *numCols = (char *)getStringFromInt(PIECES_COLUMN);
+    zmq_send(publisher, numRows, sizeof(numRows), ZMQ_SNDMORE);
+    zmq_send(publisher, numCols, sizeof(numCols), ZMQ_SNDMORE);
+    int arr = zmq_send(publisher, pieces, sizeof(pieces), 0);
     if (pic < 0 || arr < 0)
         NSLog(@"%s", strerror(errno));
     
@@ -93,6 +100,9 @@ void dropPiece(int pieceNum, zmq_msg_t x, zmq_msg_t y, zmq_msg_t r){
     pieceLocations[pieceNum][0] = atoi(zmq_msg_data(&x));
     pieceLocations[pieceNum][1] = atoi(zmq_msg_data(&y));
     pieceLocations[pieceNum][2] = atoi(zmq_msg_data(&r));
+    
+    checkThenSnapPiece(pieceNum);
+    checkThenCloseEdge(pieceNum);
     
     //Inform everyone of the new location
     zmq_send(publisher, "Drop", 4, ZMQ_SNDMORE);
@@ -133,6 +143,7 @@ void receiveMessage(){
         
         //If the piece is not being held
         if ([heldPieces[pieceNum] isEqual:[NSNull null]]){
+            openClosedEdges(pieceNum);
             //NSLog(@"%s picked up %i", zmq_msg_data(&identity), pieceNum);
             //Inform everyone that a piece has been picked up.
             zmq_send(publisher, "PickUp", 6, ZMQ_SNDMORE);
@@ -209,7 +220,7 @@ void checkPieces(){
                 char* x = (char*)getStringFromInt(arc4random() % BOARD_WIDTH);
                 zmq_msg_init_data(&xMes, x, sizeof(x), nil, nil);
                 zmq_msg_t yMes;
-                char* y = (char *)getStringFromInt(arc4random() % BOARD_LENGTH);
+                char* y = (char *)getStringFromInt(arc4random() % BOARD_HEIGHT);
                 zmq_msg_init_data(&yMes, y, sizeof(y), nil, nil);
                 zmq_msg_t rMes;
                 char* r = (char *)getStringFromInt(arc4random() % 360);
@@ -262,22 +273,162 @@ void readImage(NSString *path){
     memcpy(boardState, [image bytes], imageLen);
 }
 
+void checkThenSnapPiece(int pieceID) {
+    
+    CGPoint newPoints;
+    int upID = pieces[pieceID].neighbourPiece.up_piece;
+    int downID = pieces[pieceID].neighbourPiece.down_piece;
+    int leftID = pieces[pieceID].neighbourPiece.left_piece;
+    int rightID = pieces[pieceID].neighbourPiece.right_piece;
+    
+    if (upID >= 0 &&
+        [simpleMath shouldPieceSnap:pieces[pieceID]
+                     withOtherPiece:pieces[upID]
+                          whichSide:P_UP
+                 distanceBeforeSnap:DISTANCE_BEFORE_SNAP]) {
+            
+            newPoints = [simpleMath newCoordinates:pieces[upID] whichSide:P_UP];
+            pieces[pieceID].x_location = newPoints.x;
+            pieces[pieceID].y_location = newPoints.y;
+            pieces[pieceID].rotation = pieces[upID].rotation;
+            
+        }
+    
+    if (downID >= 0 &&
+        [simpleMath shouldPieceSnap:pieces[pieceID]
+                     withOtherPiece:pieces[downID]
+                          whichSide:P_DOWN
+                 distanceBeforeSnap:DISTANCE_BEFORE_SNAP]) {
+            
+            newPoints = [simpleMath newCoordinates:pieces[downID] whichSide:P_DOWN];
+            pieces[pieceID].x_location = newPoints.x;
+            pieces[pieceID].y_location = newPoints.y;
+            pieces[pieceID].rotation = pieces[downID].rotation;
+            
+        }
+    
+    if (leftID >= 0 &&
+        [simpleMath shouldPieceSnap:pieces[pieceID]
+                     withOtherPiece:pieces[leftID]
+                          whichSide:P_LEFT
+                 distanceBeforeSnap:DISTANCE_BEFORE_SNAP]) {
+            
+            newPoints = [simpleMath newCoordinates:pieces[leftID] whichSide:P_LEFT];
+            pieces[pieceID].x_location = newPoints.x;
+            pieces[pieceID].y_location = newPoints.y;
+            pieces[pieceID].rotation = pieces[leftID].rotation;
+            
+            
+        }
+    
+    if (rightID >= 0 &&
+        [simpleMath shouldPieceSnap:pieces[pieceID]
+                     withOtherPiece:pieces[rightID]
+                          whichSide:P_RIGHT
+                 distanceBeforeSnap:DISTANCE_BEFORE_SNAP]) {
+            
+            newPoints = [simpleMath newCoordinates:pieces[rightID] whichSide: P_RIGHT];
+            pieces[pieceID].x_location = newPoints.x;
+            pieces[pieceID].y_location = newPoints.y;
+            pieces[pieceID].rotation = pieces[rightID].rotation;
+            
+        }
+}
+
+// Check if a piece joined its neighbours then closes their edges
+void checkThenCloseEdge(int pieceID) {
+    
+    int upID = pieces[pieceID].neighbourPiece.up_piece;
+    int downID = pieces[pieceID].neighbourPiece.down_piece;
+    int leftID = pieces[pieceID].neighbourPiece.left_piece;
+    int rightID = pieces[pieceID].neighbourPiece.right_piece;
+    
+    if (upID >= 0 &&
+        [simpleMath didPieceConnect:pieces[pieceID]
+                     withOtherPiece:pieces[upID]
+                          whichSide:P_UP]) {
+            
+            pieces[pieceID].openEdge.up_open = isClosed;
+            pieces[upID].openEdge.down_open = isClosed;
+            
+        }
+    
+    if (downID >= 0 &&
+        [simpleMath didPieceConnect:pieces[pieceID]
+                     withOtherPiece:pieces[downID]
+                          whichSide:P_DOWN]) {
+            
+            pieces[pieceID].openEdge.down_open = isClosed;
+            pieces[downID].openEdge.up_open = isClosed;
+            
+        }
+    
+    if (leftID >= 0 &&
+        [simpleMath didPieceConnect:pieces[pieceID]
+                     withOtherPiece:pieces[leftID]
+                          whichSide:P_LEFT]) {
+            
+            pieces[pieceID].openEdge.left_open = isClosed;
+            pieces[leftID].openEdge.right_open = isClosed;
+            
+            
+        }
+    
+    if (rightID >= 0 &&
+        [simpleMath didPieceConnect:pieces[pieceID]
+                     withOtherPiece:pieces[rightID]
+                          whichSide:P_RIGHT]) {
+            
+            pieces[pieceID].openEdge.right_open = isClosed;
+            pieces[rightID].openEdge.left_open = isClosed;
+            
+        }
+}
+
+// Open closed edges of pickedup piece and neighbouring edges
+void openClosedEdges(int pieceID) {
+    
+    int upID = pieces[pieceID].neighbourPiece.up_piece;
+    int downID = pieces[pieceID].neighbourPiece.down_piece;
+    int leftID = pieces[pieceID].neighbourPiece.left_piece;
+    int rightID = pieces[pieceID].neighbourPiece.right_piece;
+    
+    if (upID >= 0) {
+        pieces[pieceID].openEdge.up_open = isOpen;
+        pieces[upID].openEdge.down_open = isOpen;
+        
+    }
+    if (downID >= 0) {
+        pieces[pieceID].openEdge.down_open = isOpen;
+        pieces[downID].openEdge.up_open = isOpen;
+        
+    }
+    if (leftID >= 0) {
+        pieces[pieceID].openEdge.left_open = isOpen;
+        pieces[leftID].openEdge.right_open = isOpen;
+        
+    }
+    if (rightID >= 0) {
+        pieces[pieceID].openEdge.right_open = isOpen;
+        pieces[rightID].openEdge.left_open = isOpen;
+        
+    }
+}
 
 
 
 int main(int argc, const char * argv[]) {
     NSLog(@"Remember to check the address");
     publishService();
-    
+    simpleMath = [[SimpleMath alloc] init];
     NSString *path = [[NSMutableString alloc] initWithFormat:@"%@/IMAGE.jpg", [[NSBundle mainBundle] resourcePath]];
     readImage(path);
     players = [NSMutableArray array];
     heldPieces = [NSMutableArray array];
+    generatePieces(pieces);
+    
     for (int i = 0; i < PIECES_COLUMN*PIECES_ROW; i++){
         [heldPieces addObject:[NSNull null]];
-        pieceLocations[i][0] = arc4random() % BOARD_WIDTH;
-        pieceLocations[i][1] = arc4random() % BOARD_LENGTH;
-        pieceLocations[i][2] = arc4random() % 360;
         
     }
     startServer();

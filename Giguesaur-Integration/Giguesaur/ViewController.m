@@ -17,16 +17,14 @@
  */
 - (void)viewDidLoad {
     [super viewDidLoad];
-    printf("Hello\n");
-    NSLog(@"Hello2");
     // Do any additional setup after loading the view, typically from a nib.
-    self.xLocation = 70;
+    self.xLocation = 100;
     self.anon = 0;
     self.delegate = [[BrowsingDelegate alloc]init];
     [self.delegate searchForService:self];
-    self.vision = [[Vision alloc]init];
-    [self.vision visionInit];
-    self.graphics = [[Graphics alloc] init];
+   // self.vision = [[Vision alloc]init];
+    //[self.vision visionInit];
+    //self.graphics = [[Graphics alloc] init];
 }
 
 
@@ -73,7 +71,8 @@
     }
     [network prepare:address called:name];
     //Should give the network the chosen client name and check this is okay.
-    [controller prepare:network and:self.vision];
+    //[controller prepare:network and:self.vision];
+    [controller prepare:network];
     [controller setModalPresentationStyle:UIModalPresentationFullScreen];
     [self presentViewController:controller animated:YES completion:nil];
     

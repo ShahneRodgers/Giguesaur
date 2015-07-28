@@ -20,8 +20,9 @@ cv::Mat cameraMatrix, distCoeffs;
 @synthesize videoDataOutput;
 @synthesize session;
 
-- (void) visionInit{
+- (void) visionInit:(Graphics *) graphics{
     
+    self.graphics = graphics;
     
     for( int i = 0; i < boardSize.height; ++i ){
         for( int j = 0; j < boardSize.width; ++j ){
@@ -72,11 +73,12 @@ cv::Mat cameraMatrix, distCoeffs;
     [session addOutput:videoDataOutput];
     
     AVCaptureVideoPreviewLayer *preview = [AVCaptureVideoPreviewLayer layerWithSession:session];
-    preview.frame = self.view.bounds;
+    preview.frame = self.graphics.bounds;
     preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    preview.hidden = YES;
-    [self.view.layer addSublayer:preview];
-    
+    preview.hidden = NO;
+   // [self.graphics.layer addSublayer:preview];
+    //[self.graphics bringSublayerToFront]; This doesn';t work
+    //[self.graphics.layer insertSublayer:preview atIndex:1];
     
 }
 
