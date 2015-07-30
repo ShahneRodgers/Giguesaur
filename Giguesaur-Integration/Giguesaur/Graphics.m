@@ -184,11 +184,15 @@ const GLubyte Indices2[] = {
 }
 - (void) visionBackgroundRender:(UIImage *)imageFile{
     //_backgroundTexture = [self setupTexture:[UIImage imageNamed:@"background.jpg"]];
-    _backgroundTexture = [self setupTexture:imageFile];
-    [self render];
+    [self setupTexture:imageFile];
+    //[self render];
 }
 
-- (GLuint) setupTexture: (UIImage *) imageFile {
+- (void) setupTexture: (UIImage *) imageFile {
+    
+  
+    @autoreleasepool {
+        
     
     // TO DO: Change how the image texture is loaded
     //CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
@@ -222,10 +226,13 @@ const GLubyte Indices2[] = {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
-    
-    //CGImageRelease(spriteImage);
+
     free(spriteData);
-    return texName;
+    //CGImageRelease(spriteImage);
+    _backgroundTexture = texName;
+        [self render];
+        glDeleteTextures(1, &texName);
+    }
 }
 
 // Coord is x and y plus rotation hence 3 array
@@ -485,7 +492,7 @@ const GLubyte Indices2[] = {
         self.network = theNetwork;
         self.network.graphics = self;
         //[self setupDisplayLink];
-        _puzzleTexture = [self setupTexture:[UIImage imageNamed:@"puppy.png"]];
+       // _puzzleTexture = [self setupTexture:[UIImage imageNamed:@"puppy.png"]];
        // _backgroundTexture = [self setupTexture:[UIImage imageNamed:@"background.jpg"]];
         
         //[self setupTexture:puzzleImage];

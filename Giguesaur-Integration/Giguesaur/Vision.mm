@@ -96,6 +96,7 @@ cv::Mat cameraMatrix, distCoeffs;
     
     if(patternfound){
         vectors = solvePnP(corners, pixelcorners, cameraMatrix, distCoeffs, rvec, tvec, false);
+        cv::drawChessboardCorners(frame, boardSize, pixelcorners, patternfound);
     }
     
     if(vectors){
@@ -115,7 +116,7 @@ fromConnection:(AVCaptureConnection *)connection {
     cv::Mat frame;
     [self fromSampleBuffer:sampleBuffer toCVMat: frame];
     
-    //[self calculatePose:frame];
+    [self calculatePose:frame];
     //cv::cvtColor(frame, frame, CV_BGRA2GRAY);
     
     UIImage *image = [self UIImageFromCVMat:frame];
