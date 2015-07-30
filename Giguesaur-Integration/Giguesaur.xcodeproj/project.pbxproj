@@ -10,7 +10,6 @@
 		7432FC931B65BA9E006607E7 /* camera_params.xml in Resources */ = {isa = PBXBuildFile; fileRef = 7432FC921B65BA9E006607E7 /* camera_params.xml */; };
 		74A208FF1B604B9600578FBE /* Graphics.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A208FA1B604B9600578FBE /* Graphics.m */; };
 		74A209001B604B9600578FBE /* SimpleFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 74A208FB1B604B9600578FBE /* SimpleFragment.glsl */; };
-		74A209011B604B9600578FBE /* SimpleMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A208FD1B604B9600578FBE /* SimpleMath.m */; };
 		74A209021B604B9600578FBE /* SimpleVertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 74A208FE1B604B9600578FBE /* SimpleVertex.glsl */; };
 		74A2090C1B604C7E00578FBE /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 74A209091B604C7E00578FBE /* background.jpg */; };
 		74A2090D1B604C7E00578FBE /* kitty.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A2090A1B604C7E00578FBE /* kitty.png */; };
@@ -125,8 +124,6 @@
 		74A208F91B604B9600578FBE /* Graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
 		74A208FA1B604B9600578FBE /* Graphics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Graphics.m; sourceTree = "<group>"; };
 		74A208FB1B604B9600578FBE /* SimpleFragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimpleFragment.glsl; sourceTree = "<group>"; };
-		74A208FC1B604B9600578FBE /* SimpleMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMath.h; sourceTree = "<group>"; };
-		74A208FD1B604B9600578FBE /* SimpleMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleMath.m; sourceTree = "<group>"; };
 		74A208FE1B604B9600578FBE /* SimpleVertex.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SimpleVertex.glsl; sourceTree = "<group>"; };
 		74A209091B604C7E00578FBE /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background.jpg; path = resources/background.jpg; sourceTree = "<group>"; };
 		74A2090A1B604C7E00578FBE /* kitty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = kitty.png; path = resources/kitty.png; sourceTree = "<group>"; };
@@ -366,7 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				74A2090F1B604C8500578FBE /* Resources */,
-				74A209101B604E2700578FBE /* SimpleMath */,
+				74B94F621B69B305000FB803 /* Piece.h */,
 				74A208F91B604B9600578FBE /* Graphics.h */,
 				74A208FA1B604B9600578FBE /* Graphics.m */,
 				74A208FB1B604B9600578FBE /* SimpleFragment.glsl */,
@@ -384,16 +381,6 @@
 				CE88316F1B69AA7900614EAD /* ExtraCode.m */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		74A209101B604E2700578FBE /* SimpleMath */ = {
-			isa = PBXGroup;
-			children = (
-				74B94F621B69B305000FB803 /* Piece.h */,
-				74A208FC1B604B9600578FBE /* SimpleMath.h */,
-				74A208FD1B604B9600578FBE /* SimpleMath.m */,
-			);
-			name = SimpleMath;
 			sourceTree = "<group>";
 		};
 		74D60E861B5CA81C00F5008F = {
@@ -829,7 +816,6 @@
 				74D60F901B5CA93A00F5008F /* null_mechanism.cpp in Sources */,
 				74D60F851B5CA93A00F5008F /* io_thread.cpp in Sources */,
 				74D60F951B5CA93A00F5008F /* pgm_receiver.cpp in Sources */,
-				74A209011B604B9600578FBE /* SimpleMath.m in Sources */,
 				74D60FB81B5CA93A00F5008F /* v2_encoder.cpp in Sources */,
 				74D60FAE1B5CA93A00F5008F /* sub.cpp in Sources */,
 				74D60F981B5CA93A00F5008F /* pipe.cpp in Sources */,

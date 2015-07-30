@@ -26,7 +26,7 @@
     void *context = zmq_ctx_new();
     [self startSendSocket:context];
     [self startRecvSocket:context];
-    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)1.0
+    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)2.0
                                      target:self
                                    selector:@selector(checkMessages)
                                    userInfo:nil
@@ -36,6 +36,7 @@
 
 /* Frees the memory */
 void free_data(void* data, void* hint){
+    printf("free_data()\n");
     free(data);
 }
 
@@ -71,6 +72,7 @@ void free_data(void* data, void* hint){
 
 /*Creates the socket responsible for sending data and saves it to the client. */
 -(void)startSendSocket:(void *)context{
+    printf("startSendSocket()\n");
     void *socket = zmq_socket(context, ZMQ_DEALER);
     const char* ip = [[[NSString alloc] initWithFormat:@"tcp://%@:5555", self.address] UTF8String];
     char* id = (char *)[self.name UTF8String];
@@ -85,6 +87,7 @@ void free_data(void* data, void* hint){
 
 /* Creates the socket responsible for receiving messages and saves it to the client. */
 -(void)startRecvSocket:(void *)context{
+    printf("startRecvSocket()\n");
     void *socket = zmq_socket(context, ZMQ_SUB);
     const char* address = [[[NSString alloc] initWithFormat:@"tcp://%@:5556", self.address] UTF8String];
     int rc = zmq_connect(socket, address);
@@ -120,6 +123,7 @@ void free_data(void* data, void* hint){
 
 /* Receives the board image and initial piece locations from the server */
 -(void)setUpMode{
+    printf("setUpMode()\n");
     zmq_msg_t picture;
     zmq_msg_init(&picture);
     zmq_msg_t numRow;
@@ -161,11 +165,13 @@ void free_data(void* data, void* hint){
 
 /* Converts an int into a char * so it can be sent to the server */
 -(const char*)intToString:(int)num{
+    printf("intToString()\n");
     return [[[NSString alloc] initWithFormat:@"%d", num] UTF8String];
 }
 
 /* Asks the server for the piece specified by the number */
 -(void)requestPiece:(int)pieceNum{
+    printf("Requesting\n");
     const char *piece = [[[NSString alloc] initWithFormat:@"%d", pieceNum] UTF8String];
     zmq_send(self.socket, "PickUp", 6, ZMQ_SNDMORE);
     zmq_send(self.socket, piece, pieceNum%10+1, 0);
@@ -176,6 +182,7 @@ void free_data(void* data, void* hint){
 
 /* Drops the piece that is being held at location (x, y) with rotation r. */
 -(void)droppedPiece:(int)xNum WithY:(int)yNum WithRotation:(int)rotationNum{
+    printf("droppedPiece()\n");
     const char *piece = [self intToString:self.heldPiece];
     const char *x = [self intToString:xNum];
     const char *y = [self intToString:yNum];
@@ -191,6 +198,7 @@ void free_data(void* data, void* hint){
 
 /* Receives a message from the server to say a piece has been picked up.*/
 -(void)pickUp{
+    printf("Granted\n");
     zmq_msg_t piece;
     zmq_msg_init(&piece);
     zmq_msg_t ident;
@@ -221,6 +229,7 @@ void free_data(void* data, void* hint){
 
 /* Receives a message from the server to say that a piece has been dropped */
 -(void)drop{
+    printf("drop()\n");
     zmq_msg_t piece;
     zmq_msg_t x;
     zmq_msg_t y;
@@ -259,6 +268,7 @@ void free_data(void* data, void* hint){
  * is holding a piece.
  */
 -(void)keepAlive{
+    printf("keepAlive()\n");
     const char *piece = [[[NSString alloc] initWithFormat:@"%d", self.heldPiece] UTF8String];
     zmq_send(self.socket, "KeepAlive", 9, ZMQ_SNDMORE);
     zmq_send(self.socket, piece, sizeof(piece), 0);
@@ -266,18 +276,11 @@ void free_data(void* data, void* hint){
 
 /* Checks for messages from the server */
 -(void)checkMessages{
+    printf("checkMessages()\n");
     //If a piece is held, tell the server we're still alive.
     if (self.heldPiece != -1)
         [self keepAlive];
-    //Check that the wanted piece hasn't already been taken
-  /*  if (self.wantedPiece != -1){
-        if ([[self.buttons objectAtIndex:self.wantedPiece] hasSuffix:@"has this"]){
-            NSLog(@"Piece was stolen");
-            self.wantedPiece = -1;
-        } else if ([self.lastRequest timeIntervalSinceNow] < -1){
-            [self requestPiece:self.wantedPiece];
-        }
-    } */
+  
     //Initialise and receive the type of message
     zmq_msg_t type;
     zmq_msg_init(&type);

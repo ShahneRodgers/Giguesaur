@@ -22,7 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.vision.session startRunning];
+    //[self.vision.session startRunning];
     // Do any additional setup after loading the view, typically from a nib.
 }
 

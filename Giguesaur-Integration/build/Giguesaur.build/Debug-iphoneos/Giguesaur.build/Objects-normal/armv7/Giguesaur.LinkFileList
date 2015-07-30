@@ -29,6 +29,7 @@
 /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/ctx.o
 /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/router.o
 /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/pgm_sender.o
+/Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/ExtraCode.o
 /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/xpub.o
 /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/xsub.o
 /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/curve_server.o
@@ -54,8 +55,6 @@
 /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/null_mechanism.o
 /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/io_thread.o
 /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/pgm_receiver.o
-/Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/SimpleMath.o
-/Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/Puzzle.o
 /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/v2_encoder.o
 /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/sub.o
 /Users/localjosh/Desktop/Giguesaur/Giguesaur-Integration/build/Giguesaur.build/Debug-iphoneos/Giguesaur.build/Objects-normal/armv7/pipe.o

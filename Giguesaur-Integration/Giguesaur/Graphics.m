@@ -29,10 +29,10 @@ const Vertex DefaultPiece[] = {
 };
 
 const Vertex BackgroundVertices[] = {
-    {{BOARD_WIDTH, 0, 0}, C_TRANS, {1, 1}},
-    {{BOARD_WIDTH, BOARD_HEIGHT, 0}, C_TRANS, {1, 0}},
-    {{0, BOARD_HEIGHT, 0}, C_TRANS, {0, 0}},
-    {{0, 0, 0}, C_TRANS, {0, 1}}
+    {{BOARD_WIDTH, 0, 0}, C_WHITE, {1, 1}},
+    {{BOARD_WIDTH, BOARD_HEIGHT, 0}, C_WHITE, {1, 0}},
+    {{0, BOARD_HEIGHT, 0}, C_WHITE, {0, 0}},
+    {{0, 0, 0}, C_WHITE, {0, 1}}
 };
 
 const GLubyte Indices[] = {
@@ -53,8 +53,8 @@ const GLubyte Indices2[] = {
 
 - (void) setupLayer {
     _eaglLayer = (CAEAGLLayer*) self.layer;
-    _eaglLayer.opaque = NO;
-    _eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
+    _eaglLayer.opaque = YES;
+    //_eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 }
 
 /*- (void) bringSublayerToFront { Attempting to overlay pieces on preview
@@ -183,27 +183,17 @@ const GLubyte Indices2[] = {
 
 }
 
-- (void) initPuzzle: (UIImage *)data withPieces:(Piece*)in_pieces
-             andNumRows: (int) rows
-             andNumCols: (int) cols {
-    pieces = in_pieces;//malloc(sizeof(in_pieces));
-    [self setupTexture:data];
-    puzzle_rows = rows;
-    puzzle_cols = cols;
-    num_of_pieces = rows*cols;
-}
-
-- (GLuint) setupTexture: (UIImage *) imageFile {
+- (GLuint) setupTexture: (NSString *) fileName { // (UIImage *) imageFile {
     
     // TO DO: Change how the image texture is loaded
-    //CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
-    CGImageRef spriteImage = imageFile.CGImage;
-    /*
+    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
+    //CGImageRef spriteImage = imageFile.CGImage;
+    
     if (!spriteImage) {
         NSLog(@"Failed to load image %@", fileName);
         exit(1);
     }
-    */
+    
     int width = (int)CGImageGetWidth(spriteImage);
     int height = (int)CGImageGetHeight(spriteImage);
     
@@ -235,22 +225,28 @@ const GLubyte Indices2[] = {
 // Coord is x and y plus rotation hence 3 array
 - (void) placePiece: (int) pieceID andCoord: (int[3]) coord {
     DEBUG_PRINT_1("placePiece :: Placed piece %i\n", pieceID);
-    pieces[pieceID].x_location = coord[0];
-    pieces[pieceID].y_location = coord[1];
-    pieces[pieceID].rotation = coord[2];
+    _pieces[pieceID].x_location = coord[0];
+    _pieces[pieceID].y_location = coord[1];
+    _pieces[pieceID].rotation = coord[2];
     // call by server
     //[self checkThenSnapPiece:pieceID];
     //[self checkThenCloseEdge:pieceID];
+    [self render];
 }
 
 - (void) pickupPiece: (int) pieceID  {
     DEBUG_PRINT_1("pickupPiece :: Picked up piece %i\n", pieceID);
     //[self openClosedEdges:pieceID];
     holdingPiece = pieceID;
+    [self render];
 }
 
 /***** Screen Touch *****/
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    DEBUG_SAY("touchesBegan\n");
+    for (int i = 0; i < num_of_pieces; i++) {
+        DEBUG_PRINT_1("[x,y] = [%.1f,%.1f]\n", _pieces[i].x_location, _pieces[i].y_location);
+    }
     UITouch *touch = [[event allTouches] anyObject];
     
     // Get the specific point that was touched
@@ -269,35 +265,43 @@ const GLubyte Indices2[] = {
     point.y = result.v[1] + (BOARD_HEIGHT / 2);
 
     DEBUG_PRINT_2("touchesBegan :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
-
+    
     // Ask server to place piece
     if (holdingPiece >= 0) {
+        DEBUG_SAY("ask server to drop piece");
         [self.network droppedPiece:point.x WithY:point.y WithRotation:0];
+        DEBUG_SAY("droped the piece\n");
         holdingPiece = -1;
     }
     else {
+        DEBUG_SAY("else not holding\n");
         for (int i = 0; i < num_of_pieces; i++) {
-            if(point.x >= pieces[i].x_location - SIDE_HALF && point.x < pieces[i].x_location + SIDE_HALF) {
+            DEBUG_PRINT_1("%d: [%.1f,%.1f]\n", _pieces[i].piece_id, _pieces[i].x_location, _pieces[i].y_location);
+            if(point.x >= _pieces[i].x_location - SIDE_HALF && point.x < _pieces[i].x_location + SIDE_HALF) {
+                DEBUG_SAY("x here\n");
                 // Ask server to pickup a piece
-                if (point.y >= pieces[i].y_location - SIDE_HALF && point.y < pieces[i].y_location + SIDE_HALF) {
+                if (point.y >= _pieces[i].y_location - SIDE_HALF && point.y < _pieces[i].y_location + SIDE_HALF) {
+                    DEBUG_SAY("ask server to pickup piece");
                     [self.network requestPiece:i];
+                    DEBUG_SAY("did pickup that piece\n");
                     i = num_of_pieces;
                 }
             }
         }
+        DEBUG_SAY("out of for loop\n");
     }
     
-    [self render];
 }
 
 /***** DRAW CODE *****/
 - (void) render {//:(CADisplayLink*)displayLink {
+    printf("render()\n");
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
     // Clear the screen
-    //glClearColor(230.0/255.0, 1.0, 1.0, 0.0);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(230.0/255.0, 1.0, 1.0, 0.0);
+    //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     
@@ -333,11 +337,13 @@ const GLubyte Indices2[] = {
 
     // Draw each Puzzle Piece
     for (int i = 0; i < num_of_pieces; i++) {
+        DEBUG_PRINT_1("id: %d and i: %d\n", _pieces[i].piece_id, i);
         // set row and col to get the sub-section of the texture
         int row = 0;
         int col = 0;
         int index = 0;
-        while (index != pieces[i].piece_id) {
+        while (index != i) {//_pieces[i].piece_id) {
+            DEBUG_PRINT_1("index: %d\n", index);
             col++;
             index++;
             if (col >= puzzle_cols) {
@@ -350,22 +356,22 @@ const GLubyte Indices2[] = {
         // Piece on the board
         if (i != holdingPiece) {
             NewPiece[0] = (Vertex) {
-                {pieces[i].x_location + SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
+                {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
                 C_WHITE,
                 {texture_width * (col+1), texture_height * (row + 1)}
             };
             NewPiece[1] = (Vertex) {
-                {pieces[i].x_location + SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
+                {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
                 C_WHITE,
                 {texture_width * (col+1), texture_height * row}
             };
             NewPiece[2] = (Vertex) {
-                {pieces[i].x_location - SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
+                {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
                 C_WHITE,
                 {texture_width * col, texture_height * row}
             };
             NewPiece[3] = (Vertex) {
-                {pieces[i].x_location - SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
+                {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
                 C_WHITE,
                 {texture_width * col, texture_height * (row+1)}
             };
@@ -429,6 +435,11 @@ const GLubyte Indices2[] = {
 
     // Flush everything to the screen
     [_context presentRenderbuffer:GL_RENDERBUFFER];
+    
+    
+    for (int i = 0; i < num_of_pieces; i++) {
+        DEBUG_PRINT_1("[x,y] = [%.1f,%.1f]\n", _pieces[i].x_location, _pieces[i].y_location);
+    }
 }
 
 /*
@@ -439,9 +450,25 @@ const GLubyte Indices2[] = {
 }
 */
 
+- (void) initPuzzle: (UIImage *)data withPieces:(Piece*)in_pieces
+         andNumRows: (int) rows
+         andNumCols: (int) cols {
+    
+    printf("initPuzzle()\n");
+    _pieces = in_pieces;
+    //memcpy(&_pieces, in_pieces, sizeof(Piece)*rows*cols);
+    puzzleImage = data;
+    puzzle_rows = rows;
+    puzzle_cols = cols;
+    num_of_pieces = rows*cols;
+    
+    [self render];
+}
+
 /* "Main" for the frame */
 - (id)initWithFrame:(CGRect)frame andNetwork:(Network*) theNetwork {
     self = [super initWithFrame:frame];
+    printf("initWithFrame()\n");
     if (self) {
         // Call all the OpenGL setup code
         [self setupLayer];
@@ -454,9 +481,10 @@ const GLubyte Indices2[] = {
         self.network = theNetwork;
         self.network.graphics = self;
         //[self setupDisplayLink];
-        //_puzzleTexture = [self setupTexture:@"puppy.png"];
-        //_backgroundTexture = [self setupTexture:@"background.jpg"];
-        simpleMath = [[SimpleMath alloc] init];
+        _puzzleTexture = [self setupTexture:@"puppy.png"];
+        _backgroundTexture = [self setupTexture:@"background.jpg"];
+        
+        //[self setupTexture:puzzleImage];
         [self render];
     }
     return self;

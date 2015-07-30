@@ -9,13 +9,13 @@
 #define Giguesaur_Piece_h
 
 // Should be an even number or there is a line visbible between pieces when they snap together
-#define SIDE_LENGTH 50
+#define SIDE_LENGTH 80
 #define SIDE_HALF (SIDE_LENGTH/2)
 
 typedef enum {invalid, isClosed, isOpen} ACCESSIBLE_EDGE;
 
 typedef struct {
-    int piece_id;
+    const int piece_id;
     float x_location;
     float y_location;
     float rotation;

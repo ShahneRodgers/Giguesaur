@@ -10,9 +10,12 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #import <GLKit/GLKit.h>
-#import "SimpleMath.h"
 #import "Network.h"
-#include "Debug.h"
+#import "Debug.h"
+#import "Piece.h"
+
+#define PI 3.141592653
+#define degToRad(DEG) (float)(DEG * PI / 180.0)
 
 #define C_BLACK {0, 0, 0, 1}
 #define C_GRAY {0.5, 0.5, 0.5, 1}
@@ -27,16 +30,16 @@
 
 @interface Graphics: UIView {
     
-    Piece *pieces;
+    Piece* _pieces;
     int puzzle_rows;
     int puzzle_cols;
     int num_of_pieces;
     int texture_height;
     int texture_width;
+    UIImage *puzzleImage;
     
     CAEAGLLayer* _eaglLayer;
     EAGLContext* _context;
-    SimpleMath* simpleMath;
     
     GLuint _colorRenderBuffer;
     GLuint _positionSlot;

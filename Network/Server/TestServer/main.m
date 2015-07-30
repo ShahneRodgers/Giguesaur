@@ -16,7 +16,7 @@
 #define PIECES_ROW NUM_OF_ROWS
 #define PIECES_COLUMN NUM_OF_COLS
 
-double TIMEOUT = 200;
+double TIMEOUT = 2;
 
 CFNetServiceRef broadcaster;
 PublishingDelegate *delegate;
@@ -421,12 +421,12 @@ int main(int argc, const char * argv[]) {
     NSLog(@"Remember to check the address");
     publishService();
     simpleMath = [[SimpleMath alloc] init];
-    NSString *path = [[NSMutableString alloc] initWithFormat:@"%@/IMAGE.jpg", [[NSBundle mainBundle] resourcePath]];
+    NSString *path = [[NSMutableString alloc] initWithFormat:@"%@/puppy.png", [[NSBundle mainBundle] resourcePath]];
     readImage(path);
     players = [NSMutableArray array];
     heldPieces = [NSMutableArray array];
     generatePieces(pieces);
-    
+
     for (int i = 0; i < PIECES_COLUMN*PIECES_ROW; i++){
         [heldPieces addObject:[NSNull null]];
         
