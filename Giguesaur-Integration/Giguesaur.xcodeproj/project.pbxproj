@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7432FC931B65BA9E006607E7 /* camera_params.xml in Resources */ = {isa = PBXBuildFile; fileRef = 7432FC921B65BA9E006607E7 /* camera_params.xml */; };
+		740A8A7A1B6AEF1B00F9F390 /* camera_params.xml in Resources */ = {isa = PBXBuildFile; fileRef = 740A8A791B6AEF1B00F9F390 /* camera_params.xml */; };
 		74A208FF1B604B9600578FBE /* Graphics.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A208FA1B604B9600578FBE /* Graphics.m */; };
 		74A209001B604B9600578FBE /* SimpleFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 74A208FB1B604B9600578FBE /* SimpleFragment.glsl */; };
 		74A209021B604B9600578FBE /* SimpleVertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 74A208FE1B604B9600578FBE /* SimpleVertex.glsl */; };
@@ -120,7 +120,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7432FC921B65BA9E006607E7 /* camera_params.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = camera_params.xml; path = ../../../../camera_params.xml; sourceTree = "<group>"; };
+		740A8A791B6AEF1B00F9F390 /* camera_params.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = camera_params.xml; path = resources/camera_params.xml; sourceTree = "<group>"; };
 		74A208F81B604B9600578FBE /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
 		74A208F91B604B9600578FBE /* Graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
 		74A208FA1B604B9600578FBE /* Graphics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Graphics.m; sourceTree = "<group>"; };
@@ -418,7 +418,7 @@
 				74D60FC01B5CA9AE00F5008F /* ViewController.m */,
 				74A209131B607D0B00578FBE /* Vision.h */,
 				74A209111B607CEA00578FBE /* Vision.mm */,
-				7432FC921B65BA9E006607E7 /* camera_params.xml */,
+				740A8A791B6AEF1B00F9F390 /* camera_params.xml */,
 				74D9A93F1B5DE2730088C8A4 /* Network.h */,
 				74D9A9401B5DE2730088C8A4 /* Network.m */,
 				74D9A93C1B5DD88D0088C8A4 /* GameController.h */,
@@ -742,7 +742,7 @@
 				74A2090E1B604C7E00578FBE /* puppy.png in Resources */,
 				74A2090D1B604C7E00578FBE /* kitty.png in Resources */,
 				74A209021B604B9600578FBE /* SimpleVertex.glsl in Resources */,
-				7432FC931B65BA9E006607E7 /* camera_params.xml in Resources */,
+				740A8A7A1B6AEF1B00F9F390 /* camera_params.xml in Resources */,
 				74A2090C1B604C7E00578FBE /* background.jpg in Resources */,
 				74D60EA31B5CA81C00F5008F /* LaunchScreen.xib in Resources */,
 				74D60EA01B5CA81C00F5008F /* Images.xcassets in Resources */,
