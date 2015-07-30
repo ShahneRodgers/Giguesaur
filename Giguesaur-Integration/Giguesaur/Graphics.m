@@ -182,17 +182,22 @@ const GLubyte Indices2[] = {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices2), Indices2, GL_STATIC_DRAW);
 
 }
+- (void) visionBackgroundRender:(UIImage *)imageFile{
+    //_backgroundTexture = [self setupTexture:[UIImage imageNamed:@"background.jpg"]];
+    _backgroundTexture = [self setupTexture:imageFile];
+    [self render];
+}
 
-- (GLuint) setupTexture: (NSString *) fileName { // (UIImage *) imageFile {
+- (GLuint) setupTexture: (UIImage *) imageFile {
     
     // TO DO: Change how the image texture is loaded
-    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
-    //CGImageRef spriteImage = imageFile.CGImage;
+    //CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
+    CGImageRef spriteImage = imageFile.CGImage;
     
-    if (!spriteImage) {
+   /* if (!spriteImage) {
         NSLog(@"Failed to load image %@", fileName);
         exit(1);
-    }
+    }*/
     
     int width = (int)CGImageGetWidth(spriteImage);
     int height = (int)CGImageGetHeight(spriteImage);
@@ -218,6 +223,7 @@ const GLubyte Indices2[] = {
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
     
+    //CGImageRelease(spriteImage);
     free(spriteData);
     return texName;
 }
@@ -337,13 +343,11 @@ const GLubyte Indices2[] = {
 
     // Draw each Puzzle Piece
     for (int i = 0; i < num_of_pieces; i++) {
-        DEBUG_PRINT_1("id: %d and i: %d\n", _pieces[i].piece_id, i);
         // set row and col to get the sub-section of the texture
         int row = 0;
         int col = 0;
         int index = 0;
         while (index != i) {//_pieces[i].piece_id) {
-            DEBUG_PRINT_1("index: %d\n", index);
             col++;
             index++;
             if (col >= puzzle_cols) {
@@ -436,10 +440,10 @@ const GLubyte Indices2[] = {
     // Flush everything to the screen
     [_context presentRenderbuffer:GL_RENDERBUFFER];
     
-    
-    for (int i = 0; i < num_of_pieces; i++) {
+    DEBUG_SAY("end render()\n");
+    /*for (int i = 0; i < num_of_pieces; i++) {
         DEBUG_PRINT_1("[x,y] = [%.1f,%.1f]\n", _pieces[i].x_location, _pieces[i].y_location);
-    }
+    }*/
 }
 
 /*
@@ -481,8 +485,8 @@ const GLubyte Indices2[] = {
         self.network = theNetwork;
         self.network.graphics = self;
         //[self setupDisplayLink];
-        _puzzleTexture = [self setupTexture:@"puppy.png"];
-        _backgroundTexture = [self setupTexture:@"background.jpg"];
+        _puzzleTexture = [self setupTexture:[UIImage imageNamed:@"puppy.png"]];
+       // _backgroundTexture = [self setupTexture:[UIImage imageNamed:@"background.jpg"]];
         
         //[self setupTexture:puzzleImage];
         [self render];

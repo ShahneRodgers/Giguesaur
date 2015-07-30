@@ -63,9 +63,12 @@
     
 }
 
+//- (GLuint) setupTexture: (UIImage *) imageFile;
+//- (GLuint) setupTexture: (NSString *) fileName { // (UIImage *) imageFile {
 - (id)initWithFrame:(CGRect)frame andNetwork:(Network*) theNetwork;
 - (void) placePiece: (int) pieceID andCoord: (int[3]) coord;
 - (void) pickupPiece: (int) pieceID;
+- (void) visionBackgroundRender:(UIImage *)imageFile;
 //- (void) bringSublayerToFront;
 //- (void) checkThenSnapPiece: (int) pieceID;
 //- (void) checkThenCloseEdge: (int) pieceID;

@@ -101,21 +101,31 @@ cv::Mat cameraMatrix, distCoeffs;
     if(vectors){
     //Do something here with rvec and tvec, likely call rendering while passing it mat
     }
+    rvec.release();
+    tvec.release();
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput
 didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 fromConnection:(AVCaptureConnection *)connection {
     
+    @autoreleasepool {
+    
     NSLog(@"delegate works!");
     cv::Mat frame;
     [self fromSampleBuffer:sampleBuffer toCVMat: frame];
     
-    [self calculatePose:frame];
+    //[self calculatePose:frame];
     //cv::cvtColor(frame, frame, CV_BGRA2GRAY);
     
-    //UIImage *image = [self UIImageFromCVMat:frame];
+    UIImage *image = [self UIImageFromCVMat:frame];
+    [[self graphics] performSelectorOnMainThread:@selector(visionBackgroundRender:)
+                           withObject:image
+                        waitUntilDone:NO];
     
+    
+    frame.release();
+    }
     //    imageView.image = image;
    /* [[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];*/
 }
