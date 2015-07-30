@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "Giguesaur/Piece.h"
+#import "Piece.h"
 
 #define PI 3.141592653
 #define degToRad(DEG) (float)(DEG * PI / 180.0)

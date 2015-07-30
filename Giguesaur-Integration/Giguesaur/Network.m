@@ -146,7 +146,7 @@ void free_data(void* data, void* hint){
     
     memcpy(pieces, zmq_msg_data(&pieceLocations), zmq_msg_size(&pieceLocations));
     
-    [self.graphics initImage:[UIImage imageWithData:data] withPieces:pieces];
+    [self.graphics initPuzzle:[UIImage imageWithData:data] withPieces:pieces andNumRows:row andNumCols:col];
     
     
     //[self displayPieces:pieces withSize:atoi(zmq_msg_data(&numPieces))];

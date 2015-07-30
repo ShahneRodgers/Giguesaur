@@ -30,8 +30,8 @@ const Vertex DefaultPiece[] = {
 
 const Vertex BackgroundVertices[] = {
     {{BOARD_WIDTH, 0, 0}, C_TRANS, {1, 1}},
-    {{BOARD_WIDTH, BOARD_HIEGHT, 0}, C_TRANS, {1, 0}},
-    {{0, BOARD_HIEGHT, 0}, C_TRANS, {0, 0}},
+    {{BOARD_WIDTH, BOARD_HEIGHT, 0}, C_TRANS, {1, 0}},
+    {{0, BOARD_HEIGHT, 0}, C_TRANS, {0, 0}},
     {{0, 0, 0}, C_TRANS, {0, 1}}
 };
 
@@ -183,16 +183,21 @@ const GLubyte Indices2[] = {
 
 }
 
-- (void) initImage: (UIImage *)data withPieces:(Piece*)in_pieces{
-    pieces = malloc(sizeof(in_pieces));
+- (void) initPuzzle: (UIImage *)data withPieces:(Piece*)in_pieces
+             andNumRows: (int) rows
+             andNumCols: (int) cols {
+    pieces = in_pieces;//malloc(sizeof(in_pieces));
     [self setupTexture:data];
+    puzzle_rows = rows;
+    puzzle_cols = cols;
+    num_of_pieces = rows*cols;
 }
 
 - (GLuint) setupTexture: (UIImage *) imageFile {
     
     // TO DO: Change how the image texture is loaded
     //CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
-    CGImageRef spriteImage = puzzleImage.CGImage;
+    CGImageRef spriteImage = imageFile.CGImage;
     /*
     if (!spriteImage) {
         NSLog(@"Failed to load image %@", fileName);
@@ -253,7 +258,7 @@ const GLubyte Indices2[] = {
 
     // Convert Screen to World Coordinates (Orthagraphic Projection)
     float new_x = 2.0 * point.x / BOARD_WIDTH - 1;
-    float new_y = -2.0 * point.y / BOARD_HIEGHT + 1;
+    float new_y = -2.0 * point.y / BOARD_HEIGHT + 1;
     bool success;
 
     GLKMatrix4 viewProjectionInverse = GLKMatrix4Invert(GLKMatrix4Multiply(_projectionMatrix, _modelViewMatrix), &success);
@@ -261,7 +266,7 @@ const GLubyte Indices2[] = {
     GLKVector3 result = GLKMatrix4MultiplyVector3(viewProjectionInverse, newPoints);
 
     point.x = result.v[0] + (BOARD_WIDTH / 2);
-    point.y = result.v[1] + (BOARD_HIEGHT / 2);
+    point.y = result.v[1] + (BOARD_HEIGHT / 2);
 
     DEBUG_PRINT_2("touchesBegan :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
 
@@ -271,18 +276,16 @@ const GLubyte Indices2[] = {
         holdingPiece = -1;
     }
     else {
-        for (int i = 0; i < NUM_OF_PIECES; i++) {
+        for (int i = 0; i < num_of_pieces; i++) {
             if(point.x >= pieces[i].x_location - SIDE_HALF && point.x < pieces[i].x_location + SIDE_HALF) {
                 // Ask server to pickup a piece
                 if (point.y >= pieces[i].y_location - SIDE_HALF && point.y < pieces[i].y_location + SIDE_HALF) {
                     [self.network requestPiece:i];
-                    i = NUM_OF_PIECES;
+                    i = num_of_pieces;
                 }
             }
         }
     }
-    DEBUG_PRINT_1("checkIfSolved :: %s\n",
-                (checkIfSolved(pieces) ? "Solved" : "Not Solved"));
     
     [self render];
 }
@@ -299,8 +302,8 @@ const GLubyte Indices2[] = {
     glEnable(GL_DEPTH_TEST);
     
     // Sort out projection Matrix
-    GLKMatrix4 projection = GLKMatrix4MakeOrtho(0, BOARD_WIDTH, 0, BOARD_HIEGHT, 0.1, 1000);
-    //float h = 4.0 * BOARD_WIDTH / BOARD_HIEGHT;
+    GLKMatrix4 projection = GLKMatrix4MakeOrtho(0, BOARD_WIDTH, 0, BOARD_HEIGHT, 0.1, 1000);
+    //float h = 4.0 * BOARD_WIDTH / BOARD_HEIGHT;
     //GLKMatrix4 projection = GLKMatrix4MakeFrustum(-2, 2, -h/2, h/2, 0.1, 1000);
 
     _projectionMatrix = projection;
@@ -308,14 +311,14 @@ const GLubyte Indices2[] = {
     
     // Sort out Model-View Matrix
     GLKMatrix4 translation = GLKMatrix4MakeTranslation(0,0,-1);
-    //GLKMatrix4 translation = GLKMatrix4MakeTranslation(-BOARD_WIDTH/2,-BOARD_HIEGHT/2,-25);
+    //GLKMatrix4 translation = GLKMatrix4MakeTranslation(-BOARD_WIDTH/2,-BOARD_HEIGHT/2,-25);
     GLKMatrix4 rotation = GLKMatrix4MakeRotation(degToRad(0), 0, 0, 1);
     GLKMatrix4 modelView = GLKMatrix4Multiply(translation, rotation);
     
     _modelViewMatrix = modelView;
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.m);
     
-    glViewport(0, 0, BOARD_WIDTH, BOARD_HIEGHT);
+    glViewport(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
     // Draw Default Piece
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
@@ -329,7 +332,7 @@ const GLubyte Indices2[] = {
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
 
     // Draw each Puzzle Piece
-    for (int i = 0; i < NUM_OF_PIECES; i++) {
+    for (int i = 0; i < num_of_pieces; i++) {
         // set row and col to get the sub-section of the texture
         int row = 0;
         int col = 0;
@@ -337,7 +340,7 @@ const GLubyte Indices2[] = {
         while (index != pieces[i].piece_id) {
             col++;
             index++;
-            if (col >= NUM_OF_COLS) {
+            if (col >= puzzle_cols) {
                 col = 0;
                 row++;
             }
@@ -349,22 +352,22 @@ const GLubyte Indices2[] = {
             NewPiece[0] = (Vertex) {
                 {pieces[i].x_location + SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
                 C_WHITE,
-                {TEXTURE_WIDTH * (col+1), TEXTURE_HEIGHT * (row + 1)}
+                {texture_width * (col+1), texture_height * (row + 1)}
             };
             NewPiece[1] = (Vertex) {
                 {pieces[i].x_location + SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
                 C_WHITE,
-                {TEXTURE_WIDTH * (col+1), TEXTURE_HEIGHT * row}
+                {texture_width * (col+1), texture_height * row}
             };
             NewPiece[2] = (Vertex) {
                 {pieces[i].x_location - SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
                 C_WHITE,
-                {TEXTURE_WIDTH * col, TEXTURE_HEIGHT * row}
+                {texture_width * col, texture_height * row}
             };
             NewPiece[3] = (Vertex) {
                 {pieces[i].x_location - SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
                 C_WHITE,
-                {TEXTURE_WIDTH * col, TEXTURE_HEIGHT * (row+1)}
+                {texture_width * col, texture_height * (row+1)}
             };
         }
         // Piece being held
@@ -372,22 +375,22 @@ const GLubyte Indices2[] = {
             NewPiece[0] = (Vertex) {
                 {SIDE_LENGTH*2+10, 10, HOLDING_Z},
                 C_GOLD,
-                {TEXTURE_WIDTH * (col+1), TEXTURE_HEIGHT * (row + 1)}
+                {texture_width * (col+1), texture_height * (row + 1)}
             };
             NewPiece[1] = (Vertex) {
                 {SIDE_LENGTH*2+10, SIDE_LENGTH*2+10, HOLDING_Z},
                 C_GOLD,
-                {TEXTURE_WIDTH * (col+1), TEXTURE_HEIGHT * row}
+                {texture_width * (col+1), texture_height * row}
             };
             NewPiece[2] = (Vertex) {
                 {10, SIDE_LENGTH*2+10, HOLDING_Z},
                 C_GOLD,
-                {TEXTURE_WIDTH * col, TEXTURE_HEIGHT * row}
+                {texture_width * col, texture_height * row}
             };
             NewPiece[3] = (Vertex) {
                 {10, 10, HOLDING_Z},
                 C_GOLD,
-                {TEXTURE_WIDTH * col, TEXTURE_HEIGHT * (row+1)}
+                {texture_width * col, texture_height * (row+1)}
             };
         }
 
@@ -407,7 +410,7 @@ const GLubyte Indices2[] = {
     }
 
     // Set Orthographic Projection for Background Image
-    projection = GLKMatrix4MakeOrtho(0, BOARD_WIDTH, 0, BOARD_HIEGHT, 0.1, 1000);
+    projection = GLKMatrix4MakeOrtho(0, BOARD_WIDTH, 0, BOARD_HEIGHT, 0.1, 1000);
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.m);
 
     // Send Background Image to the back
@@ -454,7 +457,6 @@ const GLubyte Indices2[] = {
         //_puzzleTexture = [self setupTexture:@"puppy.png"];
         //_backgroundTexture = [self setupTexture:@"background.jpg"];
         simpleMath = [[SimpleMath alloc] init];
-        //generatePieces(pieces);
         [self render];
     }
     return self;
