@@ -140,8 +140,8 @@ void receiveMessage(){
         //If the piece is not being held
         if ([heldPieces[pieceNum] isEqual:[NSNull null]]){
 
-            // Open Piece Edges when it is pickes up
-            [pieceNeighbours openClosedEdges:pieceNum andPieces:pieces];
+            // Open Piece Edges when it is picked up
+            resetEdgesOfPiece(pieceNum, pieces);
             
             //NSLog(@"%s picked up %i", zmq_msg_data(&identity), pieceNum);
             //Inform everyone that a piece has been picked up.

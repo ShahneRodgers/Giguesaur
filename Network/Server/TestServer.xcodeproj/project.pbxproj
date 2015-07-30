@@ -76,7 +76,7 @@
 		21B380591ABBA41C00205860 /* xsub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21B380101ABBA41C00205860 /* xsub.cpp */; };
 		21B3805A1ABBA41C00205860 /* zmq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21B380161ABBA41C00205860 /* zmq.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		21B3805B1ABBA41C00205860 /* zmq_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21B380171ABBA41C00205860 /* zmq_utils.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CE8831771B6ADB7200614EAD /* Puzzle.c in Sources */ = {isa = PBXBuildFile; fileRef = CE8831751B6ADB7200614EAD /* Puzzle.c */; };
+		CE8831771B6ADB7200614EAD /* Puzzle.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8831751B6ADB7200614EAD /* Puzzle.m */; };
 		CE88317C1B6ADCC700614EAD /* SimpleMath.m in Sources */ = {isa = PBXBuildFile; fileRef = CE88317B1B6ADCC700614EAD /* SimpleMath.m */; };
 		CE88317E1B6ADF3E00614EAD /* PieceNeighbours.m in Sources */ = {isa = PBXBuildFile; fileRef = CE88317D1B6ADF3E00614EAD /* PieceNeighbours.m */; };
 /* End PBXBuildFile section */
@@ -259,7 +259,7 @@
 		21B380161ABBA41C00205860 /* zmq.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = zmq.cpp; sourceTree = "<group>"; };
 		21B380171ABBA41C00205860 /* zmq_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = zmq_utils.cpp; sourceTree = "<group>"; };
 		CE8831741B6ADB7200614EAD /* Piece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Piece.h; path = Giguesaur/Piece.h; sourceTree = "<group>"; };
-		CE8831751B6ADB7200614EAD /* Puzzle.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Puzzle.c; path = Giguesaur/Puzzle.c; sourceTree = "<group>"; };
+		CE8831751B6ADB7200614EAD /* Puzzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Puzzle.m; path = Giguesaur/Puzzle.m; sourceTree = "<group>"; };
 		CE8831761B6ADB7200614EAD /* Puzzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Puzzle.h; path = Giguesaur/Puzzle.h; sourceTree = "<group>"; };
 		CE88317A1B6ADCC700614EAD /* SimpleMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleMath.h; path = SimpleMath/SimpleMath.h; sourceTree = "<group>"; };
 		CE88317B1B6ADCC700614EAD /* SimpleMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleMath.m; path = SimpleMath/SimpleMath.m; sourceTree = "<group>"; };
@@ -488,7 +488,7 @@
 			isa = PBXGroup;
 			children = (
 				CE8831741B6ADB7200614EAD /* Piece.h */,
-				CE8831751B6ADB7200614EAD /* Puzzle.c */,
+				CE8831751B6ADB7200614EAD /* Puzzle.m */,
 				CE8831761B6ADB7200614EAD /* Puzzle.h */,
 				CE88317D1B6ADF3E00614EAD /* PieceNeighbours.m */,
 				CE88317F1B6ADFAE00614EAD /* PieceNeighbours.h */,
@@ -601,7 +601,7 @@
 				21B3801E1ABBA41C00205860 /* devpoll.cpp in Sources */,
 				21B3804C1ABBA41C00205860 /* stream_engine.cpp in Sources */,
 				21B380301ABBA41C00205860 /* object.cpp in Sources */,
-				CE8831771B6ADB7200614EAD /* Puzzle.c in Sources */,
+				CE8831771B6ADB7200614EAD /* Puzzle.m in Sources */,
 				21B3802D1ABBA41C00205860 /* msg.cpp in Sources */,
 				21B3802F1ABBA41C00205860 /* null_mechanism.cpp in Sources */,
 				21B380431ABBA41C00205860 /* reaper.cpp in Sources */,

@@ -88,20 +88,51 @@ int checkIfSolved(Piece *pieces) {
     return 1;
 }
 
+// Resets the edges of pieces and their neighbours
+void resetEdgesOfPiece(int pieceID, Piece *pieces) {
+    
+    int upID = pieces[pieceID].neighbourPiece.up_piece;
+    int downID = pieces[pieceID].neighbourPiece.down_piece;
+    int leftID = pieces[pieceID].neighbourPiece.left_piece;
+    int rightID = pieces[pieceID].neighbourPiece.right_piece;
+
+    if (upID >= 0) {
+        pieces[pieceID].openEdge.up_open = isOpen;
+        pieces[upID].openEdge.down_open = isOpen;
+    }
+    if (downID >= 0) {
+        pieces[pieceID].openEdge.down_open = isOpen;
+        pieces[downID].openEdge.up_open = isOpen;
+    }
+    if (leftID >= 0) {
+        pieces[pieceID].openEdge.left_open = isOpen;
+        pieces[leftID].openEdge.right_open = isOpen;
+    }
+    if (rightID >= 0) {
+        pieces[pieceID].openEdge.right_open = isOpen;
+        pieces[rightID].openEdge.left_open = isOpen;
+    }
+}
+
+// Moves pieces back onto the board if they are out of bounds
 void moveIfOutOfBounds(Piece *pieces) {
 
     for (int i = 0; i < NUM_OF_PIECES; i++) {
         if (pieces[i].x_location + SIDE_HALF > BOARD_WIDTH) {
             pieces[i].x_location = BOARD_WIDTH - SIDE_HALF;
+            resetEdgesOfPiece(i, pieces);
         }
         else if (pieces[i].x_location - SIDE_HALF < 0) {
             pieces[i].x_location = SIDE_HALF;
+            resetEdgesOfPiece(i, pieces);
         }
         if (pieces[i].y_location + SIDE_HALF > BOARD_HEIGHT) {
             pieces[i].y_location = BOARD_HEIGHT - SIDE_HALF;
+            resetEdgesOfPiece(i, pieces);
         }
         else if (pieces[i].y_location - SIDE_HALF < 0) {
             pieces[i].y_location = SIDE_HALF;
+            resetEdgesOfPiece(i, pieces);
         }
     }
 }

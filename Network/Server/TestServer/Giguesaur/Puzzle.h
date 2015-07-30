@@ -26,6 +26,9 @@ void generatePieces(Piece *pieces);
 // Return 1 if the puzzle has been solved, 0 if not
 int checkIfSolved(Piece *pieces);
 
+// Resets the edges of pieces and their neighbours
+void resetEdgesOfPiece(int pieceID, Piece *pieces);
+
 // Moves any piece that is outside of the board
 void moveIfOutOfBounds(Piece *pieces);
 
