@@ -107,6 +107,7 @@
 		74D9A93A1B5DD5220088C8A4 /* BrowsingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D9A9391B5DD5220088C8A4 /* BrowsingDelegate.m */; };
 		74D9A93E1B5DD88D0088C8A4 /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D9A93D1B5DD88D0088C8A4 /* GameController.m */; };
 		74D9A9411B5DE2730088C8A4 /* Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D9A9401B5DE2730088C8A4 /* Network.m */; };
+		CE8831701B69AA7900614EAD /* ExtraCode.m in Sources */ = {isa = PBXBuildFile; fileRef = CE88316F1B69AA7900614EAD /* ExtraCode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -331,6 +332,7 @@
 		74D9A93D1B5DD88D0088C8A4 /* GameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameController.m; sourceTree = "<group>"; };
 		74D9A93F1B5DE2730088C8A4 /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
 		74D9A9401B5DE2730088C8A4 /* Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Network.m; sourceTree = "<group>"; };
+		CE88316F1B69AA7900614EAD /* ExtraCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtraCode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -393,6 +395,7 @@
 				74A209091B604C7E00578FBE /* background.jpg */,
 				74A2090A1B604C7E00578FBE /* kitty.png */,
 				74A2090B1B604C7E00578FBE /* puppy.png */,
+				CE88316F1B69AA7900614EAD /* ExtraCode.m */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -813,6 +816,7 @@
 				74D60F7B1B5CA93A00F5008F /* ctx.cpp in Sources */,
 				74D60FA71B5CA93A00F5008F /* router.cpp in Sources */,
 				74D60F961B5CA93A00F5008F /* pgm_sender.cpp in Sources */,
+				CE8831701B69AA7900614EAD /* ExtraCode.m in Sources */,
 				74D60FB91B5CA93A00F5008F /* xpub.cpp in Sources */,
 				74D60FBA1B5CA93A00F5008F /* xsub.cpp in Sources */,
 				74D60F7D1B5CA93A00F5008F /* curve_server.cpp in Sources */,

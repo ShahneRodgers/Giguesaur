@@ -43,7 +43,8 @@
     GLuint _backgroundTexture;
     GLuint _texCoordSlot;
     GLuint _textureUniform;
-    UIImage *puzzleImage;
+    //UIImage *puzzleImage;
+    Piece *pieces;
 
     GLuint _vertexBuffer;
     GLuint _indexBuffer;
@@ -56,9 +57,9 @@
 - (void) placePiece: (int) pieceID andCoord: (int[3]) coord;
 - (void) pickupPiece: (int) pieceID;
 //- (void) bringSublayerToFront;
-- (void) checkThenSnapPiece: (int) pieceID;
-- (void) checkThenCloseEdge: (int) pieceID;
-- (void) openClosedEdges: (int) pieceID;
+//- (void) checkThenSnapPiece: (int) pieceID;
+//- (void) checkThenCloseEdge: (int) pieceID;
+//- (void) openClosedEdges: (int) pieceID;
 - (void) initImage: (UIImage *)data withPieces:(Piece[])pieces;
 
 @property Network* network;

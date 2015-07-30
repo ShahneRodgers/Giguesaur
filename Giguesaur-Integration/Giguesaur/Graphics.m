@@ -12,9 +12,8 @@
 #define HOLDING_Z 0.01
 
 /***** Global Varibles for the Puzzle *****/
-Piece pieces[NUM_OF_PIECES];
+//Piece pieces[NUM_OF_PIECES];
 int holdingPiece = -1;
-int reset = 0;
 
 typedef struct {
     float Position[3];
@@ -184,23 +183,22 @@ const GLubyte Indices2[] = {
 
 }
 
-- (void) initImage: (UIImage *)data withPieces:(Piece[])pieces{
-    puzzleImage = data;
-    
-    
+- (void) initImage: (UIImage *)data withPieces:(Piece*)in_pieces{
+    pieces = malloc(sizeof(in_pieces));
+    [self setupTexture:data];
 }
 
-- (GLuint) setupTexture: (NSString *) fileName {
+- (GLuint) setupTexture: (UIImage *) imageFile {
     
     // TO DO: Change how the image texture is loaded
-    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
-    //CGImageRef spriteImage = puzzleImage.CGImage;
-    
+    //CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
+    CGImageRef spriteImage = puzzleImage.CGImage;
+    /*
     if (!spriteImage) {
         NSLog(@"Failed to load image %@", fileName);
         exit(1);
     }
-    
+    */
     int width = (int)CGImageGetWidth(spriteImage);
     int height = (int)CGImageGetHeight(spriteImage);
     
@@ -229,194 +227,21 @@ const GLubyte Indices2[] = {
     return texName;
 }
 
-// Move a piece if it is in range to snap to another piece
-- (void) checkThenSnapPiece: (int) pieceID {
-    
-    CGPoint newPoints;
-    int upID = pieces[pieceID].neighbourPiece.up_piece;
-    int downID = pieces[pieceID].neighbourPiece.down_piece;
-    int leftID = pieces[pieceID].neighbourPiece.left_piece;
-    int rightID = pieces[pieceID].neighbourPiece.right_piece;
-    
-    if (upID >= 0 &&
-        [simpleMath shouldPieceSnap:pieces[pieceID]
-                     withOtherPiece:pieces[upID]
-                          whichSide:P_UP
-                 distanceBeforeSnap:DISTANCE_BEFORE_SNAP]) {
-            
-            newPoints = [simpleMath newCoordinates:pieces[upID] whichSide:P_UP];
-            pieces[pieceID].x_location = newPoints.x;
-            pieces[pieceID].y_location = newPoints.y;
-            pieces[pieceID].rotation = pieces[upID].rotation;
-            
-            DEBUG_PRINT_2("checkThenSnapPiece :: Moved piece %i to (%.2f, %.2f)\n",
-                        pieceID, newPoints.x, newPoints.y);
-        }
-    
-    if (downID >= 0 &&
-        [simpleMath shouldPieceSnap:pieces[pieceID]
-                     withOtherPiece:pieces[downID]
-                          whichSide:P_DOWN
-                 distanceBeforeSnap:DISTANCE_BEFORE_SNAP]) {
-            
-            newPoints = [simpleMath newCoordinates:pieces[downID] whichSide:P_DOWN];
-            pieces[pieceID].x_location = newPoints.x;
-            pieces[pieceID].y_location = newPoints.y;
-            pieces[pieceID].rotation = pieces[downID].rotation;
-            
-            DEBUG_PRINT_2("checkThenSnapPiece :: Moved piece %i to (%.2f, %.2f)\n",
-                        pieceID, newPoints.x, newPoints.y);
-        }
-    
-    if (leftID >= 0 &&
-        [simpleMath shouldPieceSnap:pieces[pieceID]
-                     withOtherPiece:pieces[leftID]
-                          whichSide:P_LEFT
-                 distanceBeforeSnap:DISTANCE_BEFORE_SNAP]) {
-            
-            newPoints = [simpleMath newCoordinates:pieces[leftID] whichSide:P_LEFT];
-            pieces[pieceID].x_location = newPoints.x;
-            pieces[pieceID].y_location = newPoints.y;
-            pieces[pieceID].rotation = pieces[leftID].rotation;
-            
-            DEBUG_PRINT_2("checkThenSnapPiece :: Moved piece %i to (%.2f, %.2f)\n",
-                        pieceID, newPoints.x, newPoints.y);
-            
-        }
-    
-    if (rightID >= 0 &&
-        [simpleMath shouldPieceSnap:pieces[pieceID]
-                     withOtherPiece:pieces[rightID]
-                          whichSide:P_RIGHT
-                 distanceBeforeSnap:DISTANCE_BEFORE_SNAP]) {
-            
-            newPoints = [simpleMath newCoordinates:pieces[rightID] whichSide: P_RIGHT];
-            pieces[pieceID].x_location = newPoints.x;
-            pieces[pieceID].y_location = newPoints.y;
-            pieces[pieceID].rotation = pieces[rightID].rotation;
-            
-            DEBUG_PRINT_2("checkThenSnapPiece :: Moved piece %i to (%.2f, %.2f)\n",
-                        pieceID, newPoints.x, newPoints.y);
-        }
-}
-
-// Check if a piece joined its neighbours then closes their edges
-- (void) checkThenCloseEdge: (int) pieceID {
-    
-    int upID = pieces[pieceID].neighbourPiece.up_piece;
-    int downID = pieces[pieceID].neighbourPiece.down_piece;
-    int leftID = pieces[pieceID].neighbourPiece.left_piece;
-    int rightID = pieces[pieceID].neighbourPiece.right_piece;
-    
-    if (upID >= 0 &&
-        [simpleMath didPieceConnect:pieces[pieceID]
-                     withOtherPiece:pieces[upID]
-                          whichSide:P_UP]) {
-        
-            pieces[pieceID].openEdge.up_open = isClosed;
-            pieces[upID].openEdge.down_open = isClosed;
-            
-            DEBUG_PRINT_2("checkThenCloseEdge :: Piece %i joined piece %i\n",
-                        pieceID, upID);
-    }
-    
-    if (downID >= 0 &&
-        [simpleMath didPieceConnect:pieces[pieceID]
-                     withOtherPiece:pieces[downID]
-                          whichSide:P_DOWN]) {
-        
-            pieces[pieceID].openEdge.down_open = isClosed;
-            pieces[downID].openEdge.up_open = isClosed;
-            
-            DEBUG_PRINT_2("checkThenCloseEdge :: Piece %i joined piece %i\n",
-                        pieceID, downID);
-    }
-    
-    if (leftID >= 0 &&
-        [simpleMath didPieceConnect:pieces[pieceID]
-                     withOtherPiece:pieces[leftID]
-                          whichSide:P_LEFT]) {
-        
-            pieces[pieceID].openEdge.left_open = isClosed;
-            pieces[leftID].openEdge.right_open = isClosed;
-            
-            DEBUG_PRINT_2("checkThenCloseEdge :: Piece %i joined piece %i\n",
-                        pieceID, leftID);
-    }
-    
-    if (rightID >= 0 &&
-        [simpleMath didPieceConnect:pieces[pieceID]
-                     withOtherPiece:pieces[rightID]
-                          whichSide:P_RIGHT]) {
-        
-            pieces[pieceID].openEdge.right_open = isClosed;
-            pieces[rightID].openEdge.left_open = isClosed;
-            
-            DEBUG_PRINT_2("checkThenCloseEdge :: Piece %i joined piece %i\n",
-                        pieceID, rightID);
-    }
-}
-
-// Open closed edges of pickedup piece and neighbouring edges
-- (void) openClosedEdges: (int) pieceID {
-    
-    int upID = pieces[pieceID].neighbourPiece.up_piece;
-    int downID = pieces[pieceID].neighbourPiece.down_piece;
-    int leftID = pieces[pieceID].neighbourPiece.left_piece;
-    int rightID = pieces[pieceID].neighbourPiece.right_piece;
-    
-    if (upID >= 0) {
-        pieces[pieceID].openEdge.up_open = isOpen;
-        pieces[upID].openEdge.down_open = isOpen;
-        
-        DEBUG_PRINT_2("openClosedEdges :: Piece %i up_open = isOpen\n"
-                    "                   Piece %i down_open = isOpen\n",
-                    pieceID, upID);
-    }
-    if (downID >= 0) {
-        pieces[pieceID].openEdge.down_open = isOpen;
-        pieces[downID].openEdge.up_open = isOpen;
-        
-        DEBUG_PRINT_2("openClosedEdges :: Piece %i down_open = isOpen\n"
-                    "                   Piece %i up_open = isOpen\n",
-                    pieceID, downID);
-    }
-    if (leftID >= 0) {
-        pieces[pieceID].openEdge.left_open = isOpen;
-        pieces[leftID].openEdge.right_open = isOpen;
-        
-        DEBUG_PRINT_2("openClosedEdges :: Piece %i left_open = isOpen\n"
-                    "                   Piece %i right_open = isOpen\n",
-                    pieceID, leftID);
-    }
-    if (rightID >= 0) {
-        pieces[pieceID].openEdge.right_open = isOpen;
-        pieces[rightID].openEdge.left_open = isOpen;
-        
-        DEBUG_PRINT_2("openClosedEdges :: Piece %i right_open = isOpen\n"
-                    "                   Piece %i left_open = isOpen\n",
-                    pieceID, rightID);
-    }
-}
-
 // Coord is x and y plus rotation hence 3 array
 - (void) placePiece: (int) pieceID andCoord: (int[3]) coord {
-    DEBUG_PRINT_1("touchesBegan :: Placed piece %i\n", pieceID);
+    DEBUG_PRINT_1("placePiece :: Placed piece %i\n", pieceID);
     pieces[pieceID].x_location = coord[0];
     pieces[pieceID].y_location = coord[1];
     pieces[pieceID].rotation = coord[2];
     // call by server
-    [self checkThenSnapPiece:pieceID];
-    [self checkThenCloseEdge:pieceID];
-    // change this lol
-    reset = 0;
+    //[self checkThenSnapPiece:pieceID];
+    //[self checkThenCloseEdge:pieceID];
 }
 
 - (void) pickupPiece: (int) pieceID  {
-    DEBUG_PRINT_1("touchesBegan :: Picked up piece %i\n", pieceID);
-    [self openClosedEdges:pieceID];
+    DEBUG_PRINT_1("pickupPiece :: Picked up piece %i\n", pieceID);
+    //[self openClosedEdges:pieceID];
     holdingPiece = pieceID;
-    reset = 0;
 }
 
 /***** Screen Touch *****/
@@ -439,38 +264,25 @@ const GLubyte Indices2[] = {
     point.y = result.v[1] + (BOARD_HIEGHT / 2);
 
     DEBUG_PRINT_2("touchesBegan :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
-    
+
+    // Ask server to place piece
     if (holdingPiece >= 0) {
-        // TO DO: move other mehtods
         [self.network droppedPiece:point.x WithY:point.y WithRotation:0];
         holdingPiece = -1;
     }
     else {
         for (int i = 0; i < NUM_OF_PIECES; i++) {
             if(point.x >= pieces[i].x_location - SIDE_HALF && point.x < pieces[i].x_location + SIDE_HALF) {
+                // Ask server to pickup a piece
                 if (point.y >= pieces[i].y_location - SIDE_HALF && point.y < pieces[i].y_location + SIDE_HALF) {
-                    // TO DO: Someting
                     [self.network requestPiece:i];
                     i = NUM_OF_PIECES;
-                    
                 }
             }
         }
     }
     DEBUG_PRINT_1("checkIfSolved :: %s\n",
                 (checkIfSolved(pieces) ? "Solved" : "Not Solved"));
-    
-    if (holdingPiece < 0 && point.x < 20 && point.y < 20) {
-        if (reset >= 10) {
-            generatePieces(pieces);
-            reset = 0;
-            DEBUG_SAY("Puzzle Reset!\n");
-        }
-        else {
-            reset++;
-            DEBUG_PRINT_1("touchesBegan :: Reset Counter = %i\n", reset);
-        }
-    }
     
     [self render];
 }
@@ -639,7 +451,7 @@ const GLubyte Indices2[] = {
         self.network = theNetwork;
         self.network.graphics = self;
         //[self setupDisplayLink];
-        _puzzleTexture = [self setupTexture:@"puppy.png"];
+        //_puzzleTexture = [self setupTexture:@"puppy.png"];
         //_backgroundTexture = [self setupTexture:@"background.jpg"];
         simpleMath = [[SimpleMath alloc] init];
         //generatePieces(pieces);
