@@ -10,9 +10,9 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #import <GLKit/GLKit.h>
+#import "Giguesaur/Piece.h"
 #import "Network.h"
 #import "Debug.h"
-#import "Piece.h"
 
 #define PI 3.141592653
 #define degToRad(DEG) (float)(DEG * PI / 180.0)
@@ -29,14 +29,15 @@
 @class Network;
 
 @interface Graphics: UIView {
-    
+
+    // Puzzle Variables
     Piece* _pieces;
+    UIImage *_puzzleImage;
     int puzzle_rows;
     int puzzle_cols;
     int num_of_pieces;
     int texture_height;
     int texture_width;
-    UIImage *puzzleImage;
     
     CAEAGLLayer* _eaglLayer;
     EAGLContext* _context;
@@ -63,19 +64,14 @@
     
 }
 
-//- (GLuint) setupTexture: (UIImage *) imageFile;
-//- (GLuint) setupTexture: (NSString *) fileName { // (UIImage *) imageFile {
 - (id)initWithFrame:(CGRect)frame andNetwork:(Network*) theNetwork;
 - (void) placePiece: (int) pieceID andCoord: (int[3]) coord;
 - (void) pickupPiece: (int) pieceID;
 - (void) visionBackgroundRender:(UIImage *)imageFile;
-//- (void) bringSublayerToFront;
-//- (void) checkThenSnapPiece: (int) pieceID;
-//- (void) checkThenCloseEdge: (int) pieceID;
-//- (void) openClosedEdges: (int) pieceID;
-- (void) initPuzzle: (UIImage *)data withPieces:(Piece*)in_pieces
-         andNumRows: (int) rows
-         andNumCols: (int) cols;
+- (void) initPuzzle: (UIImage *) puzzleImage
+         withPieces: (Piece *) pieces
+         andNumRows: (int) numRows
+         andNumCols: (int) numCols;
 
 @property Network* network;
 @property void* pieces;

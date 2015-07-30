@@ -12,7 +12,6 @@
 #define HOLDING_Z 0.01
 
 /***** Global Varibles for the Puzzle *****/
-//Piece pieces[NUM_OF_PIECES];
 int holdingPiece = -1;
 
 typedef struct {
@@ -461,17 +460,18 @@ const GLubyte Indices2[] = {
 }
 */
 
-- (void) initPuzzle: (UIImage *)data withPieces:(Piece*)in_pieces
-         andNumRows: (int) rows
-         andNumCols: (int) cols {
+- (void) initPuzzle: (UIImage *) puzzleImage
+         withPieces: (Piece *) pieces
+         andNumRows: (int) numRows
+         andNumCols: (int) numCols {
     
     printf("initPuzzle()\n");
-    _pieces = in_pieces;
+    _pieces = pieces;
     //memcpy(&_pieces, in_pieces, sizeof(Piece)*rows*cols);
-    puzzleImage = data;
-    puzzle_rows = rows;
-    puzzle_cols = cols;
-    num_of_pieces = rows*cols;
+    _puzzleImage = puzzleImage;
+    puzzle_rows = numRows;
+    puzzle_cols = numCols;
+    num_of_pieces = numRows *  numCols;
     
     [self render];
 }
