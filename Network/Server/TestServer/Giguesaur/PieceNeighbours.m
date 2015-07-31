@@ -118,31 +118,4 @@
         }
 }
 
-// Open closed edges of pickedup piece and neighbouring edges
-- (void) openClosedEdges: (int) pieceID
-               andPieces: (Piece *) pieces {
-
-    int upID = pieces[pieceID].neighbourPiece.up_piece;
-    int downID = pieces[pieceID].neighbourPiece.down_piece;
-    int leftID = pieces[pieceID].neighbourPiece.left_piece;
-    int rightID = pieces[pieceID].neighbourPiece.right_piece;
-
-    if (upID >= 0) {
-        pieces[pieceID].openEdge.up_open = isOpen;
-        pieces[upID].openEdge.down_open = isOpen;
-    }
-    if (downID >= 0) {
-        pieces[pieceID].openEdge.down_open = isOpen;
-        pieces[downID].openEdge.up_open = isOpen;
-    }
-    if (leftID >= 0) {
-        pieces[pieceID].openEdge.left_open = isOpen;
-        pieces[leftID].openEdge.right_open = isOpen;
-    }
-    if (rightID >= 0) {
-        pieces[pieceID].openEdge.right_open = isOpen;
-        pieces[rightID].openEdge.left_open = isOpen;
-    }
-}
-
 @end

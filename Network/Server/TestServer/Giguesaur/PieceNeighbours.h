@@ -21,8 +21,4 @@
 - (void) checkThenCloseEdge: (int) pieceID
                   andPieces: (Piece *) pieces;
 
-// If a piece is picked up or moved then call this method to set its edges to open
-- (void) openClosedEdges: (int) pieceID
-               andPieces: (Piece *) pieces;
-
 @end
