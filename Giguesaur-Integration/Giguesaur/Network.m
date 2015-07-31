@@ -167,7 +167,6 @@ void free_data(void* data, void* hint){
 
 /* Converts an int into a char * so it can be sent to the server */
 -(const char*)intToString:(int)num{
-    printf("intToString()\n");
     return [[[NSString alloc] initWithFormat:@"%d", num] UTF8String];
 }
 
@@ -184,7 +183,6 @@ void free_data(void* data, void* hint){
 
 /* Drops the piece that is being held at location (x, y) with rotation r. */
 -(void)droppedPiece:(int)xNum WithY:(int)yNum WithRotation:(int)rotationNum{
-    printf("droppedPiece()\n");
     const char *piece = [self intToString:self.heldPiece];
     const char *x = [self intToString:xNum];
     const char *y = [self intToString:yNum];
@@ -202,7 +200,6 @@ void free_data(void* data, void* hint){
 
 /* Receives a message from the server to say a piece has been picked up.*/
 -(void)pickUp{
-    printf("Granted\n");
     zmq_msg_t piece;
     zmq_msg_init(&piece);
     zmq_msg_t ident;
@@ -221,19 +218,16 @@ void free_data(void* data, void* hint){
         [self.graphics pickupPiece:self.heldPiece];
         self.wantedPiece = -1;
     } else { // TO DO: Yeah
+        [self.graphics addToHeld:pieceNum];
         if (pieceNum == self.wantedPiece){
             NSLog(@"%@ stole my piece!", identity);
             self.wantedPiece = -1;
-        } else {
-            //NSString *title = [[NSString alloc]initWithFormat:@"%@ has this", identity];
-            //[button setTitle:title forState:normal];
         }
     }
 }
 
 /* Receives a message from the server to say that a piece has been dropped */
 -(void)drop{
-    printf("drop()\n");
     zmq_msg_t piece;
     zmq_msg_t x;
     zmq_msg_t y;
@@ -272,7 +266,6 @@ void free_data(void* data, void* hint){
  * is holding a piece.
  */
 -(void)keepAlive{
-    printf("KeepAlive()\n");
     const char *piece = [[[NSString alloc] initWithFormat:@"%d", self.heldPiece] UTF8String];
     zmq_send(self.socket, "KeepAlive", 9, ZMQ_SNDMORE);
     zmq_send(self.socket, piece, sizeof(piece), 0);
@@ -283,7 +276,6 @@ void free_data(void* data, void* hint){
     //If a piece is held and still wanted, tell the server we're still alive.
     if (self.heldPiece != -1 && self.wantedPiece == -1)
         [self keepAlive];
-    printf("checkMessages()\n");
     //[self.graphics printPieces];
   
     //Initialise and receive the type of message

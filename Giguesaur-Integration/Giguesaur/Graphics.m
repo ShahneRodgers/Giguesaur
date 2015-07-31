@@ -233,10 +233,15 @@ const GLubyte BackgroundIndices[] = {
     [self render];
 }
 
-- (void) pickupPiece: (int) pieceID  {
+- (void) pickupPiece: (int) pieceID {
     DEBUG_PRINT(1,"pickupPiece :: Picked up piece %i\n", pieceID);
     if (holdingPiece == -1)
         holdingPiece = pieceID;
+    _pieces[pieceID].held = P_TRUE;
+    [self render];
+}
+
+- (void) addToHeld: (int) pieceID {
     _pieces[pieceID].held = P_TRUE;
     [self render];
 }

@@ -72,6 +72,8 @@
 
 - (void) pickupPiece: (int) pieceID;
 
+- (void) addToHeld: (int) pieceID;
+
 - (void) visionBackgroundRender:(UIImage *)imageFile;
 
 - (id)initWithFrame:(CGRect)frame
