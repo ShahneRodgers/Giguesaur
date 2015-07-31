@@ -15,7 +15,7 @@
 #import "Giguesaur/PieceNeighbours.h"
 #import "SimpleMath/SimpleMath.h"
 
-double TIMEOUT = 4;
+double TIMEOUT = 6;
 
 CFNetServiceRef broadcaster;
 PublishingDelegate *delegate;
@@ -250,7 +250,7 @@ void startServer(){
     
     while (true){
         //This loops too quickly if no messages are being received.
-        if ([date timeIntervalSinceNow] < -TIMEOUT/2){
+        if ([date timeIntervalSinceNow] < -TIMEOUT/3){
             sendBoard();
             date = [NSDate date];
             checkPieces();
