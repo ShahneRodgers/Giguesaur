@@ -75,7 +75,7 @@ cv::Mat cameraMatrix, distCoeffs;
     AVCaptureVideoPreviewLayer *preview = [AVCaptureVideoPreviewLayer layerWithSession:session];
     preview.frame = self.graphics.bounds;
     preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    preview.hidden = NO;
+    preview.hidden = YES;
    // [self.graphics.layer addSublayer:preview];
     //[self.graphics bringSublayerToFront]; This doesn';t work
     //[self.graphics.layer insertSublayer:preview atIndex:1];
@@ -116,7 +116,7 @@ fromConnection:(AVCaptureConnection *)connection {
     cv::Mat frame;
     [self fromSampleBuffer:sampleBuffer toCVMat: frame];
     
-    [self calculatePose:frame];
+    //[self calculatePose:frame];
     //cv::cvtColor(frame, frame, CV_BGRA2GRAY);
     
     UIImage *image = [self UIImageFromCVMat:frame];
@@ -124,12 +124,11 @@ fromConnection:(AVCaptureConnection *)connection {
                            withObject:image
                         waitUntilDone:NO];
     
-    
+        /*[[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];*/
     frame.release();
     }
     //    imageView.image = image;
-   /* [[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];*/
-}
+   }
 
 - (void)fromSampleBuffer:(CMSampleBufferRef)sampleBuffer
 toCVMat:(cv::Mat &)mat{
@@ -145,10 +144,13 @@ toCVMat:(cv::Mat &)mat{
     // get image properties
     int w = (int)CVPixelBufferGetWidth(imgBuf);
     int h = (int)CVPixelBufferGetHeight(imgBuf);
+    int bytesPerRow = (int)CVPixelBufferGetBytesPerRow(imgBuf);
+    int size = h * bytesPerRow;
+    
     
     // create the cv mat
     mat.create(h, w, CV_8UC4);
-    memcpy(mat.data, imgBufAddr, w * h);
+    memcpy(mat.data, imgBufAddr, size);
     
     // unlock again
     CVPixelBufferUnlockBaseAddress(imgBuf, 0);
