@@ -8,7 +8,7 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
-#define DEBUG_LEVEL 2
+#define DEBUG_LEVEL 0
 
 #define DEBUG_SAY(lvl, string) \
         do { if (DEBUG_LEVEL > lvl) fprintf(stderr, string); } while(0)

@@ -38,7 +38,11 @@
     int num_of_pieces;
     int texture_height;
     int texture_width;
-    
+
+    // Puzzle State
+    int holdingPiece;
+    NSMutableArray* heldPieces;
+
     CAEAGLLayer* _eaglLayer;
     EAGLContext* _context;
     
@@ -64,10 +68,16 @@
     
 }
 
-- (id)initWithFrame:(CGRect)frame andNetwork:(Network*) theNetwork;
-- (void) placePiece: (int) pieceID andCoord: (int[3]) coord;
+- (void) placePiece: (int) pieceID
+           andCoord: (int[3]) coord;
+
 - (void) pickupPiece: (int) pieceID;
+
 - (void) visionBackgroundRender:(UIImage *)imageFile;
+
+- (id)initWithFrame:(CGRect)frame
+         andNetwork:(Network*) theNetwork;
+
 - (void) initPuzzle: (UIImage *) puzzleImage
          withPieces: (Piece *) pieces
          andNumRows: (int) numRows

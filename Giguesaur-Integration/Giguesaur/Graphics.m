@@ -11,9 +11,6 @@
 #define PIECE_Z 0
 #define HOLDING_Z 0.01
 
-/***** Global Varibles for the Puzzle *****/
-int holdingPiece = -1;
-
 typedef struct {
     float Position[3];
     float Colour[4];
@@ -34,12 +31,12 @@ const Vertex BackgroundVertices[] = {
     {{0, 0, 0}, C_WHITE, {0, 1}}
 };
 
-const GLubyte Indices[] = {
+const GLubyte PieceIndices[] = {
     0, 1, 2,
     2, 3, 0
 };
 
-const GLubyte Indices2[] = {
+const GLubyte BackgroundIndices[] = {
     1, 0, 2, 3
 };
 
@@ -53,7 +50,6 @@ const GLubyte Indices2[] = {
 - (void) setupLayer {
     _eaglLayer = (CAEAGLLayer*) self.layer;
     _eaglLayer.opaque = YES;
-    //_eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 }
 
 - (void) setupContext {
@@ -165,7 +161,7 @@ const GLubyte Indices2[] = {
 
     glGenBuffers(1, &_indexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(PieceIndices), PieceIndices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &_vertexBuffer2);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
@@ -173,7 +169,7 @@ const GLubyte Indices2[] = {
 
     glGenBuffers(1, &_indexBuffer2);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices2), Indices2, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(BackgroundIndices), BackgroundIndices, GL_STATIC_DRAW);
 
 }
 - (void) visionBackgroundRender:(UIImage *)imageFile{
@@ -231,16 +227,17 @@ const GLubyte Indices2[] = {
     _pieces[pieceID].x_location = coord[0];
     _pieces[pieceID].y_location = coord[1];
     _pieces[pieceID].rotation = coord[2];
-    // call by server
-    //[self checkThenSnapPiece:pieceID];
-    //[self checkThenCloseEdge:pieceID];
+    if (holdingPiece == pieceID)
+        holdingPiece = -1;
+    [heldPieces replaceObjectAtIndex:pieceID withObject:[NSNumber numberWithBool:NO]];
     [self render];
 }
 
 - (void) pickupPiece: (int) pieceID  {
     DEBUG_PRINT(1,"pickupPiece :: Picked up piece %i\n", pieceID);
-    //[self openClosedEdges:pieceID];
-    holdingPiece = pieceID;
+    if (holdingPiece == -1)
+        holdingPiece = pieceID;
+    [heldPieces replaceObjectAtIndex:pieceID withObject:[NSNumber numberWithBool:YES]];
     [self render];
 }
 
@@ -271,7 +268,6 @@ const GLubyte Indices2[] = {
     // Ask server to place piece
     if (holdingPiece >= 0) {
         [self.network droppedPiece:point.x WithY:point.y WithRotation:0];
-        holdingPiece = -1;
     }
     else {
         for (int i = 0; i < num_of_pieces; i++) {
@@ -328,7 +324,7 @@ const GLubyte Indices2[] = {
         glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
         glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
 
-        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+        glDrawElements(GL_TRIANGLES, sizeof(PieceIndices)/sizeof(PieceIndices[0]), GL_UNSIGNED_BYTE, 0);
     }
     
     // Draw each Puzzle Piece
@@ -348,7 +344,7 @@ const GLubyte Indices2[] = {
 
         Vertex NewPiece[4];
         // Piece on the board
-        if (i != holdingPiece) {
+        if ([[heldPieces objectAtIndex:i]boolValue] == NO) {
             NewPiece[0] = (Vertex) {
                 {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
                 C_WHITE,
@@ -371,7 +367,7 @@ const GLubyte Indices2[] = {
             };
         }
         // Piece being held
-        else {
+        else if (i != holdingPiece) {
             NewPiece[0] = (Vertex) {
                 {SIDE_LENGTH*2+10, 10, HOLDING_Z},
                 C_GOLD,
@@ -406,7 +402,7 @@ const GLubyte Indices2[] = {
         glBindTexture(GL_TEXTURE_2D, _puzzleTexture);
         glUniform1i(_textureUniform, 0);
         
-        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+        glDrawElements(GL_TRIANGLES, sizeof(PieceIndices)/sizeof(PieceIndices[0]), GL_UNSIGNED_BYTE, 0);
     }
 
     // Set Orthographic Projection for Background Image
@@ -425,15 +421,12 @@ const GLubyte Indices2[] = {
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
     glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
 
-    glDrawElements(GL_TRIANGLE_STRIP, sizeof(Indices2)/sizeof(Indices2[0]), GL_UNSIGNED_BYTE, 0);
+    glDrawElements(GL_TRIANGLE_STRIP, sizeof(BackgroundIndices)/sizeof(BackgroundIndices[0]), GL_UNSIGNED_BYTE, 0);
 
     // Flush everything to the screen
     [_context presentRenderbuffer:GL_RENDERBUFFER];
     
     DEBUG_SAY(2, "end render()\n");
-    /*for (int i = 0; i < num_of_pieces; i++) {
-        DEBUG_PRINT_1("[x,y] = [%.1f,%.1f]\n", _pieces[i].x_location, _pieces[i].y_location);
-    }*/
 }
 
 - (void) initPuzzle: (UIImage *) puzzleImage
@@ -442,16 +435,21 @@ const GLubyte Indices2[] = {
          andNumCols: (int) numCols {
 
     _pieces = pieces;
-    //memcpy(&_pieces, in_pieces, sizeof(Piece)*rows*cols);
     _puzzleImage = puzzleImage;
     puzzle_rows = numRows;
     puzzle_cols = numCols;
     num_of_pieces = numRows *  numCols;
+    texture_height = 1.0/num_of_pieces;
+    texture_width = 1.0/num_of_pieces;
+    holdingPiece = -1;
+    heldPieces = [[NSMutableArray alloc] initWithCapacity:num_of_pieces];
+    for (int i = 0; i < num_of_pieces; i++) {
+        [heldPieces insertObject:[NSNumber numberWithBool:NO]atIndex:i];
+    }
     
     [self render];
 }
 
-/* "Main" for the frame */
 - (id)initWithFrame:(CGRect)frame andNetwork:(Network*) theNetwork {
     self = [super initWithFrame:frame];
     if (self) {

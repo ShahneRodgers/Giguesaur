@@ -112,7 +112,7 @@ fromConnection:(AVCaptureConnection *)connection {
     
     @autoreleasepool {
     
-    NSLog(@"delegate works!");
+    //NSLog(@"delegate works!");
     cv::Mat frame;
     [self fromSampleBuffer:sampleBuffer toCVMat: frame];
     
