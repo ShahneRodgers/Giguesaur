@@ -9,6 +9,7 @@
 #import "Network.h"
 
 #define TIMEOUT = 1;
+Piece *pieces;
 
 @implementation Network
 
@@ -17,6 +18,7 @@
  * everything else will happen automatically.
  */
 -(void)prepare:(NSString*) address called:(NSString*)name{
+    printf("prepare()\n");
     self.address = address;
     self.heldPiece = -1;
     self.wantedPiece = -1;
@@ -146,8 +148,8 @@ void free_data(void* data, void* hint){
     zmq_msg_recv(&pieceLocations, self.recvSocket, 0);
     int row = atoi(zmq_msg_data(&numRow));
     int col = atoi(zmq_msg_data(&numCol));
-    Piece pieces[row*col];
     
+    pieces = malloc(sizeof(Piece)*row*col);
     memcpy(pieces, zmq_msg_data(&pieceLocations), zmq_msg_size(&pieceLocations));
     
     [self.graphics initPuzzle:[UIImage imageWithData:data] withPieces:pieces andNumRows:row andNumCols:col];
@@ -248,10 +250,10 @@ void free_data(void* data, void* hint){
     if (self.heldPiece == atoi(zmq_msg_data(&piece)))
         self.heldPiece = -1;
     
-    NSString *title = [[NSString alloc]initWithFormat:@"%s: %s,%s r%s", zmq_msg_data(&piece),
+    /*NSString *title = [[NSString alloc]initWithFormat:@"%s: %s,%s r%s", zmq_msg_data(&piece),
                        zmq_msg_data(&x),
                        zmq_msg_data(&y),
-                       zmq_msg_data(&rotation)];
+                       zmq_msg_data(&rotation)]; */
     int pieceNum = atoi(zmq_msg_data(&piece));
     int locs[3] = {atoi(zmq_msg_data(&x)), atoi(zmq_msg_data(&y)), atoi(zmq_msg_data(&rotation))};
    // [[self.buttons objectAtIndex:atoi(zmq_msg_data(&piece))]setTitle:title forState:normal];
@@ -277,6 +279,8 @@ void free_data(void* data, void* hint){
 /* Checks for messages from the server */
 -(void)checkMessages{
     printf("checkMessages()\n");
+    [self.graphics printPieces];
+    
     //If a piece is held, tell the server we're still alive.
     if (self.heldPiece != -1)
         [self keepAlive];
