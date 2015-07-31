@@ -229,7 +229,6 @@ const GLubyte BackgroundIndices[] = {
     _pieces[pieceID].rotation = coord[2];
     if (holdingPiece == pieceID)
         holdingPiece = -1;
-    [heldPieces replaceObjectAtIndex:pieceID withObject:[NSNumber numberWithBool:NO]];
     [self render];
 }
 
@@ -237,7 +236,6 @@ const GLubyte BackgroundIndices[] = {
     DEBUG_PRINT(1,"pickupPiece :: Picked up piece %i\n", pieceID);
     if (holdingPiece == -1)
         holdingPiece = pieceID;
-    [heldPieces replaceObjectAtIndex:pieceID withObject:[NSNumber numberWithBool:YES]];
     [self render];
 }
 
@@ -344,7 +342,7 @@ const GLubyte BackgroundIndices[] = {
 
         Vertex NewPiece[4];
         // Piece on the board
-        if ([[heldPieces objectAtIndex:i]boolValue] == NO) {
+        if (_pieces[i].held == P_FALSE) {
             NewPiece[0] = (Vertex) {
                 {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
                 C_WHITE,
@@ -442,10 +440,6 @@ const GLubyte BackgroundIndices[] = {
     texture_height = 1.0/num_of_pieces;
     texture_width = 1.0/num_of_pieces;
     holdingPiece = -1;
-    heldPieces = [[NSMutableArray alloc] initWithCapacity:num_of_pieces];
-    for (int i = 0; i < num_of_pieces; i++) {
-        [heldPieces insertObject:[NSNumber numberWithBool:NO]atIndex:i];
-    }
     
     [self render];
 }

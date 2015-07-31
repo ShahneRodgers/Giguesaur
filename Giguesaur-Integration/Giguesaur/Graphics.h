@@ -41,7 +41,6 @@
 
     // Puzzle State
     int holdingPiece;
-    NSMutableArray* heldPieces;
 
     CAEAGLLayer* _eaglLayer;
     EAGLContext* _context;

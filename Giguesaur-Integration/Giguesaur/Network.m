@@ -282,6 +282,7 @@ void free_data(void* data, void* hint){
 -(void)checkMessages{
     //If a piece is held and still wanted, tell the server we're still alive.
     if (self.heldPiece != -1 && self.wantedPiece == -1)
+        [self keepAlive];
     printf("checkMessages()\n");
     //[self.graphics printPieces];
   

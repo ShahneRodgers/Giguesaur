@@ -24,7 +24,6 @@ SimpleMath *simpleMath;
 void *boardState;
 NSMutableArray *heldPieces;
 NSMutableArray *players;
-int pieceLocations[NUM_OF_ROWS*NUM_OF_COLS][3];
 Piece pieces[NUM_OF_PIECES];
 void *publisher;
 void *receiver;
@@ -92,9 +91,10 @@ void dropPiece(int pieceNum, zmq_msg_t x, zmq_msg_t y, zmq_msg_t r){
     const char *piece = getStringFromInt(pieceNum);
     
     //Fix pieceLocations array to store new correct locations
-    pieceLocations[pieceNum][0] = atoi(zmq_msg_data(&x));
-    pieceLocations[pieceNum][1] = atoi(zmq_msg_data(&y));
-    pieceLocations[pieceNum][2] = atoi(zmq_msg_data(&r));
+    pieces[pieceNum].x_location = atoi(zmq_msg_data(&x));
+    pieces[pieceNum].y_location = atoi(zmq_msg_data(&y));
+    pieces[pieceNum].rotation = atoi(zmq_msg_data(&r));
+    pieces[pieceNum].held = P_FALSE;
 
     // Check Piece Neighbours
     [pieceNeighbours checkThenSnapPiece:pieceNum andPieces:pieces];
@@ -157,8 +157,7 @@ void receiveMessage(){
             //Set the timestamp of the piece
             heldPieces[pieceNum] = [NSDate date];
             //Set the location of the piece
-            pieceLocations[pieceNum][0] = -1;
-            pieceLocations[pieceNum][1] = -1;
+            pieces[pieceNum].held = P_TRUE;
         } else {
             NSLog(@"Piece %i has already been taken %@", pieceNum, heldPieces[pieceNum]);
         }

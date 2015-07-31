@@ -11,6 +11,8 @@
 // Should be an even number or there is a line visbible between pieces when they snap together
 #define SIDE_LENGTH 50
 #define SIDE_HALF (SIDE_LENGTH/2)
+#define P_FALSE 0
+#define P_TRUE 1
 
 typedef enum {invalid, isClosed, isOpen} ACCESSIBLE_EDGE;
 
@@ -19,6 +21,7 @@ typedef struct {
     float x_location;
     float y_location;
     float rotation;
+    int held;
     
     struct NEIGHBOUR_PIECE {
         int up_piece;
