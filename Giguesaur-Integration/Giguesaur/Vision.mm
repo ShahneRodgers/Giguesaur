@@ -117,7 +117,7 @@ fromConnection:(AVCaptureConnection *)connection {
     [self fromSampleBuffer:sampleBuffer toCVMat: frame];
     
     //[self calculatePose:frame];
-    //cv::cvtColor(frame, frame, CV_BGRA2GRAY);
+    cv::cvtColor(frame, frame, CV_BGRA2RGBA);
     
     UIImage *image = [self UIImageFromCVMat:frame];
     [[self graphics] performSelectorOnMainThread:@selector(visionBackgroundRender:)
