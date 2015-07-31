@@ -229,6 +229,7 @@ const GLubyte BackgroundIndices[] = {
     _pieces[pieceID].rotation = coord[2];
     if (holdingPiece == pieceID)
         holdingPiece = -1;
+    _pieces[pieceID].held = P_FALSE;
     [self render];
 }
 
@@ -236,6 +237,7 @@ const GLubyte BackgroundIndices[] = {
     DEBUG_PRINT(1,"pickupPiece :: Picked up piece %i\n", pieceID);
     if (holdingPiece == -1)
         holdingPiece = pieceID;
+    _pieces[pieceID].held = P_TRUE;
     [self render];
 }
 
