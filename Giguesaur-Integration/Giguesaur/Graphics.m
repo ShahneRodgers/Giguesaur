@@ -367,7 +367,7 @@ const GLubyte BackgroundIndices[] = {
             };
         }
         // Piece being held
-        else if (i != holdingPiece) {
+        else if (_pieces[i].held == P_TRUE && i == holdingPiece) {
             NewPiece[0] = (Vertex) {
                 {SIDE_LENGTH*2+10, 10, HOLDING_Z},
                 C_GOLD,
