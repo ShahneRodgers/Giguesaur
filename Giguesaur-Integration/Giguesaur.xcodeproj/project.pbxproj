@@ -105,7 +105,7 @@
 		CE8832621B6AED7F00614EAD /* v2_encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE8832141B6AED7F00614EAD /* v2_encoder.cpp */; };
 		CE8832631B6AED7F00614EAD /* xpub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE8832191B6AED7F00614EAD /* xpub.cpp */; };
 		CE8832641B6AED7F00614EAD /* xsub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE88321B1B6AED7F00614EAD /* xsub.cpp */; };
-		CE8832651B6AED7F00614EAD /* zmq_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE8832211B6AED7F00614EAD /* zmq_utils.cpp */; };
+		CE8832651B6AED7F00614EAD /* zmq_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE8832211B6AED7F00614EAD /* zmq_utils.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CE8832661B6AED7F00614EAD /* zmq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE8832221B6AED7F00614EAD /* zmq.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
 

@@ -236,10 +236,13 @@ const GLubyte Indices2[] = {
 
 // Coord is x and y plus rotation hence 3 array
 - (void) placePiece: (int) pieceID andCoord: (int[3]) coord {
+    //printf("PlacePiece");
     DEBUG_PRINT_1("placePiece :: Placed piece %i\n", pieceID);
     _pieces[pieceID].x_location = coord[0];
     _pieces[pieceID].y_location = coord[1];
     _pieces[pieceID].rotation = coord[2];
+    if (pieceID == holdingPiece)
+        holdingPiece = -1;
     // call by server
     //[self checkThenSnapPiece:pieceID];
     //[self checkThenCloseEdge:pieceID];
@@ -283,10 +286,9 @@ const GLubyte Indices2[] = {
         DEBUG_SAY("ask server to drop piece");
         [self.network droppedPiece:point.x WithY:point.y WithRotation:0];
         DEBUG_SAY("droped the piece\n");
-        holdingPiece = -1;
     }
     else {
-        DEBUG_SAY("else not holding\n");
+        //DEBUG_SAY("else not holding\n");
         for (int i = 0; i < num_of_pieces; i++) {
             DEBUG_PRINT_1("%d: [%.1f,%.1f]\n", _pieces[i].piece_id, _pieces[i].x_location, _pieces[i].y_location);
             if(point.x >= _pieces[i].x_location - SIDE_HALF && point.x < _pieces[i].x_location + SIDE_HALF) {
@@ -307,7 +309,7 @@ const GLubyte Indices2[] = {
 
 /***** DRAW CODE *****/
 - (void) render {//:(CADisplayLink*)displayLink {
-    printf("render()\n");
+    //printf("render()\n");
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
@@ -467,11 +469,12 @@ const GLubyte Indices2[] = {
     
     printf("initPuzzle()\n");
     _pieces = pieces;
-    //memcpy(&_pieces, in_pieces, sizeof(Piece)*rows*cols);
     _puzzleImage = puzzleImage;
     puzzle_rows = numRows;
     puzzle_cols = numCols;
     num_of_pieces = numRows *  numCols;
+    texture_height = 1.0/num_of_pieces;
+    texture_width = 1.0/num_of_pieces;
     
     [self render];
 }

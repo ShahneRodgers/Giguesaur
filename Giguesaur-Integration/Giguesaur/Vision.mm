@@ -112,11 +112,11 @@ fromConnection:(AVCaptureConnection *)connection {
     
     @autoreleasepool {
     
-    NSLog(@"delegate works!");
+    //NSLog(@"delegate works!");
     cv::Mat frame;
     [self fromSampleBuffer:sampleBuffer toCVMat: frame];
     
-    [self calculatePose:frame];
+    //[self calculatePose:frame];
     //cv::cvtColor(frame, frame, CV_BGRA2GRAY);
     
     UIImage *image = [self UIImageFromCVMat:frame];

@@ -173,7 +173,7 @@ void free_data(void* data, void* hint){
 
 /* Asks the server for the piece specified by the number */
 -(void)requestPiece:(int)pieceNum{
-    printf("Requesting\n");
+    printf("Requesting %i\n", pieceNum);
     const char *piece = [[[NSString alloc] initWithFormat:@"%d", pieceNum] UTF8String];
     zmq_send(self.socket, "PickUp", 6, ZMQ_SNDMORE);
     zmq_send(self.socket, piece, pieceNum%10+1, 0);
@@ -195,6 +195,8 @@ void free_data(void* data, void* hint){
     zmq_send(self.socket, x, sizeof(x), ZMQ_SNDMORE);
     zmq_send(self.socket, y, sizeof(y), ZMQ_SNDMORE);
     zmq_send(self.socket, rotation, sizeof(rotation), 0);
+    
+    self.wantedPiece = self.heldPiece;
 }
 
 
@@ -270,7 +272,7 @@ void free_data(void* data, void* hint){
  * is holding a piece.
  */
 -(void)keepAlive{
-    printf("keepAlive()\n");
+    printf("KeepAlive()\n");
     const char *piece = [[[NSString alloc] initWithFormat:@"%d", self.heldPiece] UTF8String];
     zmq_send(self.socket, "KeepAlive", 9, ZMQ_SNDMORE);
     zmq_send(self.socket, piece, sizeof(piece), 0);
@@ -278,11 +280,8 @@ void free_data(void* data, void* hint){
 
 /* Checks for messages from the server */
 -(void)checkMessages{
-    printf("checkMessages()\n");
-    [self.graphics printPieces];
-    
-    //If a piece is held, tell the server we're still alive.
-    if (self.heldPiece != -1)
+    //If a piece is held and still wanted, tell the server we're still alive.
+    if (self.heldPiece != -1 && self.wantedPiece == -1)
         [self keepAlive];
   
     //Initialise and receive the type of message
@@ -302,7 +301,7 @@ void free_data(void* data, void* hint){
         return;
         //If a piece has been picked up.
     } else if ([stringType hasPrefix:@"PickUp"]){
-        NSLog(@"Hello");
+        //NSLog(@"Hello");
         [self pickUp];
         //If a piece has been dropped
     } else if ([stringType hasPrefix:@"Drop"]){
