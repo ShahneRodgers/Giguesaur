@@ -227,7 +227,7 @@ const GLubyte Indices2[] = {
 
 // Coord is x and y plus rotation hence 3 array
 - (void) placePiece: (int) pieceID andCoord: (int[3]) coord {
-    DEBUG_PRINT_1("placePiece :: Placed piece %i\n", pieceID);
+    DEBUG_PRINT(1,"placePiece :: Placed piece %i\n", pieceID);
     _pieces[pieceID].x_location = coord[0];
     _pieces[pieceID].y_location = coord[1];
     _pieces[pieceID].rotation = coord[2];
@@ -238,7 +238,7 @@ const GLubyte Indices2[] = {
 }
 
 - (void) pickupPiece: (int) pieceID  {
-    DEBUG_PRINT_1("pickupPiece :: Picked up piece %i\n", pieceID);
+    DEBUG_PRINT(1,"pickupPiece :: Picked up piece %i\n", pieceID);
     //[self openClosedEdges:pieceID];
     holdingPiece = pieceID;
     [self render];
@@ -246,9 +246,8 @@ const GLubyte Indices2[] = {
 
 /***** Screen Touch *****/
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    DEBUG_SAY("touchesBegan\n");
     for (int i = 0; i < num_of_pieces; i++) {
-        DEBUG_PRINT_1("[x,y] = [%.1f,%.1f]\n", _pieces[i].x_location, _pieces[i].y_location);
+        DEBUG_PRINT(2,"[x,y] = [%.1f,%.1f]\n", _pieces[i].x_location, _pieces[i].y_location);
     }
     UITouch *touch = [[event allTouches] anyObject];
     
@@ -267,31 +266,23 @@ const GLubyte Indices2[] = {
     point.x = result.v[0] + (BOARD_WIDTH / 2);
     point.y = result.v[1] + (BOARD_HEIGHT / 2);
 
-    DEBUG_PRINT_2("touchesBegan :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
+    DEBUG_PRINT(2,"touchesBegan :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
     
     // Ask server to place piece
     if (holdingPiece >= 0) {
-        DEBUG_SAY("ask server to drop piece");
         [self.network droppedPiece:point.x WithY:point.y WithRotation:0];
-        DEBUG_SAY("droped the piece\n");
         holdingPiece = -1;
     }
     else {
-        DEBUG_SAY("else not holding\n");
         for (int i = 0; i < num_of_pieces; i++) {
-            DEBUG_PRINT_1("%d: [%.1f,%.1f]\n", _pieces[i].piece_id, _pieces[i].x_location, _pieces[i].y_location);
             if(point.x >= _pieces[i].x_location - SIDE_HALF && point.x < _pieces[i].x_location + SIDE_HALF) {
-                DEBUG_SAY("x here\n");
                 // Ask server to pickup a piece
                 if (point.y >= _pieces[i].y_location - SIDE_HALF && point.y < _pieces[i].y_location + SIDE_HALF) {
-                    DEBUG_SAY("ask server to pickup piece");
                     [self.network requestPiece:i];
-                    DEBUG_SAY("did pickup that piece\n");
                     i = num_of_pieces;
                 }
             }
         }
-        DEBUG_SAY("out of for loop\n");
     }
     
 }
@@ -439,26 +430,17 @@ const GLubyte Indices2[] = {
     // Flush everything to the screen
     [_context presentRenderbuffer:GL_RENDERBUFFER];
     
-    DEBUG_SAY("end render()\n");
+    DEBUG_SAY(2, "end render()\n");
     /*for (int i = 0; i < num_of_pieces; i++) {
         DEBUG_PRINT_1("[x,y] = [%.1f,%.1f]\n", _pieces[i].x_location, _pieces[i].y_location);
     }*/
 }
 
-/*
-// Renders the game to the screens refresh rate
-- (void)setupDisplayLink {
-    CADisplayLink* displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(render:)];
-    [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-}
-*/
-
 - (void) initPuzzle: (UIImage *) puzzleImage
          withPieces: (Piece *) pieces
          andNumRows: (int) numRows
          andNumCols: (int) numCols {
-    
-    printf("initPuzzle()\n");
+
     _pieces = pieces;
     //memcpy(&_pieces, in_pieces, sizeof(Piece)*rows*cols);
     _puzzleImage = puzzleImage;
@@ -472,7 +454,6 @@ const GLubyte Indices2[] = {
 /* "Main" for the frame */
 - (id)initWithFrame:(CGRect)frame andNetwork:(Network*) theNetwork {
     self = [super initWithFrame:frame];
-    printf("initWithFrame()\n");
     if (self) {
         // Call all the OpenGL setup code
         [self setupLayer];
@@ -484,7 +465,6 @@ const GLubyte Indices2[] = {
         [self setupVBOs];
         self.network = theNetwork;
         self.network.graphics = self;
-        //[self setupDisplayLink];
        // _puzzleTexture = [self setupTexture:[UIImage imageNamed:@"puppy.png"]];
        // _backgroundTexture = [self setupTexture:[UIImage imageNamed:@"background.jpg"]];
         

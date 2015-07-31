@@ -279,7 +279,7 @@ void free_data(void* data, void* hint){
 /* Checks for messages from the server */
 -(void)checkMessages{
     printf("checkMessages()\n");
-    [self.graphics printPieces];
+    //[self.graphics printPieces];
     
     //If a piece is held, tell the server we're still alive.
     if (self.heldPiece != -1)
