@@ -56,11 +56,6 @@ const GLubyte Indices2[] = {
     //_eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 }
 
-/*- (void) bringSublayerToFront { Attempting to overlay pieces on preview
-    [_eaglLayer removeFromSuperlayer];
-    [self insertSubview:_eaglLayer atIndex:[self.layer.sublayers count]];
-}*/
-
 - (void) setupContext {
     EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES2;
     _context = [[EAGLContext alloc] initWithAPI:api];
@@ -188,12 +183,7 @@ const GLubyte Indices2[] = {
 }
 
 - (void) setupTexture: (UIImage *) imageFile {
-    
-  
-    @autoreleasepool {
-        
-    
-    // TO DO: Change how the image texture is loaded
+
     //CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
     CGImageRef spriteImage = imageFile.CGImage;
     
@@ -227,11 +217,12 @@ const GLubyte Indices2[] = {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
 
     free(spriteData);
-    //CGImageRelease(spriteImage);
+
     _backgroundTexture = texName;
-        [self render];
-        glDeleteTextures(1, &texName);
-    }
+
+    [self render];
+
+    glDeleteTextures(1, &texName);
 }
 
 // Coord is x and y plus rotation hence 3 array
@@ -306,14 +297,14 @@ const GLubyte Indices2[] = {
 }
 
 /***** DRAW CODE *****/
-- (void) render {//:(CADisplayLink*)displayLink {
-    printf("render()\n");
+- (void) render {
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
     // Clear the screen
     glClearColor(230.0/255.0, 1.0, 1.0, 0.0);
     //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     
@@ -337,16 +328,18 @@ const GLubyte Indices2[] = {
     glViewport(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
     // Draw Default Piece
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(DefaultPiece), DefaultPiece, GL_STATIC_DRAW);
+    if (DEBUG_LEVEL > 0) {
+        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(DefaultPiece), DefaultPiece, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
-    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+        glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+        glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
+        glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
 
-    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-
+        glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+    }
+    
     // Draw each Puzzle Piece
     for (int i = 0; i < num_of_pieces; i++) {
         // set row and col to get the sub-section of the texture

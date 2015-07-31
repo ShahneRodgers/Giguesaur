@@ -2,7 +2,7 @@
     File: Debug.h
     Author: Ashley Manson
     
-    Debug macros
+    Debug print macros
  */
 
 #ifndef DEBUG_H
