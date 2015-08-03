@@ -90,10 +90,16 @@ cv::Mat cameraMatrix, distCoeffs;
     //vector<Point2f> imagepoints;
     bool vectors = false;
     
-    bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners,
+    NSDate *start = [NSDate date];
+   /* bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners,
                                               cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_NORMALIZE_IMAGE
-                                              + cv::CALIB_CB_FAST_CHECK);
+                                              + cv::CALIB_CB_FAST_CHECK);*/
     
+    bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners, cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_FAST_CHECK + cv::CALIB_CB_FILTER_QUADS);
+    
+    NSDate *finish = [NSDate date];
+    NSTimeInterval runtime = [finish timeIntervalSinceDate:start];
+    NSLog(@"Checkerboard found in %f \n", runtime);
     if(patternfound){
         vectors = solvePnP(corners, pixelcorners, cameraMatrix, distCoeffs, rvec, tvec, false);
         cv::drawChessboardCorners(frame, boardSize, pixelcorners, patternfound);
@@ -116,7 +122,7 @@ fromConnection:(AVCaptureConnection *)connection {
     cv::Mat frame;
     [self fromSampleBuffer:sampleBuffer toCVMat: frame];
     
-    //[self calculatePose:frame];
+    [self calculatePose:frame];
     cv::cvtColor(frame, frame, CV_BGRA2RGBA);
     
     UIImage *image = [self UIImageFromCVMat:frame];
@@ -124,7 +130,7 @@ fromConnection:(AVCaptureConnection *)connection {
                            withObject:image
                         waitUntilDone:NO];
     
-        /*[[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];*/
+       /* [[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];*/
     frame.release();
     }
     //    imageView.image = image;
