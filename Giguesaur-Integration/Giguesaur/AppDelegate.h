@@ -7,16 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-// Add when necessary
-//#import "Graphics.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-// Add when necessary
-// { Graphics* _graphics; }
 
 @property (strong, nonatomic) UIWindow *window;
-// Add when necessary
-//@property (nonatomic, retain) IBOutlet Graphics *graphics;
 
 @end
 

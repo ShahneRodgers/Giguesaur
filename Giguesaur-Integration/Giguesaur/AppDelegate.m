@@ -14,16 +14,8 @@
 
 @implementation AppDelegate
 
-// Add when necessary
-//@synthesize graphics=_graphics;
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    // Add when nescessary
-    //CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    //self.graphics = [[Graphics alloc] initWithFrame:screenBounds];
-    //[self.window makeKeyAndVisible];
-    //[self.window addSubview:_glView];
     return YES;
 }
 

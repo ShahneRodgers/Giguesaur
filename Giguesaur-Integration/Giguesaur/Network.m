@@ -152,7 +152,7 @@ void free_data(void* data, void* hint){
     pieces = malloc(sizeof(Piece)*row*col);
     memcpy(pieces, zmq_msg_data(&pieceLocations), zmq_msg_size(&pieceLocations));
     
-    [self.graphics initPuzzle:[UIImage imageWithData:data] withPieces:pieces andNumRows:row andNumCols:col];
+    [self.graphics initWithPuzzle:[UIImage imageWithData:data] withPieces:pieces andNumRows:row andNumCols:col];
     
     
     //[self displayPieces:pieces withSize:atoi(zmq_msg_data(&numPieces))];
@@ -253,7 +253,7 @@ void free_data(void* data, void* hint){
     int pieceNum = atoi(zmq_msg_data(&piece));
     int locs[3] = {atoi(zmq_msg_data(&x)), atoi(zmq_msg_data(&y)), atoi(zmq_msg_data(&rotation))};
    // [[self.buttons objectAtIndex:atoi(zmq_msg_data(&piece))]setTitle:title forState:normal];
-    [self.graphics placePiece:pieceNum andCoord:locs];
+    [self.graphics placePiece:pieceNum andCoords:locs];
     
     
     zmq_msg_close(&piece);
