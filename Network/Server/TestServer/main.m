@@ -232,13 +232,13 @@ void checkPieces(){
             NSTimeInterval interval = -1 * [piece timeIntervalSinceNow];
             if (interval > TIMEOUT){
                 zmq_msg_t xMes;
-                char* x = (char*)getStringFromInt(arc4random() % BOARD_WIDTH);
+                char* x = (char*)getStringFromInt(pieces[i].x_location);
                 zmq_msg_init_data(&xMes, x, sizeof(x), nil, nil);
                 zmq_msg_t yMes;
-                char* y = (char *)getStringFromInt(arc4random() % BOARD_HEIGHT);
+                char* y = (char *)getStringFromInt(pieces[i].y_location);
                 zmq_msg_init_data(&yMes, y, sizeof(y), nil, nil);
                 zmq_msg_t rMes;
-                char* r = (char *)getStringFromInt(arc4random() % 360);
+                char* r = (char *)getStringFromInt(pieces[i].rotation);
                 zmq_msg_init_data(&rMes, r, sizeof(r), nil, nil);
                 
                 dropPiece(i, xMes, yMes, rMes);
