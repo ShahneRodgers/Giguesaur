@@ -112,6 +112,13 @@ void dropPiece(int pieceNum, zmq_msg_t x, zmq_msg_t y, zmq_msg_t r){
     zmq_msg_close(&r);
 }
 
+NSString* messageToNSString(zmq_msg_t message){
+    char charIdent[zmq_msg_size(&message)+1];
+    memcpy(charIdent, zmq_msg_data(&message), sizeof(charIdent));
+    charIdent[zmq_msg_size(&message)] = '\0';
+    return [[NSString alloc] initWithFormat:@"%s", charIdent];
+}
+
 
 void receiveMessage(){
     zmq_msg_t type;
@@ -129,7 +136,8 @@ void receiveMessage(){
     }
     //Receive the message type.
     zmq_msg_recv(&type, receiver, 0);
-    NSString *stringType = [[NSString alloc] initWithFormat:@"%s", zmq_msg_data(&type)];
+    NSString *stringType = messageToNSString(type);
+    NSLog(stringType);
     
     //If the message is a pickup request
     if ([stringType hasPrefix:@"PickUp"]){
@@ -149,6 +157,7 @@ void receiveMessage(){
             
             //Send the identity of the picker-upperer.
             const char* iden = zmq_msg_data(&identity);
+            NSLog(@"Picked up by %@", messageToNSString(identity));
             zmq_send(publisher, iden, ilen, ZMQ_SNDMORE);
             
             //Send the piece that has been taken
@@ -187,21 +196,30 @@ void receiveMessage(){
         //If the message is to inform the server that the client is still around
     } else if ([stringType hasPrefix:@"KeepAlive"]){
         int pieceNum = getIntFromMessage();
+        //Check that the piece hasn't already been dropped.
         if (![heldPieces[pieceNum] isEqual:[NSNull null]])
             heldPieces[pieceNum] = [NSDate date];
     //Ensure no duplicate names
     } else if ([stringType hasPrefix:@"Intro"]){
-        NSString *name = [[NSString alloc]initWithFormat:@"%s", zmq_msg_data(&identity)];
-        NSLog(@"Name %@", name);
+        NSString *name = messageToNSString(identity);
+        int clash = 0;
         for (NSString *p in players){
-            if ([name hasPrefix:p]){
-                NSLog(@"Pre-existing name");
-                zmq_send(publisher, "Error", 5, ZMQ_SNDMORE);
-                zmq_send(publisher, zmq_msg_data(&identity), zmq_msg_size(&identity), 0);
-                return;
+            if ([name isEqualToString:p]){
+                clash++;
             }
         }
         [players addObject:name];
+        if (clash > 0){
+            NSLog(@"Name clash");
+            sleep(3); //THERE HAS TO BE A BETTER FIX THAN THIS! TODO
+            const char *num = [[[NSString alloc] initWithFormat:@"%d", clash] UTF8String];
+            
+            zmq_send(publisher, "Error", 5, ZMQ_SNDMORE);
+            zmq_send(publisher, zmq_msg_data(&identity), zmq_msg_size(&identity), ZMQ_SNDMORE);
+            zmq_send(publisher, num, sizeof(num), 0);
+            name = [[NSString alloc]initWithFormat:@"%@%s", name, num];
+        }
+        NSLog(@"Name %@", name);
     //Otherwise we'll assume it's a chat message.
     } else {
     }

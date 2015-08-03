@@ -17,6 +17,9 @@
 #define PI 3.141592653
 #define degToRad(DEG) (float)(DEG * PI / 180.0)
 
+#define PIECE_Z 0
+#define HOLDING_Z 0.01
+
 #define C_BLACK {0, 0, 0, 1}
 #define C_GRAY {0.5, 0.5, 0.5, 1}
 #define C_WHITE {1, 1, 1, 1}
@@ -25,6 +28,8 @@
 
 #define BOARD_WIDTH 1024
 #define BOARD_HEIGHT 768
+
+typedef enum {USE_BACKGROUND, USE_PUZZLE} use_image;
 
 @class Network;
 
@@ -67,22 +72,23 @@
     
 }
 
-- (void) placePiece: (int) pieceID
-           andCoord: (int[3]) coord;
+// Called by Vision
+- (void) visionBackgroundRender: (UIImage *) imageFile;
 
+// Called by Network
+- (void) placePiece: (int) pieceID andCoords: (int[3]) coords;
 - (void) pickupPiece: (int) pieceID;
-
 - (void) addToHeld: (int) pieceID;
 
-- (void) visionBackgroundRender:(UIImage *)imageFile;
+// Setup the Rendering
+- (id)initWithFrame: (CGRect) frame
+         andNetwork: (Network*) theNetwork;
 
-- (id)initWithFrame:(CGRect)frame
-         andNetwork:(Network*) theNetwork;
-
-- (void) initPuzzle: (UIImage *) puzzleImage
-         withPieces: (Piece *) pieces
-         andNumRows: (int) numRows
-         andNumCols: (int) numCols;
+// Setup the Game Logic
+- (void) initWithPuzzle: (UIImage *) puzzleImage
+             withPieces: (Piece *) pieces
+             andNumRows: (int) numRows
+             andNumCols: (int) numCols;
 
 @property Network* network;
 @property void* pieces;

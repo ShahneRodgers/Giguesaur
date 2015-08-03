@@ -9,11 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "GameController.h"
 #import "BrowsingDelegate.h"
-/*
-#import "Network.h"
-#import "Vision.h"
-#import "Graphics.h"
-*/
 
 @class BrowsingDelegate; //Weird trick to fix circular dependency issue.
 
@@ -24,7 +19,6 @@
 @property BrowsingDelegate *delegate;
 //@property Vision *vision;
 @property Graphics *graphics;
-@property int anon;
 
 -(void)addButton:(NSString*)title;
 

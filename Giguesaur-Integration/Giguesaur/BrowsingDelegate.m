@@ -49,6 +49,8 @@ void MyResolveCallback (
     } while (index < CFArrayGetCount(ip) && result->sin_family != AF_INET);
     if (!inet_ntop(result->sin_family, &result->sin_addr, string, sizeof(string)))
         NSLog(@"Error: %s", strerror(errno));
+    else if (result->sin_family != AF_INET)
+        NSLog(@"Error: only IPv6 found");
     else {
         [viewClass addButton:[[NSString alloc]initWithFormat:@"%s", string]];
     }

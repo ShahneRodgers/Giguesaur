@@ -8,9 +8,6 @@
 
 #import "Graphics.h"
 
-#define PIECE_Z 0
-#define HOLDING_Z 0.01
-
 typedef struct {
     float Position[3];
     float Colour[4];
@@ -75,7 +72,8 @@ const GLubyte BackgroundIndices[] = {
 - (void) setupDepthBuffer {
     glGenRenderbuffers(1, &_depthRenderBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, _depthRenderBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, self.frame.size.width, self.frame.size.height);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16,
+                          self.frame.size.width, self.frame.size.height);
 }
 
 - (void) setupFrameBuffer {
@@ -84,7 +82,8 @@ const GLubyte BackgroundIndices[] = {
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
                               GL_RENDERBUFFER, _colorRenderBuffer);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthRenderBuffer);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+                              GL_RENDERBUFFER, _depthRenderBuffer);
 }
 
 - (GLuint) compileShader: (NSString*) shaderName withType: (GLenum) shaderType {
@@ -93,7 +92,8 @@ const GLubyte BackgroundIndices[] = {
                                                            ofType:@"glsl"];
     NSError* error;
     NSString* shaderString = [NSString stringWithContentsOfFile:shaderPath
-                                                       encoding:NSUTF8StringEncoding error:&error];
+                                                       encoding:NSUTF8StringEncoding
+                                                          error:&error];
     if (!shaderString) {
         NSLog(@"Error loading shader: %@", error.localizedDescription);
         exit(1);
@@ -122,8 +122,10 @@ const GLubyte BackgroundIndices[] = {
 
 - (void) compileShaders {
     
-    GLuint vertexShader = [self compileShader:@"SimpleVertex" withType:GL_VERTEX_SHADER];
-    GLuint fragmentShader = [self compileShader:@"SimpleFragment" withType:GL_FRAGMENT_SHADER];
+    GLuint vertexShader = [self compileShader:@"SimpleVertex"
+                                     withType:GL_VERTEX_SHADER];
+    GLuint fragmentShader = [self compileShader:@"SimpleFragment"
+                                       withType:GL_FRAGMENT_SHADER];
     
     GLuint programHandle = glCreateProgram();
     glAttachShader(programHandle, vertexShader);
@@ -157,37 +159,29 @@ const GLubyte BackgroundIndices[] = {
 
     glGenBuffers(1, &_vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(DefaultPiece), DefaultPiece, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(DefaultPiece),
+                 DefaultPiece, GL_STATIC_DRAW);
 
     glGenBuffers(1, &_indexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(PieceIndices), PieceIndices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(PieceIndices),
+                 PieceIndices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &_vertexBuffer2);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(BackgroundVertices), BackgroundVertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(BackgroundVertices),
+                 BackgroundVertices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &_indexBuffer2);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(BackgroundIndices), BackgroundIndices, GL_STATIC_DRAW);
-
-}
-- (void) visionBackgroundRender:(UIImage *)imageFile{
-    //_backgroundTexture = [self setupTexture:[UIImage imageNamed:@"background.jpg"]];
-    [self setupTexture:imageFile];
-    //[self render];
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(BackgroundIndices),
+                 BackgroundIndices, GL_STATIC_DRAW);
 }
 
-- (void) setupTexture: (UIImage *) imageFile {
+- (void) setupTexture: (UIImage *) imageFile andWhichImage: (use_image) whichImage {
 
-    //CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
     CGImageRef spriteImage = imageFile.CGImage;
-    
-   /* if (!spriteImage) {
-        NSLog(@"Failed to load image %@", fileName);
-        exit(1);
-    }*/
-    
+
     int width = (int)CGImageGetWidth(spriteImage);
     int height = (int)CGImageGetHeight(spriteImage);
     
@@ -206,6 +200,7 @@ const GLubyte BackgroundIndices[] = {
     // use linear filetring
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    
     // clamp to edge
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -214,65 +209,72 @@ const GLubyte BackgroundIndices[] = {
 
     free(spriteData);
 
-    _backgroundTexture = texName;
-
-    [self render];
+    if (whichImage == USE_BACKGROUND) _backgroundTexture = texName;
+    else _puzzleTexture = texName;
 
     glDeleteTextures(1, &texName);
 }
 
-// Coord is x and y plus rotation hence 3 array
-- (void) placePiece: (int) pieceID andCoord: (int[3]) coord {
-    DEBUG_PRINT(1,"placePiece :: Placed piece %i\n", pieceID);
-    _pieces[pieceID].x_location = coord[0];
-    _pieces[pieceID].y_location = coord[1];
-    _pieces[pieceID].rotation = coord[2];
-    if (holdingPiece == pieceID)
-        holdingPiece = -1;
+/* Method called by vision to manipulate background */
+- (void) visionBackgroundRender: (UIImage *) imageFile {
+    [self setupTexture:imageFile andWhichImage:USE_BACKGROUND];
+    [self render];
+}
+
+/* Methods called by server to manipulate the pieces on the client */
+- (void) placePiece: (int) pieceID andCoords: (int[3]) coords {
+
+    _pieces[pieceID].x_location = coords[0];
+    _pieces[pieceID].y_location = coords[1];
+    _pieces[pieceID].rotation = coords[2];
     _pieces[pieceID].held = P_FALSE;
+
+    if (holdingPiece == pieceID) holdingPiece = -1;
+
     [self render];
 }
 
 - (void) pickupPiece: (int) pieceID {
-    DEBUG_PRINT(1,"pickupPiece :: Picked up piece %i\n", pieceID);
-    if (holdingPiece == -1)
-        holdingPiece = pieceID;
+
     _pieces[pieceID].held = P_TRUE;
+
+    holdingPiece = pieceID;
+
     [self render];
 }
 
 - (void) addToHeld: (int) pieceID {
+
     _pieces[pieceID].held = P_TRUE;
+
     [self render];
 }
 
-/***** Screen Touch *****/
+/***** SCREEN TOUCH *****/
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    for (int i = 0; i < num_of_pieces; i++) {
-        DEBUG_PRINT(2,"[x,y] = [%.1f,%.1f]\n", _pieces[i].x_location, _pieces[i].y_location);
-    }
+
     UITouch *touch = [[event allTouches] anyObject];
     
     // Get the specific point that was touched
     CGPoint point = [touch locationInView:touch.view];
 
     // Convert Screen to World Coordinates (Orthagraphic Projection)
-    float new_x = 2.0 * point.x / BOARD_WIDTH - 1;
-    float new_y = -2.0 * point.y / BOARD_HEIGHT + 1;
+    float new_x = 2.0 * point.x / self.frame.size.width - 1;
+    float new_y = -2.0 * point.y / self.frame.size.height + 1;
     bool success;
 
     GLKMatrix4 viewProjectionInverse = GLKMatrix4Invert(GLKMatrix4Multiply(_projectionMatrix, _modelViewMatrix), &success);
     GLKVector3 newPoints = GLKVector3Make(new_x, new_y, 0);
     GLKVector3 result = GLKMatrix4MultiplyVector3(viewProjectionInverse, newPoints);
 
-    point.x = result.v[0] + (BOARD_WIDTH / 2);
-    point.y = result.v[1] + (BOARD_HEIGHT / 2);
+    point.x = result.v[0] + (self.frame.size.width / 2);
+    point.y = result.v[1] + (self.frame.size.height / 2);
 
     DEBUG_PRINT(2,"touchesBegan :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
     
     // Ask server to place piece
     if (holdingPiece >= 0) {
-        [self.network droppedPiece:point.x WithY:point.y WithRotation:0];
+        [self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[holdingPiece].rotation];
     }
     else {
         for (int i = 0; i < num_of_pieces; i++) {
@@ -290,18 +292,16 @@ const GLubyte BackgroundIndices[] = {
 
 /***** DRAW CODE *****/
 - (void) render {
+
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
-    // Clear the screen
     glClearColor(230.0/255.0, 1.0, 1.0, 0.0);
-    //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     
     // Sort out projection Matrix
-    GLKMatrix4 projection = GLKMatrix4MakeOrtho(0, BOARD_WIDTH, 0, BOARD_HEIGHT, 0.1, 1000);
+    GLKMatrix4 projection = GLKMatrix4MakeOrtho(0, self.frame.size.width, 0, self.frame.size.height, 0.1, 1000);
     //float h = 4.0 * BOARD_WIDTH / BOARD_HEIGHT;
     //GLKMatrix4 projection = GLKMatrix4MakeFrustum(-2, 2, -h/2, h/2, 0.1, 1000);
 
@@ -316,29 +316,26 @@ const GLubyte BackgroundIndices[] = {
     
     _modelViewMatrix = modelView;
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.m);
-    
-    glViewport(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
-    // Draw Default Piece
-    if (DEBUG_LEVEL > 0) {
-        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(DefaultPiece), DefaultPiece, GL_STATIC_DRAW);
+    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 
-        glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-        glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
-        glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(DefaultPiece), DefaultPiece, GL_STATIC_DRAW);
 
-        glDrawElements(GL_TRIANGLES, sizeof(PieceIndices)/sizeof(PieceIndices[0]), GL_UNSIGNED_BYTE, 0);
-    }
-    
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
+    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+
+    glDrawElements(GL_TRIANGLES, sizeof(PieceIndices)/sizeof(PieceIndices[0]), GL_UNSIGNED_BYTE, 0);
+
     // Draw each Puzzle Piece
     for (int i = 0; i < num_of_pieces; i++) {
         // set row and col to get the sub-section of the texture
         int row = 0;
         int col = 0;
         int index = 0;
-        while (index != i) {//_pieces[i].piece_id) {
+        while (index != i) {
             col++;
             index++;
             if (col >= puzzle_cols) {
@@ -372,7 +369,7 @@ const GLubyte BackgroundIndices[] = {
             };
         }
         // Piece being held
-        else if (_pieces[i].held == P_TRUE && i == holdingPiece) {
+        else if (i == holdingPiece) {
             NewPiece[0] = (Vertex) {
                 {SIDE_LENGTH*2+10, 10, HOLDING_Z},
                 C_GOLD,
@@ -411,7 +408,7 @@ const GLubyte BackgroundIndices[] = {
     }
 
     // Set Orthographic Projection for Background Image
-    projection = GLKMatrix4MakeOrtho(0, BOARD_WIDTH, 0, BOARD_HEIGHT, 0.1, 1000);
+    projection = GLKMatrix4MakeOrtho(0, self.frame.size.width, 0, self.frame.size.height, 0.1, 1000);
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.m);
 
     // Send Background Image to the back
@@ -430,28 +427,9 @@ const GLubyte BackgroundIndices[] = {
 
     // Flush everything to the screen
     [_context presentRenderbuffer:GL_RENDERBUFFER];
-    
-    DEBUG_SAY(2, "end render()\n");
 }
 
-- (void) initPuzzle: (UIImage *) puzzleImage
-         withPieces: (Piece *) pieces
-         andNumRows: (int) numRows
-         andNumCols: (int) numCols {
-
-    _pieces = pieces;
-    _puzzleImage = puzzleImage;
-    puzzle_rows = numRows;
-    puzzle_cols = numCols;
-    num_of_pieces = numRows *  numCols;
-    texture_height = 1.0/num_of_pieces;
-    texture_width = 1.0/num_of_pieces;
-    holdingPiece = -1;
-    
-    [self render];
-}
-
-- (id)initWithFrame:(CGRect)frame andNetwork:(Network*) theNetwork {
+- (id) initWithFrame: (CGRect) frame andNetwork: (Network*) theNetwork {
     self = [super initWithFrame:frame];
     if (self) {
         // Call all the OpenGL setup code
@@ -462,15 +440,29 @@ const GLubyte BackgroundIndices[] = {
         [self setupFrameBuffer];
         [self compileShaders];
         [self setupVBOs];
+        [self setupTexture:_puzzleImage andWhichImage:USE_PUZZLE];
+
         self.network = theNetwork;
         self.network.graphics = self;
-       // _puzzleTexture = [self setupTexture:[UIImage imageNamed:@"puppy.png"]];
-       // _backgroundTexture = [self setupTexture:[UIImage imageNamed:@"background.jpg"]];
-        
-        //[self setupTexture:puzzleImage];
+
         [self render];
     }
     return self;
+}
+
+- (void) initWithPuzzle: (UIImage *) puzzleImage
+             withPieces: (Piece *) pieces
+             andNumRows: (int) numRows
+             andNumCols: (int) numCols {
+
+    _pieces = pieces;
+    _puzzleImage = puzzleImage;
+    puzzle_rows = numRows;
+    puzzle_cols = numCols;
+    num_of_pieces = numRows * numCols;
+    texture_height = 1.0/num_of_pieces;
+    texture_width = 1.0/num_of_pieces;
+    holdingPiece = -1;
 }
 
 @end

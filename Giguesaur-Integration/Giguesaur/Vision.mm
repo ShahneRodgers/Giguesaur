@@ -130,7 +130,7 @@ fromConnection:(AVCaptureConnection *)connection {
                            withObject:image
                         waitUntilDone:NO];
     
-        [[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];
+       /* [[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];*/
     frame.release();
     }
     //    imageView.image = image;
