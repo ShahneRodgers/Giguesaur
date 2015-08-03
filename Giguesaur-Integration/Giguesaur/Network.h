@@ -31,6 +31,7 @@
 -(void)prepare:(NSString*) address called:(NSString *)name;
 -(void)droppedPiece:(int)xNum WithY:(int)yNum WithRotation:(int)rotationNum;
 -(void)requestPiece:(int)pieceNum;
+-(void)checkMessages;
 -(NSString *)messageToNSString:(zmq_msg_t) message;
 
 @end
