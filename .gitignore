@@ -1,3 +1,6 @@
 .DS_Store
 *~
+Game/iOS/build/*
 Giguesaur-Integration/build/*
+Network/Server/build/*
+Vision/build/*
