@@ -24,7 +24,6 @@
 @property BrowsingDelegate *delegate;
 //@property Vision *vision;
 @property Graphics *graphics;
-@property int anon;
 
 -(void)addButton:(NSString*)title;
 

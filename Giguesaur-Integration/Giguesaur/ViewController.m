@@ -19,7 +19,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.xLocation = 100;
-    self.anon = 0;
     self.delegate = [[BrowsingDelegate alloc]init];
     [self.delegate searchForService:self];
    // self.vision = [[Vision alloc]init];
@@ -65,13 +64,10 @@
     Network *network = [[Network alloc]init];
     NSString *name = self.name.text;
     if (name.length < 3){
-        NSLog(@"Please enter a proper name");
-        name = [[NSString alloc]initWithFormat:@"Anonymous%i", self.anon];
-        self.anon += 1;
+        name = [[NSString alloc]initWithFormat:@"Anonymous"];
     }
     [network prepare:address called:name];
     //Should give the network the chosen client name and check this is okay.
-    //[controller prepare:network and:self.vision];
     [controller prepare:network];
     [controller setModalPresentationStyle:UIModalPresentationFullScreen];
     [self presentViewController:controller animated:YES completion:nil];

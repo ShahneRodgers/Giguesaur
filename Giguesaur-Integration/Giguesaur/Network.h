@@ -16,6 +16,7 @@
 
 
 @property (nonatomic) void* socket;
+@property (nonatomic) void* context;
 @property (nonatomic) void* recvSocket;
 @property (nonatomic) NSString *address;
 @property (nonatomic) int heldPiece;
@@ -31,5 +32,6 @@
 -(void)prepare:(NSString*) address called:(NSString *)name;
 -(void)droppedPiece:(int)xNum WithY:(int)yNum WithRotation:(int)rotationNum;
 -(void)requestPiece:(int)pieceNum;
+-(NSString *)messageToNSString:(zmq_msg_t) message;
 
 @end

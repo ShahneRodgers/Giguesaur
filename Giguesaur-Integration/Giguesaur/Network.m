@@ -25,9 +25,9 @@ Piece *pieces;
     self.hasImage = NO;
     self.nameIssue = NO;
     self.name = name;
-    void *context = zmq_ctx_new();
-    [self startSendSocket:context];
-    [self startRecvSocket:context];
+    self.context = zmq_ctx_new();
+    [self startSendSocket:self.context withIntro:YES];
+    [self startRecvSocket:self.context];
     [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)2.0
                                      target:self
                                    selector:@selector(checkMessages)
@@ -73,7 +73,7 @@ void free_data(void* data, void* hint){
 
 
 /*Creates the socket responsible for sending data and saves it to the client. */
--(void)startSendSocket:(void *)context{
+-(void)startSendSocket:(void *)context withIntro:(bool)sendIntro{
     printf("startSendSocket()\n");
     void *socket = zmq_socket(context, ZMQ_DEALER);
     const char* ip = [[[NSString alloc] initWithFormat:@"tcp://%@:5555", self.address] UTF8String];
@@ -83,7 +83,8 @@ void free_data(void* data, void* hint){
     
     self.socket = socket;
     
-    zmq_send(self.socket, "Intro", 5, 0);
+    if (sendIntro)
+        zmq_send(self.socket, "Intro", 5, 0);
     
 }
 
@@ -197,6 +198,13 @@ void free_data(void* data, void* hint){
     self.wantedPiece = self.heldPiece;
 }
 
+-(NSString *)messageToNSString:(zmq_msg_t) message{
+    char charIdent[zmq_msg_size(&message)+1];
+    memcpy(charIdent, zmq_msg_data(&message), sizeof(charIdent));
+    charIdent[zmq_msg_size(&message)] = '\0';
+    return [[NSString alloc] initWithFormat:@"%s", charIdent];
+}
+
 
 /* Receives a message from the server to say a piece has been picked up.*/
 -(void)pickUp{
@@ -208,7 +216,9 @@ void free_data(void* data, void* hint){
     zmq_msg_recv(&ident, self.recvSocket, 0);
     zmq_msg_recv(&piece, self.recvSocket, 0);
     
-    NSString *identity = [[NSString alloc] initWithFormat:@"%s", zmq_msg_data(&ident)];
+    NSString *identity = [self messageToNSString:ident];
+    
+    
     int pieceNum = atoi(zmq_msg_data(&piece));
     //UIButton *button = [self.buttons objectAtIndex:pieceNum];
     if ([identity hasPrefix:self.name]){
@@ -276,7 +286,6 @@ void free_data(void* data, void* hint){
     //If a piece is held and still wanted, tell the server we're still alive.
     if (self.heldPiece != -1 && self.wantedPiece == -1)
         [self keepAlive];
-    //[self.graphics printPieces];
   
     //Initialise and receive the type of message
     zmq_msg_t type;
@@ -302,13 +311,18 @@ void free_data(void* data, void* hint){
         [self drop];
         //Otherwise chat mode!
     } else if ([stringType hasPrefix:@"Error"]){
-        NSLog(@"Error");
         zmq_msg_init(&type);
         zmq_msg_recv(&type, self.recvSocket, 0);
         NSString *name = [[NSString alloc] initWithFormat:@"%s", zmq_msg_data(&type)];
-        NSLog(@"%@ == %@ ? %c", name, self.name, [self.name isEqualToString:name] );
+        //If you're the one with a name error
         if (self.hasImage != YES && [name hasPrefix:self.name]){
-            self.nameIssue = YES;
+            zmq_msg_init(&type);
+            zmq_msg_recv(&type, self.recvSocket, 0);
+            self.name = [[NSString alloc]initWithFormat:@"%@%i", self.name, atoi(zmq_msg_data(&type))];
+            [self startSendSocket:self.context withIntro:NO];
+            NSLog(@"New name=%@", self.name);
+        } else {
+            zmq_msg_recv(&type, self.recvSocket, 0);
         }
     } else {
         //NSLog(@"%@", stringType);
