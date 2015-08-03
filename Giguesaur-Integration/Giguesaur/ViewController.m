@@ -70,6 +70,9 @@
         self.anon += 1;
     }
     [network prepare:address called:name];
+    while(!network.hasImage){
+        [network checkMessages];
+    }
     //Should give the network the chosen client name and check this is okay.
     //[controller prepare:network and:self.vision];
     [controller prepare:network];
