@@ -137,7 +137,6 @@ void receiveMessage(){
     //Receive the message type.
     zmq_msg_recv(&type, receiver, 0);
     NSString *stringType = messageToNSString(type);
-    NSLog(stringType);
     
     //If the message is a pickup request
     if ([stringType hasPrefix:@"PickUp"]){
@@ -199,7 +198,7 @@ void receiveMessage(){
         //Check that the piece hasn't already been dropped.
         if (![heldPieces[pieceNum] isEqual:[NSNull null]])
             heldPieces[pieceNum] = [NSDate date];
-    //Ensure no duplicate names
+    /*Ensure no duplicate names
     } else if ([stringType hasPrefix:@"Intro"]){
         NSString *name = messageToNSString(identity);
         int clash = 0;
@@ -211,7 +210,7 @@ void receiveMessage(){
         [players addObject:name];
         if (clash > 0){
             NSLog(@"Name clash");
-            sleep(3); //THERE HAS TO BE A BETTER FIX THAN THIS! TODO
+            //sleep(3); //THERE HAS TO BE A BETTER FIX THAN THIS! TODO
             const char *num = [[[NSString alloc] initWithFormat:@"%d", clash] UTF8String];
             
             zmq_send(publisher, "Error", 5, ZMQ_SNDMORE);
@@ -220,7 +219,7 @@ void receiveMessage(){
             name = [[NSString alloc]initWithFormat:@"%@%s", name, num];
         }
         NSLog(@"Name %@", name);
-    //Otherwise we'll assume it's a chat message.
+    //Otherwise we'll assume it's a chat message. */
     } else {
     }
     //NSLog(@"Held pieces: %@", heldPieces);

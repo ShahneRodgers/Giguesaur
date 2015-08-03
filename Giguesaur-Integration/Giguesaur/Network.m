@@ -18,15 +18,13 @@ Piece *pieces;
  * everything else will happen automatically.
  */
 -(void)prepare:(NSString*) address called:(NSString*)name{
-    printf("prepare()\n");
     self.address = address;
     self.heldPiece = -1;
     self.wantedPiece = -1;
     self.hasImage = NO;
-    self.nameIssue = NO;
-    self.name = name;
+    self.name = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     self.context = zmq_ctx_new();
-    [self startSendSocket:self.context withIntro:YES];
+    [self startSendSocket:self.context];
     [self startRecvSocket:self.context];
     [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)2.0
                                      target:self
@@ -73,7 +71,7 @@ void free_data(void* data, void* hint){
 
 
 /*Creates the socket responsible for sending data and saves it to the client. */
--(void)startSendSocket:(void *)context withIntro:(bool)sendIntro{
+-(void)startSendSocket:(void *)context{
     printf("startSendSocket()\n");
     void *socket = zmq_socket(context, ZMQ_DEALER);
     const char* ip = [[[NSString alloc] initWithFormat:@"tcp://%@:5555", self.address] UTF8String];
@@ -82,9 +80,6 @@ void free_data(void* data, void* hint){
     zmq_connect(socket, ip);
     
     self.socket = socket;
-    
-    if (sendIntro)
-        zmq_send(self.socket, "Intro", 5, 0);
     
 }
 
@@ -97,7 +92,7 @@ void free_data(void* data, void* hint){
     if (rc == -1)
         NSLog(@"Problem connecting");
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "SetupMode", 9);
-    zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "Error", 5);
+    //zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "Error", 5);
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "PickUp", 6);
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "Drop", 4);
     
@@ -309,22 +304,7 @@ void free_data(void* data, void* hint){
         //If a piece has been dropped
     } else if ([stringType hasPrefix:@"Drop"]){
         [self drop];
-        //Otherwise chat mode!
-    } else if ([stringType hasPrefix:@"Error"]){
-        zmq_msg_init(&type);
-        zmq_msg_recv(&type, self.recvSocket, 0);
-        NSString *name = [[NSString alloc] initWithFormat:@"%s", zmq_msg_data(&type)];
-        //If you're the one with a name error
-        if (self.hasImage != YES && [name hasPrefix:self.name]){
-            zmq_msg_init(&type);
-            zmq_msg_recv(&type, self.recvSocket, 0);
-            self.name = [[NSString alloc]initWithFormat:@"%@%i", self.name, atoi(zmq_msg_data(&type))];
-            [self startSendSocket:self.context withIntro:NO];
-            NSLog(@"New name=%@", self.name);
-        } else {
-            zmq_msg_recv(&type, self.recvSocket, 0);
-        }
-    } else {
+    } else { //Error
         //NSLog(@"%@", stringType);
     }
     zmq_msg_close(&type);

@@ -25,7 +25,6 @@
 @property (nonatomic) NSDate *date;
 @property (nonatomic) NSMutableArray *buttons;
 @property BOOL hasImage;
-@property BOOL nameIssue;
 @property NSDate *lastRequest;
 @property Graphics* graphics;
 
