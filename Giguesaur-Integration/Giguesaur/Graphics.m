@@ -178,7 +178,43 @@ const GLubyte BackgroundIndices[] = {
                  BackgroundIndices, GL_STATIC_DRAW);
 }
 
-- (void) setupTexture: (UIImage *) imageFile andWhichImage: (use_image) whichImage {
+- (GLuint) setupTexturePuzzle: (UIImage *) imageFile {
+
+    DEBUG_SAY(1, "setup texture puzzle\n");
+    
+    CGImageRef spriteImage = imageFile.CGImage;
+
+    int width = (int)CGImageGetWidth(spriteImage);
+    int height = (int)CGImageGetHeight(spriteImage);
+
+    GLubyte *spriteData = (GLubyte *)calloc(width*height*4, sizeof(GLubyte));
+
+    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4, CGImageGetColorSpace(spriteImage), (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
+
+    CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
+
+    CGContextRelease(spriteContext);
+
+    GLuint texName;
+    glGenTextures(1, &texName);
+    glBindTexture(GL_TEXTURE_2D, texName);
+
+    // use linear filetring
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+
+    // clamp to edge
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
+
+    free(spriteData);
+
+    return texName;
+}
+
+- (void) setupTexture: (UIImage *) imageFile {
 
     CGImageRef spriteImage = imageFile.CGImage;
 
@@ -209,16 +245,16 @@ const GLubyte BackgroundIndices[] = {
 
     free(spriteData);
 
-    if (whichImage == USE_BACKGROUND) _backgroundTexture = texName;
-    else _puzzleTexture = texName;
+    _backgroundTexture = texName;
+
+    [self render];
 
     glDeleteTextures(1, &texName);
 }
 
 /* Method called by vision to manipulate background */
 - (void) visionBackgroundRender: (UIImage *) imageFile {
-    [self setupTexture:imageFile andWhichImage:USE_BACKGROUND];
-    [self render];
+    [self setupTexture:imageFile];
 }
 
 /* Methods called by server to manipulate the pieces on the client */
@@ -417,7 +453,10 @@ const GLubyte BackgroundIndices[] = {
 
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
+
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _backgroundTexture);
+    glUniform1i(_textureUniform, 0);
 
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
@@ -440,7 +479,6 @@ const GLubyte BackgroundIndices[] = {
         [self setupFrameBuffer];
         [self compileShaders];
         [self setupVBOs];
-        [self setupTexture:_puzzleImage andWhichImage:USE_PUZZLE];
 
         self.network = theNetwork;
         self.network.graphics = self;
@@ -456,13 +494,16 @@ const GLubyte BackgroundIndices[] = {
              andNumCols: (int) numCols {
 
     _pieces = pieces;
-    _puzzleImage = puzzleImage;
+    //_puzzleImage = [UIImage imageNamed:@"puppy.png"];//puzzleImage;
     puzzle_rows = numRows;
     puzzle_cols = numCols;
     num_of_pieces = numRows * numCols;
     texture_height = 1.0/num_of_pieces;
     texture_width = 1.0/num_of_pieces;
     holdingPiece = -1;
+    _puzzleTexture = [self setupTexturePuzzle:puzzleImage];
+
+    [self render];
 }
 
 @end
