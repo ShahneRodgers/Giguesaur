@@ -79,15 +79,17 @@
 		CE8831771B6ADB7200614EAD /* Puzzle.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8831751B6ADB7200614EAD /* Puzzle.m */; };
 		CE88317C1B6ADCC700614EAD /* SimpleMath.m in Sources */ = {isa = PBXBuildFile; fileRef = CE88317B1B6ADCC700614EAD /* SimpleMath.m */; };
 		CE88317E1B6ADF3E00614EAD /* PieceNeighbours.m in Sources */ = {isa = PBXBuildFile; fileRef = CE88317D1B6ADF3E00614EAD /* PieceNeighbours.m */; };
+		CEB5B1091B72D0D10075D7CC /* puppy.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = CEB5B1081B72CFD80075D7CC /* puppy.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		165683DA1AB668E30085CB9F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			dstPath = "";
+			dstSubfolderSpec = 16;
 			files = (
+				CEB5B1091B72D0D10075D7CC /* puppy.png in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -265,6 +267,7 @@
 		CE88317B1B6ADCC700614EAD /* SimpleMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimpleMath.m; path = SimpleMath/SimpleMath.m; sourceTree = "<group>"; };
 		CE88317D1B6ADF3E00614EAD /* PieceNeighbours.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PieceNeighbours.m; path = Giguesaur/PieceNeighbours.m; sourceTree = "<group>"; };
 		CE88317F1B6ADFAE00614EAD /* PieceNeighbours.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PieceNeighbours.h; path = Giguesaur/PieceNeighbours.h; sourceTree = "<group>"; };
+		CEB5B1081B72CFD80075D7CC /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = puppy.png; path = resources/puppy.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,6 +284,7 @@
 		165683D31AB668E30085CB9F = {
 			isa = PBXGroup;
 			children = (
+				CEAADA241B72D349004E8B9E /* copy into product location */,
 				21B3805C1ABBA44700205860 /* include */,
 				21B37F771ABBA41B00205860 /* src */,
 				165683DE1AB668E30085CB9F /* TestServer */,
@@ -503,6 +507,14 @@
 				CE88317A1B6ADCC700614EAD /* SimpleMath.h */,
 			);
 			name = SimpleMath;
+			sourceTree = "<group>";
+		};
+		CEAADA241B72D349004E8B9E /* copy into product location */ = {
+			isa = PBXGroup;
+			children = (
+				CEB5B1081B72CFD80075D7CC /* puppy.png */,
+			);
+			name = "copy into product location";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

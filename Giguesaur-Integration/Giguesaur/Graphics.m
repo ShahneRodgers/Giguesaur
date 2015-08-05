@@ -310,7 +310,7 @@ const GLubyte BackgroundIndices[] = {
     
     // Ask server to place piece
     if (holdingPiece >= 0) {
-        [self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[holdingPiece].rotation];
+        [self.network droppedPiece:point.x WithY:point.y WithRotation:0]; //BUG
     }
     else {
         for (int i = 0; i < num_of_pieces; i++) {
