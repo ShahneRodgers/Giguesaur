@@ -1,0 +1,1 @@
+Move the image to where the Application is built.
