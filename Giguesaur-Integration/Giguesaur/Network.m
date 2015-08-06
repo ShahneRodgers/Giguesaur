@@ -187,6 +187,9 @@ void free_data(void* data, void* hint){
 
 /* Drops the piece that is being held at location (x, y) with rotation r. */
 -(void)droppedPiece:(float)xNum WithY:(float)yNum WithRotation:(float)rotationNum{
+    //We've already asked to drop this piece
+    if (self.wantedPiece == self.heldPiece && [self.lastRequest timeIntervalSinceNow] < -TIMEOUT)
+        return;
     const char *piece = [self intToString:self.heldPiece];
     const char *x = [self floatToString:xNum];
     const char *y = [self floatToString:yNum];
@@ -199,6 +202,7 @@ void free_data(void* data, void* hint){
     zmq_send(self.socket, rotation, sizeof(rotation), 0);
     
     self.wantedPiece = self.heldPiece;
+    self.lastRequest = [NSDate date];
 }
 
 -(NSString *)messageToNSString:(zmq_msg_t) message{
