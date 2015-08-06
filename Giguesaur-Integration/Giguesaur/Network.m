@@ -89,7 +89,7 @@ void free_data(void* data, void* hint){
     if (rc == -1)
         NSLog(@"Problem connecting");
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "SetupMode", 9);
-    //zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "Error", 5);
+    zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "Error", 5);
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "PickUp", 6);
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "Drop", 4);
     
@@ -303,7 +303,9 @@ void free_data(void* data, void* hint){
         //If a piece has been dropped
     } else if ([stringType hasPrefix:@"Drop"]){
         [self drop];
-    } else { //Error
+    } else if ([stringType hasPrefix:@"Error"]){
+        self.lastHeard = [NSDate date];
+    } else {
         //NSLog(@"%@", stringType);
     }
     zmq_msg_close(&type);

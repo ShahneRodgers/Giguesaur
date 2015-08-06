@@ -28,6 +28,7 @@ Piece pieces[NUM_OF_PIECES];
 void *publisher;
 void *receiver;
 int imageLen;
+NSDate *lastSent;
 
 void registerCallback (
                        CFNetServiceRef theService,
@@ -83,7 +84,7 @@ int getIntFromMessage(){
     return num;
 }
 
-void dropPiece(int pieceNum, zmq_msg_t x, zmq_msg_t y, zmq_msg_t r){
+void dropPiece(int pieceNum, int x, int y, int r){
     if (pieceNum >= [heldPieces count]){
         return;
     }
@@ -91,9 +92,9 @@ void dropPiece(int pieceNum, zmq_msg_t x, zmq_msg_t y, zmq_msg_t r){
     const char *piece = getStringFromInt(pieceNum);
     
     //Fix pieceLocations array to store new correct locations
-    pieces[pieceNum].x_location = atoi(zmq_msg_data(&x));
-    pieces[pieceNum].y_location = atoi(zmq_msg_data(&y));
-    pieces[pieceNum].rotation = atoi(zmq_msg_data(&r));
+    pieces[pieceNum].x_location = x;
+    pieces[pieceNum].y_location = y;
+    pieces[pieceNum].rotation = r;
     pieces[pieceNum].held = P_FALSE;
 
     // Check Piece Neighbours
@@ -113,10 +114,7 @@ void dropPiece(int pieceNum, zmq_msg_t x, zmq_msg_t y, zmq_msg_t r){
     zmq_send(publisher, newX, sizeof(newX), ZMQ_SNDMORE);
     zmq_send(publisher, newY, sizeof(newY), ZMQ_SNDMORE);
     zmq_send(publisher, newR, sizeof(newR), 0);
-    
-    zmq_msg_close(&x);
-    zmq_msg_close(&y);
-    zmq_msg_close(&r);
+    lastSent = [NSDate date];
 }
 
 NSString* messageToNSString(zmq_msg_t message){
@@ -125,7 +123,6 @@ NSString* messageToNSString(zmq_msg_t message){
     charIdent[zmq_msg_size(&message)] = '\0';
     return [[NSString alloc] initWithFormat:@"%s", charIdent];
 }
-
 
 void receiveMessage(){
     zmq_msg_t type;
@@ -169,6 +166,9 @@ void receiveMessage(){
             //Send the piece that has been taken
             zmq_send(publisher, pieceString, sizeof(pieceString), 0);
             
+            //Update the lastSent
+            lastSent = [NSDate date];
+            
             //Set the timestamp of the piece
             heldPieces[pieceNum] = [NSDate date];
             //Set the location of the piece
@@ -183,23 +183,22 @@ void receiveMessage(){
         int pieceNum = getIntFromMessage();
         
         //Receive x
-        zmq_msg_t x;
-        zmq_msg_init(&x);
-        zmq_msg_recv(&x, receiver, 0);
+        zmq_msg_t xMes;
+        zmq_msg_init(&xMes);
+        zmq_msg_recv(&xMes, receiver, 0);
+        int x = atoi(zmq_msg_data(&xMes));
         //Receive y
-        zmq_msg_t y;
-        zmq_msg_init(&y);
-        zmq_msg_recv(&y, receiver, 0);
+        zmq_msg_init(&xMes);
+        zmq_msg_recv(&xMes, receiver, 0);
+        int y = atoi(zmq_msg_data(&xMes));
         //Receive rotation
-        zmq_msg_t rotation;
-        zmq_msg_init(&rotation);
-        zmq_msg_recv(&rotation, receiver, 0);
+        zmq_msg_init(&xMes);
+        zmq_msg_recv(&xMes, receiver, 0);
+        int r = atoi(zmq_msg_data(&xMes));
+        zmq_msg_close(&xMes);
         
-        dropPiece(pieceNum, x, y, rotation);
-        //NSLog(@"%s dropped %i", zmq_msg_data(&identity), pieceNum);
-        
-        
-        //If the message is to inform the server that the client is still around
+        dropPiece(pieceNum, x, y, r);
+    //If the message is to inform the server that the client is still around
     } else if ([stringType hasPrefix:@"KeepAlive"]){
         int pieceNum = getIntFromMessage();
         //Check that the piece hasn't already been dropped.
@@ -232,23 +231,20 @@ void receiveMessage(){
     //NSLog(@"Held pieces: %@", heldPieces);
 }
 
+/* A method used by the server when it hasn't heard from any player
+ * in a while to inform everyone that they haven't lost connection
+ */
+void sendAlive(){
+    zmq_send(publisher, "Error", 5, 0);
+}
+
 void checkPieces(){
     for (int i = 0; i < [heldPieces count]; i++){
         id piece = heldPieces[i];
         if (! [piece isEqual:[NSNull null]]){
             NSTimeInterval interval = -1 * [piece timeIntervalSinceNow];
             if (interval > TIMEOUT){
-                zmq_msg_t xMes;
-                char* x = (char*)getStringFromInt(pieces[i].x_location);
-                zmq_msg_init_data(&xMes, x, sizeof(x), nil, nil);
-                zmq_msg_t yMes;
-                char* y = (char *)getStringFromInt(pieces[i].y_location);
-                zmq_msg_init_data(&yMes, y, sizeof(y), nil, nil);
-                zmq_msg_t rMes;
-                char* r = (char *)getStringFromInt(pieces[i].rotation);
-                zmq_msg_init_data(&rMes, r, sizeof(r), nil, nil);
-                
-                dropPiece(i, xMes, yMes, rMes);
+                dropPiece(i, pieces[i].x_location, pieces[i].y_location, pieces[i].rotation);
                 NSLog(@"Dropped piece %i after interval %f", i, interval);
             }
         }
@@ -280,6 +276,8 @@ void startServer(){
             checkPieces();
         }
         receiveMessage();
+        if ([lastSent timeIntervalSinceNow] < -TIMEOUT/2)
+            sendAlive();
         
     }
     
