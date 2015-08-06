@@ -117,7 +117,7 @@ GLKMatrix4 modelView = GLKMatrix4Identity;
     
     if(vectors){
         //std::cout << "rvec: " << rvec << "tvec: " << tvec << std::endl;
-        for(int i = 0; i < 3; i++){
+       /* for(int i = 0; i < 3; i++){
             rotation[i] = rvec.at<double>(0,i);
             translation[i] = tvec.at<double>(0,i);
         }
@@ -125,11 +125,11 @@ GLKMatrix4 modelView = GLKMatrix4Identity;
         for(int i = 0; i < 3; i++){
             printf("rotation %d: %f\n", i+1, rotation[i]);
             printf("translation %d: %f\n", i+1, translation[i]);
-        }
+        }*/
         
         /*GLKMatrix4 rotation = GLKMatrix4MakeRotation(degToRad(0), 0, 0, 1);
         GLKMatrix4 translation = GLKMatrix4MakeTranslation(0,0,-1);*/
-        modelView = GLKMatrix4Multiply(rotation, translation);
+        //modelView = GLKMatrix4Multiply(rotation, translation);
 
         cv::Rodrigues(rvec, rotation);
         for(int row = 0; row < 3; row++){
