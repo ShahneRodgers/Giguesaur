@@ -31,7 +31,7 @@
 @property Graphics* graphics;
 
 -(void)prepare:(NSString*) address;
--(void)droppedPiece:(int)xNum WithY:(int)yNum WithRotation:(int)rotationNum;
+-(void)droppedPiece:(float)xNum WithY:(float)yNum WithRotation:(float)rotationNum;
 -(void)requestPiece:(int)pieceNum;
 -(void)checkMessages;
 -(NSString *)messageToNSString:(zmq_msg_t) message;

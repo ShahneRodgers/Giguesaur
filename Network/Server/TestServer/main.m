@@ -51,6 +51,10 @@ void publishService(){
     
 }
 
+const char* getStringFromFloat(float num){
+    return [[[NSString alloc] initWithFormat:@"%f", num] UTF8String];
+}
+
 const char* getStringFromInt(int num){
     return [[[NSString alloc] initWithFormat:@"%d", num] UTF8String];
 }
@@ -84,12 +88,12 @@ int getIntFromMessage(){
     return num;
 }
 
-void dropPiece(int pieceNum, int x, int y, int r){
+void dropPiece(int pieceNum, float x, float y, float r){
     if (pieceNum >= [heldPieces count]){
         return;
     }
     heldPieces[pieceNum] = [NSNull null];
-    const char *piece = getStringFromInt(pieceNum);
+    const char *piece = getStringFromFloat(pieceNum);
     
     //Fix pieceLocations array to store new correct locations
     pieces[pieceNum].x_location = x;
@@ -103,10 +107,9 @@ void dropPiece(int pieceNum, int x, int y, int r){
     
     
     //Locations may have been changed by Ash's methods so reset messages
-    const char* newX = getStringFromInt(pieces[pieceNum].x_location);
-    const char* newY = getStringFromInt(pieces[pieceNum].y_location);
-    const char* newR = getStringFromInt(pieces[pieceNum].rotation);
-    //TODO - check if the locations/rotations need to be floats not ints.
+    const char* newX = getStringFromFloat(pieces[pieceNum].x_location);
+    const char* newY = getStringFromFloat(pieces[pieceNum].y_location);
+    const char* newR = getStringFromFloat(pieces[pieceNum].rotation);
     
     //Inform everyone of the new location
     zmq_send(publisher, "Drop", 4, ZMQ_SNDMORE);
@@ -186,15 +189,15 @@ void receiveMessage(){
         zmq_msg_t xMes;
         zmq_msg_init(&xMes);
         zmq_msg_recv(&xMes, receiver, 0);
-        int x = atoi(zmq_msg_data(&xMes));
+        float x = atof(zmq_msg_data(&xMes));
         //Receive y
         zmq_msg_init(&xMes);
         zmq_msg_recv(&xMes, receiver, 0);
-        int y = atoi(zmq_msg_data(&xMes));
+        float y = atof(zmq_msg_data(&xMes));
         //Receive rotation
         zmq_msg_init(&xMes);
         zmq_msg_recv(&xMes, receiver, 0);
-        int r = atoi(zmq_msg_data(&xMes));
+        float r = atof(zmq_msg_data(&xMes));
         zmq_msg_close(&xMes);
         
         dropPiece(pieceNum, x, y, r);
