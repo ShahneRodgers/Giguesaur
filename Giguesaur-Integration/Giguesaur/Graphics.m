@@ -220,6 +220,8 @@ const GLubyte BackgroundIndices[] = {
 
 - (void) setupTexture: (UIImage *) imageFile {
 
+    DEBUG_SAY(1, "setup background puzzle\n");
+
     CGImageRef spriteImage = imageFile.CGImage;
 
     int width = (int)CGImageGetWidth(spriteImage);
@@ -271,7 +273,7 @@ const GLubyte BackgroundIndices[] = {
 
     if (holdingPiece == pieceID) holdingPiece = -1;
 
-    [self render];
+    //[self render];
 }
 
 - (void) pickupPiece: (int) pieceID {
@@ -280,14 +282,14 @@ const GLubyte BackgroundIndices[] = {
 
     holdingPiece = pieceID;
 
-    [self render];
+    //[self render];
 }
 
 - (void) addToHeld: (int) pieceID {
 
     _pieces[pieceID].held = P_TRUE;
 
-    [self render];
+    //[self render];
 }
 
 /***** SCREEN TOUCH *****/
@@ -502,7 +504,7 @@ const GLubyte BackgroundIndices[] = {
         self.network.graphics = self;
 
         [self printPuzzle];
-        [self render];
+        //[self render];
     }
     return self;
 }
@@ -525,7 +527,7 @@ const GLubyte BackgroundIndices[] = {
     puzzleStateRevieved = YES;
 
     [self printPuzzle];
-    [self render];
+    //[self render];
 }
 
 - (void) printPuzzle {

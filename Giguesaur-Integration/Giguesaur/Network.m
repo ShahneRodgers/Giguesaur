@@ -209,7 +209,7 @@ void free_data(void* data, void* hint){
     zmq_msg_recv(&piece, self.recvSocket, 0);
     
     NSString *identity = [self messageToNSString:ident];
-    
+    DEBUG_SAY(2, "Network.h :: pickUp\n");
     int pieceNum = atoi(zmq_msg_data(&piece));
     //UIButton *button = [self.buttons objectAtIndex:pieceNum];
     if ([identity hasPrefix:self.name]){
@@ -218,7 +218,7 @@ void free_data(void* data, void* hint){
         NSLog(@"I have %i", self.heldPiece);
         [self.graphics pickupPiece:self.heldPiece];
         self.wantedPiece = -1;
-    } else { // TO DO: Yeah
+    } else {
         [self.graphics addToHeld:pieceNum];
         if (pieceNum == self.wantedPiece){
             NSLog(@"%@ stole my piece!", identity);
