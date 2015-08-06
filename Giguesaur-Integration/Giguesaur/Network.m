@@ -159,8 +159,13 @@ void free_data(void* data, void* hint){
     self.hasImage = YES;
 }
 
-/* Converts an int into a char * so it can be sent to the server */
+/* Converts an int into a const char * so it can be sent to the server */
 -(const char*)intToString:(int)num{
+    return [[[NSString alloc] initWithFormat:@"%d", num] UTF8String];
+}
+
+/* Converts a float into a const char * so it can be sent to the server */
+-(const char*)floatToString:(int)num{
     return [[[NSString alloc] initWithFormat:@"%d", num] UTF8String];
 }
 
@@ -175,11 +180,11 @@ void free_data(void* data, void* hint){
 
 
 /* Drops the piece that is being held at location (x, y) with rotation r. */
--(void)droppedPiece:(int)xNum WithY:(int)yNum WithRotation:(int)rotationNum{
+-(void)droppedPiece:(float)xNum WithY:(float)yNum WithRotation:(float)rotationNum{
     const char *piece = [self intToString:self.heldPiece];
-    const char *x = [self intToString:xNum];
-    const char *y = [self intToString:yNum];
-    const char *rotation = [self intToString:rotationNum];
+    const char *x = [self floatToString:xNum];
+    const char *y = [self floatToString:yNum];
+    const char *rotation = [self floatToString:rotationNum];
     
     zmq_send(self.socket, "Drop", 4, ZMQ_SNDMORE);
     zmq_send(self.socket, piece, sizeof(piece), ZMQ_SNDMORE);
@@ -252,7 +257,7 @@ void free_data(void* data, void* hint){
                        zmq_msg_data(&y),
                        zmq_msg_data(&rotation)]; */
     int pieceNum = atoi(zmq_msg_data(&piece));
-    int locs[3] = {atoi(zmq_msg_data(&x)), atoi(zmq_msg_data(&y)), atoi(zmq_msg_data(&rotation))};
+    int locs[3] = {atof(zmq_msg_data(&x)), atof(zmq_msg_data(&y)), atof(zmq_msg_data(&rotation))};
    // [[self.buttons objectAtIndex:atoi(zmq_msg_data(&piece))]setTitle:title forState:normal];
     [self.graphics placePiece:pieceNum andCoords:locs];
     
