@@ -70,7 +70,7 @@ typedef enum {USE_BACKGROUND, USE_PUZZLE} use_image;
 }
 
 // Called by Vision
-- (void) visionBackgroundRender: (UIImage *) imageFile;
+- (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4 *) matrix;
 
 // Called by Network
 - (void) placePiece: (int) pieceID andCoords: (int[3]) coords;
