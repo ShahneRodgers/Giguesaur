@@ -20,11 +20,12 @@
 #define PIECE_Z 0
 #define HOLDING_Z 0.01
 
-#define C_BLACK {0, 0, 0, 1}
-#define C_GRAY {0.5, 0.5, 0.5, 1}
-#define C_WHITE {1, 1, 1, 1}
-#define C_GOLD {255.0/255.0, 223.0/255.0, 0.0/255.0, 1}
-#define C_TRANS {0, 0, 0, 0}
+#define C_BLACK 0, 0, 0, 1
+#define C_GRAY 0.5, 0.5, 0.5, 1
+#define C_WHITE 1, 1, 1, 1
+#define C_GOLD 255.0/255.0, 223.0/255.0, 0.0/255.0, 1
+#define C_TRANS 0, 0, 0, 0
+#define C_CALM 230.0/255.0, 1.0, 1.0, 0.0
 
 #define BOARD_WIDTH 1024
 #define BOARD_HEIGHT 768
@@ -68,7 +69,7 @@
 }
 
 // Called by Vision
-- (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4*) matrix;
+- (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4 *) matrix;
 
 // Called by Network
 - (void) placePiece: (int) pieceID andCoords: (float[3]) coords;

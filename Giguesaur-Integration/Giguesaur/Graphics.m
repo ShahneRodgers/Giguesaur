@@ -19,17 +19,17 @@ typedef struct {
 } Vertex;
 
 const Vertex DefaultPiece[] = {
-    {{SIDE_HALF, -SIDE_HALF, PIECE_Z}, C_BLACK, {1, 0}},
-    {{SIDE_HALF, SIDE_HALF, PIECE_Z}, C_BLACK, {1, 1}},
-    {{-SIDE_HALF, SIDE_HALF, PIECE_Z}, C_BLACK, {0, 1}},
-    {{-SIDE_HALF, -SIDE_HALF, PIECE_Z}, C_BLACK, {0, 0}}
+    {{SIDE_HALF, -SIDE_HALF, PIECE_Z}, {C_BLACK}, {1, 0}},
+    {{SIDE_HALF, SIDE_HALF, PIECE_Z}, {C_BLACK}, {1, 1}},
+    {{-SIDE_HALF, SIDE_HALF, PIECE_Z}, {C_BLACK}, {0, 1}},
+    {{-SIDE_HALF, -SIDE_HALF, PIECE_Z}, {C_BLACK}, {0, 0}}
 };
 
 const Vertex BackgroundVertices[] = {
-    {{BOARD_WIDTH, 0, 0}, C_WHITE, {1, 1}},
-    {{BOARD_WIDTH, BOARD_HEIGHT, 0}, C_WHITE, {1, 0}},
-    {{0, BOARD_HEIGHT, 0}, C_WHITE, {0, 0}},
-    {{0, 0, 0}, C_WHITE, {0, 1}}
+    {{BOARD_WIDTH, 0, 0}, {C_WHITE}, {1, 1}},
+    {{BOARD_WIDTH, BOARD_HEIGHT, 0}, {C_WHITE}, {1, 0}},
+    {{0, BOARD_HEIGHT, 0}, {C_WHITE}, {0, 0}},
+    {{0, 0, 0}, {C_WHITE}, {0, 1}}
 };
 
 const GLubyte PieceIndices[] = {
@@ -316,7 +316,7 @@ const GLubyte BackgroundIndices[] = {
 
 
 /* Method called by vision to manipulate background */
-- (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4*) matrix {
+- (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4 *) matrix {
     //_modelViewMatrix = *matrix;
     //[self setupPuzzleTexture:_puzzleImage andBackgroundTexture: imageFile];
     [self setupTextureBackground:imageFile];
@@ -399,7 +399,7 @@ const GLubyte BackgroundIndices[] = {
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
-    glClearColor(230.0/255.0, 1.0, 1.0, 0.0);
+    glClearColor(C_CALM);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     
@@ -458,22 +458,22 @@ const GLubyte BackgroundIndices[] = {
         if (_pieces[i].held == P_FALSE) {
             NewPiece[0] = (Vertex) {
                 {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
-                C_WHITE,
+                {C_WHITE},
                 {texture_width * (col+1), texture_height * (row + 1)}
             };
             NewPiece[1] = (Vertex) {
                 {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
-                C_WHITE,
+                {C_WHITE},
                 {texture_width * (col+1), texture_height * row}
             };
             NewPiece[2] = (Vertex) {
                 {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
-                C_WHITE,
+                {C_WHITE},
                 {texture_width * col, texture_height * row}
             };
             NewPiece[3] = (Vertex) {
                 {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
-                C_WHITE,
+                {C_WHITE},
                 {texture_width * col, texture_height * (row+1)}
             };
 
@@ -490,22 +490,22 @@ const GLubyte BackgroundIndices[] = {
         else if (i == holdingPiece) {
             NewPiece[0] = (Vertex) {
                 {SIDE_LENGTH*2+10, 10, HOLDING_Z},
-                C_GOLD,
+                {C_GOLD},
                 {texture_width * (col+1), texture_height * (row + 1)}
             };
             NewPiece[1] = (Vertex) {
                 {SIDE_LENGTH*2+10, SIDE_LENGTH*2+10, HOLDING_Z},
-                C_GOLD,
+                {C_GOLD},
                 {texture_width * (col+1), texture_height * row}
             };
             NewPiece[2] = (Vertex) {
                 {10, SIDE_LENGTH*2+10, HOLDING_Z},
-                C_GOLD,
+                {C_GOLD},
                 {texture_width * col, texture_height * row}
             };
             NewPiece[3] = (Vertex) {
                 {10, 10, HOLDING_Z},
-                C_GOLD,
+                {C_GOLD},
                 {texture_width * col, texture_height * (row+1)}
             };
 
@@ -520,14 +520,14 @@ const GLubyte BackgroundIndices[] = {
         glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
         glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
 
+        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(NewPiece), NewPiece, GL_STATIC_DRAW);
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, _puzzleTexture);
         glUniform1i(_textureUniform, 0);
 
-        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(NewPiece), NewPiece, GL_STATIC_DRAW);
-        
         glDrawElements(GL_TRIANGLES, sizeof(PieceIndices)/sizeof(PieceIndices[0]), GL_UNSIGNED_BYTE, 0);
     }
 
@@ -543,13 +543,13 @@ const GLubyte BackgroundIndices[] = {
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _backgroundTexture);
-    glUniform1i(_textureUniform, 0);
-
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
     glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _backgroundTexture);
+    glUniform1i(_textureUniform, 0);
 
     glDrawElements(GL_TRIANGLE_STRIP, sizeof(BackgroundIndices)/sizeof(BackgroundIndices[0]), GL_UNSIGNED_BYTE, 0);
 
