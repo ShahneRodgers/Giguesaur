@@ -13,6 +13,7 @@ cv::Size boardSize(9,6);
 std::vector<cv::Point3f> corners;
 //vector<Point3f> polypoints;
 cv::Mat cameraMatrix, distCoeffs;
+GLKMatrix4 modelView = GLKMatrix4Identity;
 
 @implementation Vision
 
@@ -76,7 +77,7 @@ cv::Mat cameraMatrix, distCoeffs;
     preview.frame = self.graphics.bounds;
     preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
     preview.hidden = YES;
-   // [self.graphics.layer addSublayer:preview];
+    // [self.graphics.layer addSublayer:preview];
     //[self.graphics bringSublayerToFront]; This doesn';t work
     //[self.graphics.layer insertSublayer:preview atIndex:1];
     
@@ -87,26 +88,76 @@ cv::Mat cameraMatrix, distCoeffs;
     std::vector<cv::Point2f> pixelcorners;
     cv::Mat rvec;
     cv::Mat tvec;
+    cv::Mat rotation;
+    cv::Mat viewMat = cv::Mat::zeros(4, 4, CV_64FC1);//might need to change format
+    cv::Mat matToGL = cv::Mat::zeros(4, 4, CV_64FC1);
+    
+    matToGL.at<double>(0,0) = 1.0f;
+    matToGL.at<double>(1,1) = -1.0f; //inverts y
+    matToGL.at<double>(2,2) = -1.0f; //inverts z
+    matToGL.at<double>(3,3) = 1.0f;
+    
     //vector<Point2f> imagepoints;
     bool vectors = false;
     
-    NSDate *start = [NSDate date];
+    // NSDate *start = [NSDate date];
    bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners,
                                               cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_NORMALIZE_IMAGE
                                               + cv::CALIB_CB_FAST_CHECK);
     
     /*bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners, cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_FAST_CHECK + cv::CALIB_CB_FILTER_QUADS);*/
     
-    NSDate *finish = [NSDate date];
+   /* NSDate *finish = [NSDate date];
     NSTimeInterval runtime = [finish timeIntervalSinceDate:start];
-    NSLog(@"Checkerboard found in %f \n", runtime);
+    NSLog(@"Checkerboard found in %f \n", runtime);*/
     if(patternfound){
         vectors = solvePnP(corners, pixelcorners, cameraMatrix, distCoeffs, rvec, tvec, false);
         cv::drawChessboardCorners(frame, boardSize, pixelcorners, patternfound);
     }
     
     if(vectors){
-    //Do something here with rvec and tvec, likely call rendering while passing it mat
+        //std::cout << "rvec: " << rvec << "tvec: " << tvec << std::endl;
+        for(int i = 0; i < 3; i++){
+            rotation[i] = rvec.at<double>(0,i);
+            translation[i] = tvec.at<double>(0,i);
+        }
+        
+        for(int i = 0; i < 3; i++){
+            printf("rotation %d: %f\n", i+1, rotation[i]);
+            printf("translation %d: %f\n", i+1, translation[i]);
+        }
+        
+        /*GLKMatrix4 rotation = GLKMatrix4MakeRotation(degToRad(0), 0, 0, 1);
+        GLKMatrix4 translation = GLKMatrix4MakeTranslation(0,0,-1);*/
+        modelView = GLKMatrix4Multiply(rotation, translation);
+
+        cv::Rodrigues(rvec, rotation);
+        for(int row = 0; row < 3; row++){
+            for(int col = 0; col < 3; col++){
+                viewMat.at<double>(row,col) = rotation.at<double>(row,col);
+            }
+            viewMat.at<double>(row,3) = tvec.at<double>(0,row);
+        }
+        viewMat.at<double>(3,3) = 1.0f;
+        viewMat = viewMat * matToGL;
+        cv::transpose(viewMat, viewMat);
+        
+        modelView = GLKMatrix4Make(viewMat.at<double>(0,0), viewMat.at<double>(0,1), viewMat.at<double>(0,2), viewMat.at<double>(0,3), viewMat.at<double>(1,0), viewMat.at<double>(1,1), viewMat.at<double>(1,2), viewMat.at<double>(1,3), viewMat.at<double>(2,0), viewMat.at<double>(2,1), viewMat.at<double>(2,2), viewMat.at<double>(2,3), viewMat.at<double>(3,0), viewMat.at<double>(3,1), viewMat.at<double>(3,2), viewMat.at<double>(3,3));
+    }
+    
+    @autoreleasepool {
+        
+        
+        cv::cvtColor(frame, frame, CV_BGRA2RGBA);
+        
+        UIImage *image = [self UIImageFromCVMat:frame];
+        /*[[self graphics] performSelectorOnMainThread:@selector(visionBackgroundRender:)
+         withObject:image
+         waitUntilDone:NO];*/
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[self graphics] visionBackgroundRender:image with: modelView];
+        })
     }
     rvec.release();
     tvec.release();
@@ -123,12 +174,12 @@ fromConnection:(AVCaptureConnection *)connection {
     [self fromSampleBuffer:sampleBuffer toCVMat: frame];
     
     [self calculatePose:frame];
-    cv::cvtColor(frame, frame, CV_BGRA2RGBA);
+   /* cv::cvtColor(frame, frame, CV_BGRA2RGBA);
     
     UIImage *image = [self UIImageFromCVMat:frame];
     [[self graphics] performSelectorOnMainThread:@selector(visionBackgroundRender:)
                            withObject:image
-                        waitUntilDone:NO];
+                        waitUntilDone:NO];*/
     
       /* [[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];*/
     frame.release();
