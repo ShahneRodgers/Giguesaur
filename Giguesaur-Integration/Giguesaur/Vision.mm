@@ -13,7 +13,7 @@ cv::Size boardSize(9,6);
 std::vector<cv::Point3f> corners;
 //vector<Point3f> polypoints;
 cv::Mat cameraMatrix, distCoeffs;
-GLKMatrix4 modelView = GLKMatrix4Identity;
+GLKMatrix4 modelView;// GLKMatrix4Identity;
 
 @implementation Vision
 
@@ -156,8 +156,8 @@ GLKMatrix4 modelView = GLKMatrix4Identity;
          waitUntilDone:NO];*/
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[self graphics] visionBackgroundRender:image with: modelView];
-        })
+            [[self graphics] visionBackgroundRender:image with: &modelView];
+        });
     }
     rvec.release();
     tvec.release();

@@ -316,7 +316,7 @@ const GLubyte BackgroundIndices[] = {
 
 
 /* Method called by vision to manipulate background */
-- (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4 *) matrix {
+- (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4*) matrix {
     _modelViewMatrix = *matrix;
     [self setupPuzzleTexture:_puzzleImage andBackgroundTexture: imageFile];
 }
@@ -468,6 +468,7 @@ const GLubyte BackgroundIndices[] = {
                 C_WHITE,
                 {texture_width * col, texture_height * (row+1)}
             };
+
             GLKMatrix4 translation1 = GLKMatrix4MakeTranslation(_pieces[i].x_location,_pieces[i].y_location,-1);
             GLKMatrix4 rotation1 = GLKMatrix4MakeRotation(degToRad(_pieces[i].rotation), 0, 0, 1);
             GLKMatrix4 translation2 = GLKMatrix4MakeTranslation(-_pieces[i].x_location,-_pieces[i].y_location,-1);
