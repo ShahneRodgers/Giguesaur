@@ -1,2 +1,2 @@
-I have a repository with the files as well:
+I have a repository with all the game files:  
 https://github.com/AuzzieAsh/Giguesaur-Game.git

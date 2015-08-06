@@ -18,7 +18,6 @@
     //self.vision = vision;
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     

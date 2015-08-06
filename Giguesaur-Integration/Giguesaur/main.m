@@ -1,10 +1,8 @@
-//
-//  main.m
-//  Giguesaur
-//
-//  Created by Local Joshua La Pine on 7/20/15.
-//  Copyright (c) 2015 Giguesaur Team. All rights reserved.
-//
+/*
+ File: main.m
+ 
+ main does main things because main is the main
+*/
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"

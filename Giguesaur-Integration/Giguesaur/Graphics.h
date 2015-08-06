@@ -81,7 +81,7 @@ typedef enum {USE_BACKGROUND, USE_PUZZLE} use_image;
 - (id)initWithFrame: (CGRect) frame
          andNetwork: (Network*) theNetwork;
 
-// Setup the Game Logic
+// Setup the Game
 - (void) initWithPuzzle: (UIImage *) puzzleImage
              withPieces: (Piece *) pieces
              andNumRows: (int) numRows

@@ -301,7 +301,7 @@ int main(int argc, const char * argv[]) {
     heldPieces = [NSMutableArray array];
     generatePieces(pieces);
 
-    for (int i = 0; i < NUM_OF_COLS*NUM_OF_ROWS; i++){
+    for (int i = 0; i < NUM_OF_PIECES; i++){
         [heldPieces addObject:[NSNull null]];
         
     }
@@ -310,5 +310,3 @@ int main(int argc, const char * argv[]) {
     
     return 0;
 }
-
-

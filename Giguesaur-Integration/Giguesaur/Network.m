@@ -155,7 +155,7 @@ void free_data(void* data, void* hint){
     
     //Needs to call the appropriate method in Ash's class.
 
-    DEBUG_SAY(3, "Unsubscribe from board from Network.m\n");
+    DEBUG_SAY(3, "Unsubscribe from board init from Network.m\n");
     //Unsubscribe from board initialisation messages.
     zmq_setsockopt(self.recvSocket, ZMQ_UNSUBSCRIBE, "SetupMode", 9);
     self.hasImage = YES;
@@ -211,7 +211,6 @@ void free_data(void* data, void* hint){
     zmq_msg_recv(&piece, self.recvSocket, 0);
     
     NSString *identity = [self messageToNSString:ident];
-    
     
     int pieceNum = atoi(zmq_msg_data(&piece));
     //UIButton *button = [self.buttons objectAtIndex:pieceNum];
