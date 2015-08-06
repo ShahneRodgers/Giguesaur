@@ -27,6 +27,7 @@
 @property (nonatomic) NSDate *lastHeard;
 @property (nonatomic) NSMutableArray *buttons;
 @property BOOL hasImage;
+@property BOOL timedOut;
 
 @property Graphics* graphics;
 

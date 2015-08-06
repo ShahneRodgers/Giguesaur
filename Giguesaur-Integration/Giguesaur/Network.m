@@ -22,6 +22,7 @@ Piece *pieces;
     self.heldPiece = -1;
     self.wantedPiece = -1;
     self.hasImage = NO;
+    self.timedOut = NO;
     self.name = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     self.context = zmq_ctx_new();
     [self startSendSocket:self.context];
@@ -120,43 +121,48 @@ void free_data(void* data, void* hint){
 -(void)setUpMode{
     DEBUG_SAY(1, "Network.m :: setUpMode\n");
     zmq_msg_t picture;
-    zmq_msg_init(&picture);
     zmq_msg_t numRow;
-    zmq_msg_init(&numRow);
     zmq_msg_t numCol;
-    zmq_msg_init(&numCol);
     zmq_msg_t pieceLocations;
-    zmq_msg_init(&pieceLocations);
-
-    DEBUG_SAY(3, "Recieve the image data from Network.m\n");
-    //Receive the image data.
-    int len = zmq_msg_recv(&picture, self.recvSocket, 0);
-    NSData *data = [NSData dataWithBytes:zmq_msg_data(&picture) length:len];
     
+    zmq_msg_init(&picture);
+    zmq_msg_init(&numRow);
+    zmq_msg_init(&numCol);
+    zmq_msg_init(&pieceLocations);
+    
+    int len = zmq_msg_recv(&picture, self.recvSocket, 0);
     zmq_msg_recv(&numRow, self.recvSocket, 0);
     zmq_msg_recv(&numCol, self.recvSocket, 0);
-    //Display the image so that we can see it's working.
-    //self.imageView.image = [UIImage imageWithData:data];
-    
-    DEBUG_SAY(3, "atoi numRow and numCol from Network.m\n");
     zmq_msg_recv(&pieceLocations, self.recvSocket, 0);
-    int row = atoi(zmq_msg_data(&numRow));
-    int col = atoi(zmq_msg_data(&numCol));
-
-    DEBUG_SAY(3, "malloc pieces from Network.m\n");
-    pieces = malloc(sizeof(Piece)*row*col);
-    memcpy(pieces, zmq_msg_data(&pieceLocations), zmq_msg_size(&pieceLocations));
-
-    DEBUG_SAY(3, "Call initWithPuzzle from Network.m\n");
-    [self.graphics initWithPuzzle:[UIImage imageWithData:data] withPieces:pieces andNumRows:row andNumCols:col];
     
-    //[self displayPieces:pieces withSize:atoi(zmq_msg_data(&numPieces))];
-    //[self displayPieces:pieces withSize:(row+col)];
-
-    DEBUG_SAY(3, "Unsubscribe from board init from Network.m\n");
-    //Unsubscribe from board initialisation messages.
-    zmq_setsockopt(self.recvSocket, ZMQ_UNSUBSCRIBE, "SetupMode", 9);
-    self.hasImage = YES;
+    if (!self.hasImage || self.timedOut){
+        DEBUG_SAY(3, "Receive the image data from Network.m\n");
+        //Copy the image data into NSData.
+        NSData *data = [NSData dataWithBytes:zmq_msg_data(&picture) length:len];
+        
+        DEBUG_SAY(3, "atoi numRow and numCol from Network.m\n");
+        int row = atoi(zmq_msg_data(&numRow));
+        int col = atoi(zmq_msg_data(&numCol));
+        
+        DEBUG_SAY(3, "malloc pieces from Network.m\n");
+        pieces = malloc(sizeof(Piece)*row*col);
+        memcpy(pieces, zmq_msg_data(&pieceLocations), zmq_msg_size(&pieceLocations));
+        
+        DEBUG_SAY(3, "Call initWithPuzzle from Network.m\n");
+        [self.graphics initWithPuzzle:[UIImage imageWithData:data] withPieces:pieces andNumRows:row andNumCols:col];
+        
+        //[self displayPieces:pieces withSize:atoi(zmq_msg_data(&numPieces))];
+        //[self displayPieces:pieces withSize:(row+col)];
+        
+        DEBUG_SAY(3, "Unsubscribe from board init from Network.m\n");
+        //Unsubscribe from board initialisation messages.
+        zmq_setsockopt(self.recvSocket, ZMQ_UNSUBSCRIBE, "SetupMode", 9);
+        self.hasImage = YES;
+    }
+    zmq_msg_close(&picture);
+    zmq_msg_close(&numRow);
+    zmq_msg_close(&numCol);
+    zmq_msg_close(&pieceLocations);
 }
 
 /* Converts an int into a const char * so it can be sent to the server */
@@ -290,8 +296,10 @@ void free_data(void* data, void* hint){
     //If no message type was received, return
     if (i <= 0){
         //Lost server connection
-        if ([self.lastHeard timeIntervalSinceNow]*-1 > TIMEOUT)
+        if ([self.lastHeard timeIntervalSinceNow]*-1 > TIMEOUT){
             zmq_setsockopt(self.recvSocket, ZMQ_SUBSCRIBE, "SetupMode", 9);
+            self.timedOut = YES;
+        }
         return;
     }
     self.lastHeard = [NSDate date];
