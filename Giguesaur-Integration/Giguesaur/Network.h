@@ -23,14 +23,16 @@
 @property (nonatomic) int heldPiece;
 @property (nonatomic) NSString *name;
 @property (nonatomic) int wantedPiece;
-@property (nonatomic) NSDate *date;
+@property NSDate *lastRequest;
+@property (nonatomic) NSDate *lastHeard;
 @property (nonatomic) NSMutableArray *buttons;
 @property BOOL hasImage;
-@property NSDate *lastRequest;
+@property BOOL timedOut;
+
 @property Graphics* graphics;
 
--(void)prepare:(NSString*) address called:(NSString *)name;
--(void)droppedPiece:(int)xNum WithY:(int)yNum WithRotation:(int)rotationNum;
+-(void)prepare:(NSString*) address;
+-(void)droppedPiece:(float)xNum WithY:(float)yNum WithRotation:(float)rotationNum;
 -(void)requestPiece:(int)pieceNum;
 -(void)checkMessages;
 -(NSString *)messageToNSString:(zmq_msg_t) message;

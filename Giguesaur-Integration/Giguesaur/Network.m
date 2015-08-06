@@ -8,7 +8,7 @@
 
 #import "Network.h"
 
-#define TIMEOUT = 1;
+int TIMEOUT = 3;
 Piece *pieces;
 
 @implementation Network
@@ -17,11 +17,12 @@ Piece *pieces;
  * Sets up the ClientDelegate - this method must be called manually,
  * everything else will happen automatically.
  */
--(void)prepare:(NSString*) address called:(NSString*)name{
+-(void)prepare:(NSString*) address{
     self.address = address;
     self.heldPiece = -1;
     self.wantedPiece = -1;
     self.hasImage = NO;
+    self.timedOut = NO;
     self.name = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     self.context = zmq_ctx_new();
     [self startSendSocket:self.context];
@@ -89,7 +90,7 @@ void free_data(void* data, void* hint){
     if (rc == -1)
         NSLog(@"Problem connecting");
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "SetupMode", 9);
-    //zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "Error", 5);
+    zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "Error", 5);
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "PickUp", 6);
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "Drop", 4);
     
@@ -120,49 +121,57 @@ void free_data(void* data, void* hint){
 -(void)setUpMode{
     DEBUG_SAY(1, "Network.m :: setUpMode\n");
     zmq_msg_t picture;
-    zmq_msg_init(&picture);
     zmq_msg_t numRow;
-    zmq_msg_init(&numRow);
     zmq_msg_t numCol;
-    zmq_msg_init(&numCol);
     zmq_msg_t pieceLocations;
-    zmq_msg_init(&pieceLocations);
-
-    DEBUG_SAY(3, "Recieve the image data from Network.m\n");
-    //Receive the image data.
-    int len = zmq_msg_recv(&picture, self.recvSocket, 0);
-    NSData *data = [NSData dataWithBytes:zmq_msg_data(&picture) length:len];
     
+    zmq_msg_init(&picture);
+    zmq_msg_init(&numRow);
+    zmq_msg_init(&numCol);
+    zmq_msg_init(&pieceLocations);
+    
+    int len = zmq_msg_recv(&picture, self.recvSocket, 0);
     zmq_msg_recv(&numRow, self.recvSocket, 0);
     zmq_msg_recv(&numCol, self.recvSocket, 0);
-    //Display the image so that we can see it's working.
-    //self.imageView.image = [UIImage imageWithData:data];
-    
-    DEBUG_SAY(3, "atoi numRow and numCol from Network.m\n");
     zmq_msg_recv(&pieceLocations, self.recvSocket, 0);
-    int row = atoi(zmq_msg_data(&numRow));
-    int col = atoi(zmq_msg_data(&numCol));
-
-    DEBUG_SAY(3, "malloc pieces from Network.m\n");
-    pieces = malloc(sizeof(Piece)*row*col);
-    memcpy(pieces, zmq_msg_data(&pieceLocations), zmq_msg_size(&pieceLocations));
-
-    DEBUG_SAY(3, "Call initWithPuzzle from Network.m\n");
-    [self.graphics initWithPuzzle:[UIImage imageWithData:data] withPieces:pieces andNumRows:row andNumCols:col];
     
-    //[self displayPieces:pieces withSize:atoi(zmq_msg_data(&numPieces))];
-    //[self displayPieces:pieces withSize:(row+col)];
-    
-    //Needs to call the appropriate method in Ash's class.
-
-    DEBUG_SAY(3, "Unsubscribe from board init from Network.m\n");
-    //Unsubscribe from board initialisation messages.
-    zmq_setsockopt(self.recvSocket, ZMQ_UNSUBSCRIBE, "SetupMode", 9);
-    self.hasImage = YES;
+    if (!self.hasImage || self.timedOut){
+        DEBUG_SAY(3, "Receive the image data from Network.m\n");
+        //Copy the image data into NSData.
+        NSData *data = [NSData dataWithBytes:zmq_msg_data(&picture) length:len];
+        
+        DEBUG_SAY(3, "atoi numRow and numCol from Network.m\n");
+        int row = atoi(zmq_msg_data(&numRow));
+        int col = atoi(zmq_msg_data(&numCol));
+        
+        DEBUG_SAY(3, "malloc pieces from Network.m\n");
+        pieces = malloc(sizeof(Piece)*row*col);
+        memcpy(pieces, zmq_msg_data(&pieceLocations), zmq_msg_size(&pieceLocations));
+        
+        DEBUG_SAY(3, "Call initWithPuzzle from Network.m\n");
+        [self.graphics initWithPuzzle:[UIImage imageWithData:data] withPieces:pieces andNumRows:row andNumCols:col];
+        
+        //[self displayPieces:pieces withSize:atoi(zmq_msg_data(&numPieces))];
+        //[self displayPieces:pieces withSize:(row+col)];
+        
+        DEBUG_SAY(3, "Unsubscribe from board init from Network.m\n");
+        //Unsubscribe from board initialisation messages.
+        zmq_setsockopt(self.recvSocket, ZMQ_UNSUBSCRIBE, "SetupMode", 9);
+        self.hasImage = YES;
+    }
+    zmq_msg_close(&picture);
+    zmq_msg_close(&numRow);
+    zmq_msg_close(&numCol);
+    zmq_msg_close(&pieceLocations);
 }
 
-/* Converts an int into a char * so it can be sent to the server */
+/* Converts an int into a const char * so it can be sent to the server */
 -(const char*)intToString:(int)num{
+    return [[[NSString alloc] initWithFormat:@"%d", num] UTF8String];
+}
+
+/* Converts a float into a const char * so it can be sent to the server */
+-(const char*)floatToString:(int)num{
     return [[[NSString alloc] initWithFormat:@"%d", num] UTF8String];
 }
 
@@ -177,11 +186,14 @@ void free_data(void* data, void* hint){
 
 
 /* Drops the piece that is being held at location (x, y) with rotation r. */
--(void)droppedPiece:(int)xNum WithY:(int)yNum WithRotation:(int)rotationNum{
+-(void)droppedPiece:(float)xNum WithY:(float)yNum WithRotation:(float)rotationNum{
+    //We've already asked to drop this piece
+    if (self.wantedPiece == self.heldPiece && [self.lastRequest timeIntervalSinceNow] < -TIMEOUT)
+        return;
     const char *piece = [self intToString:self.heldPiece];
-    const char *x = [self intToString:xNum];
-    const char *y = [self intToString:yNum];
-    const char *rotation = [self intToString:rotationNum];
+    const char *x = [self floatToString:xNum];
+    const char *y = [self floatToString:yNum];
+    const char *rotation = [self floatToString:rotationNum];
     
     zmq_send(self.socket, "Drop", 4, ZMQ_SNDMORE);
     zmq_send(self.socket, piece, sizeof(piece), ZMQ_SNDMORE);
@@ -190,6 +202,7 @@ void free_data(void* data, void* hint){
     zmq_send(self.socket, rotation, sizeof(rotation), 0);
     
     self.wantedPiece = self.heldPiece;
+    self.lastRequest = [NSDate date];
 }
 
 -(NSString *)messageToNSString:(zmq_msg_t) message{
@@ -211,7 +224,7 @@ void free_data(void* data, void* hint){
     zmq_msg_recv(&piece, self.recvSocket, 0);
     
     NSString *identity = [self messageToNSString:ident];
-    
+    DEBUG_SAY(2, "Network.h :: pickUp\n");
     int pieceNum = atoi(zmq_msg_data(&piece));
     //UIButton *button = [self.buttons objectAtIndex:pieceNum];
     if ([identity hasPrefix:self.name]){
@@ -220,7 +233,7 @@ void free_data(void* data, void* hint){
         NSLog(@"I have %i", self.heldPiece);
         [self.graphics pickupPiece:self.heldPiece];
         self.wantedPiece = -1;
-    } else { // TO DO: Yeah
+    } else {
         [self.graphics addToHeld:pieceNum];
         if (pieceNum == self.wantedPiece){
             NSLog(@"%@ stole my piece!", identity);
@@ -254,7 +267,7 @@ void free_data(void* data, void* hint){
                        zmq_msg_data(&y),
                        zmq_msg_data(&rotation)]; */
     int pieceNum = atoi(zmq_msg_data(&piece));
-    int locs[3] = {atoi(zmq_msg_data(&x)), atoi(zmq_msg_data(&y)), atoi(zmq_msg_data(&rotation))};
+    int locs[3] = {atof(zmq_msg_data(&x)), atof(zmq_msg_data(&y)), atof(zmq_msg_data(&rotation))};
    // [[self.buttons objectAtIndex:atoi(zmq_msg_data(&piece))]setTitle:title forState:normal];
     [self.graphics placePiece:pieceNum andCoords:locs];
     
@@ -286,9 +299,14 @@ void free_data(void* data, void* hint){
     int i = zmq_msg_recv(&type, self.recvSocket, ZMQ_DONTWAIT);
     //If no message type was received, return
     if (i <= 0){
+        //Lost server connection
+        if ([self.lastHeard timeIntervalSinceNow]*-1 > TIMEOUT){
+            zmq_setsockopt(self.recvSocket, ZMQ_SUBSCRIBE, "SetupMode", 9);
+            self.timedOut = YES;
+        }
         return;
     }
-    
+    self.lastHeard = [NSDate date];
     //Turn the type into a NSString.
     NSString *stringType = [[NSString alloc] initWithFormat:@"%s", zmq_msg_data(&type)];
     //The board's game state has been received
@@ -302,10 +320,20 @@ void free_data(void* data, void* hint){
         //If a piece has been dropped
     } else if ([stringType hasPrefix:@"Drop"]){
         [self drop];
-    } else { //Error
+    } else if ([stringType hasPrefix:@"Error"]){
+        zmq_msg_recv(&type, self.recvSocket, 0); //This message is irrelevant.
+        self.lastHeard = [NSDate date];
+    } else {
         //NSLog(@"%@", stringType);
     }
     zmq_msg_close(&type);
+    
+    //If a piece has been requested but we haven't had a response within TIMEOUT
+    int time = [self.lastRequest timeIntervalSinceNow] *-1;
+    if (self.wantedPiece != -1 && self.heldPiece == -1 && time > TIMEOUT){
+        self.wantedPiece = -1;
+        [self requestPiece:self.wantedPiece];
+    }
     
 }
 
