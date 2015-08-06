@@ -23,13 +23,14 @@
 @property (nonatomic) int heldPiece;
 @property (nonatomic) NSString *name;
 @property (nonatomic) int wantedPiece;
-@property (nonatomic) NSDate *date;
+@property NSDate *lastRequest;
+@property (nonatomic) NSDate *lastHeard;
 @property (nonatomic) NSMutableArray *buttons;
 @property BOOL hasImage;
-@property NSDate *lastRequest;
+
 @property Graphics* graphics;
 
--(void)prepare:(NSString*) address called:(NSString *)name;
+-(void)prepare:(NSString*) address;
 -(void)droppedPiece:(int)xNum WithY:(int)yNum WithRotation:(int)rotationNum;
 -(void)requestPiece:(int)pieceNum;
 -(void)checkMessages;

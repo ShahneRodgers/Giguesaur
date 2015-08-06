@@ -8,7 +8,7 @@
 
 #import "Network.h"
 
-#define TIMEOUT = 1;
+int TIMEOUT = 3;
 Piece *pieces;
 
 @implementation Network
@@ -17,7 +17,7 @@ Piece *pieces;
  * Sets up the ClientDelegate - this method must be called manually,
  * everything else will happen automatically.
  */
--(void)prepare:(NSString*) address called:(NSString*)name{
+-(void)prepare:(NSString*) address{
     self.address = address;
     self.heldPiece = -1;
     self.wantedPiece = -1;
@@ -152,8 +152,6 @@ void free_data(void* data, void* hint){
     
     //[self displayPieces:pieces withSize:atoi(zmq_msg_data(&numPieces))];
     //[self displayPieces:pieces withSize:(row+col)];
-    
-    //Needs to call the appropriate method in Ash's class.
 
     DEBUG_SAY(3, "Unsubscribe from board init from Network.m\n");
     //Unsubscribe from board initialisation messages.
@@ -286,9 +284,12 @@ void free_data(void* data, void* hint){
     int i = zmq_msg_recv(&type, self.recvSocket, ZMQ_DONTWAIT);
     //If no message type was received, return
     if (i <= 0){
+        //Lost server connection
+        if ([self.lastHeard timeIntervalSinceNow]*-1 > TIMEOUT)
+            zmq_setsockopt(self.recvSocket, ZMQ_SUBSCRIBE, "SetupMode", 9);
         return;
     }
-    
+    self.lastHeard = [NSDate date];
     //Turn the type into a NSString.
     NSString *stringType = [[NSString alloc] initWithFormat:@"%s", zmq_msg_data(&type)];
     //The board's game state has been received
@@ -306,6 +307,13 @@ void free_data(void* data, void* hint){
         //NSLog(@"%@", stringType);
     }
     zmq_msg_close(&type);
+    
+    //If a piece has been requested but we haven't had a response within TIMEOUT
+    int time = [self.lastRequest timeIntervalSinceNow] *-1;
+    if (self.wantedPiece != -1 && self.heldPiece == -1 && time > TIMEOUT){
+        self.wantedPiece = -1;
+        [self requestPiece:self.wantedPiece];
+    }
     
 }
 

@@ -62,11 +62,7 @@
     GameController *controller = [[GameController alloc] init];
     //controller.delegate = self.delegate;
     Network *network = [[Network alloc]init];
-    NSString *name = self.name.text;
-    if (name.length < 3){
-        name = [[NSString alloc]initWithFormat:@"Anonymous"];
-    }
-    [network prepare:address called:name];
+    [network prepare:address];
    /* while(!network.hasImage){
         [network checkMessages];
     }*/

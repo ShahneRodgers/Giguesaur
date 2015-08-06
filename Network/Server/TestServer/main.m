@@ -99,13 +99,20 @@ void dropPiece(int pieceNum, zmq_msg_t x, zmq_msg_t y, zmq_msg_t r){
     // Check Piece Neighbours
     [pieceNeighbours checkThenSnapPiece:pieceNum andPieces:pieces];
     [pieceNeighbours checkThenCloseEdge:pieceNum andPieces:pieces];
-
+    
+    
+    //Locations may have been changed by Ash's methods so reset messages
+    const char* newX = getStringFromInt(pieces[pieceNum].x_location);
+    const char* newY = getStringFromInt(pieces[pieceNum].y_location);
+    const char* newR = getStringFromInt(pieces[pieceNum].rotation);
+    //TODO - check if the locations/rotations need to be floats not ints.
+    
     //Inform everyone of the new location
     zmq_send(publisher, "Drop", 4, ZMQ_SNDMORE);
     zmq_send(publisher, piece, sizeof(piece), ZMQ_SNDMORE);
-    zmq_send(publisher, zmq_msg_data(&x), zmq_msg_size(&x), ZMQ_SNDMORE);
-    zmq_send(publisher, zmq_msg_data(&y), zmq_msg_size(&y), ZMQ_SNDMORE);
-    zmq_send(publisher, zmq_msg_data(&r), zmq_msg_size(&r), 0);
+    zmq_send(publisher, newX, sizeof(newX), ZMQ_SNDMORE);
+    zmq_send(publisher, newY, sizeof(newY), ZMQ_SNDMORE);
+    zmq_send(publisher, newR, sizeof(newR), 0);
     
     zmq_msg_close(&x);
     zmq_msg_close(&y);
