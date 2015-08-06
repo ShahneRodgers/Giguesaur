@@ -321,6 +321,7 @@ void free_data(void* data, void* hint){
     } else if ([stringType hasPrefix:@"Drop"]){
         [self drop];
     } else if ([stringType hasPrefix:@"Error"]){
+        zmq_msg_recv(&type, self.recvSocket, 0); //This message is irrelevant.
         self.lastHeard = [NSDate date];
     } else {
         //NSLog(@"%@", stringType);

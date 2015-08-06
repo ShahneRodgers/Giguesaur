@@ -238,7 +238,8 @@ void receiveMessage(){
  * in a while to inform everyone that they haven't lost connection
  */
 void sendAlive(){
-    zmq_send(publisher, "Error", 5, 0);
+    zmq_send(publisher, "Error", 5, ZMQ_SNDMORE);
+    zmq_send(publisher, "Blah", 4, 0); //This doesn't matter but has to be something.
 }
 
 void checkPieces(){
