@@ -220,7 +220,7 @@ const GLubyte BackgroundIndices[] = {
 
 - (void) setupTextureBackground: (UIImage *) imageFile {
 
-    DEBUG_SAY(2, "Graphics.m :: set up background texture\n");
+    DEBUG_SAY(4, "Graphics.m :: set up background texture\n");
 
     CGImageRef spriteImage = imageFile.CGImage;
 
@@ -260,7 +260,7 @@ const GLubyte BackgroundIndices[] = {
 
 - (void) setupPuzzleTexture: (UIImage *) puzzle andBackgroundTexture: (UIImage *) background{
 
-    DEBUG_SAY(2, "Graphics.m :: set up puzzle and background texture\n");
+    DEBUG_SAY(4, "Graphics.m :: set up puzzle and background texture\n");
 
     CGImageRef spriteImagePuz = puzzle.CGImage;
     CGImageRef spriteImageBac = background.CGImage;
@@ -282,12 +282,13 @@ const GLubyte BackgroundIndices[] = {
     CGContextRelease(spriteContextPuz);
     CGContextRelease(spriteContextBac);
 
-    //glActiveTexture(GL_TEXTURE0);
     GLuint texNamePuz;
+    glActiveTexture(GL_TEXTURE0);
     glGenTextures(1, &texNamePuz);
     glBindTexture(GL_TEXTURE_2D, texNamePuz);
-    //glActiveTexture(GL_TEXTURE1);
+
     GLuint texNameBac;
+    glActiveTexture(GL_TEXTURE1);
     glGenTextures(1, &texNameBac);
     glBindTexture(GL_TEXTURE_2D, texNameBac);
 
@@ -318,8 +319,8 @@ const GLubyte BackgroundIndices[] = {
 /* Method called by vision to manipulate background */
 - (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4 *) matrix {
     //_modelViewMatrix = *matrix;
-    //[self setupPuzzleTexture:_puzzleImage andBackgroundTexture: imageFile];
-    [self setupTextureBackground:imageFile];
+    [self setupPuzzleTexture:_puzzleImage andBackgroundTexture: imageFile];
+    //[self setupTextureBackground:imageFile];
 }
 
 /* Methods called by server to manipulate the pieces on the client */
@@ -516,10 +517,6 @@ const GLubyte BackgroundIndices[] = {
         else
             DEBUG_PRINT(3, "Piece %d is not on the board or being held\n", i);
 
-        glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-        glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
-        glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
-
         glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(NewPiece), NewPiece, GL_STATIC_DRAW);
@@ -528,10 +525,13 @@ const GLubyte BackgroundIndices[] = {
         glBindTexture(GL_TEXTURE_2D, _puzzleTexture);
         glUniform1i(_textureUniform, 0);
 
+        glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+        glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
+        glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+
         glDrawElements(GL_TRIANGLES, sizeof(PieceIndices)/sizeof(PieceIndices[0]), GL_UNSIGNED_BYTE, 0);
     }
 
-    [_context presentRenderbuffer:GL_RENDERBUFFER];
     // Set Orthographic Projection for Background Image
     projection = GLKMatrix4MakeOrtho(0, self.frame.size.width, 0, self.frame.size.height, 0.1, 1000);
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.m);
@@ -542,14 +542,11 @@ const GLubyte BackgroundIndices[] = {
 
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
+    glBindTexture(GL_TEXTURE_2D, _backgroundTexture);
 
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
     glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _backgroundTexture);
-    glUniform1i(_textureUniform, 0);
 
     glDrawElements(GL_TRIANGLE_STRIP, sizeof(BackgroundIndices)/sizeof(BackgroundIndices[0]), GL_UNSIGNED_BYTE, 0);
 
@@ -593,11 +590,10 @@ const GLubyte BackgroundIndices[] = {
     num_of_pieces = numRows * numCols;
     texture_height = 1.0/num_of_pieces;
     texture_width = 1.0/num_of_pieces;
-    _puzzleTexture = [self setupTexturePuzzle:_puzzleImage];
+    //_puzzleTexture = [self setupTexturePuzzle:_puzzleImage];
     puzzleStateRevieved = YES;
-
+    //[self setupTextureBackground:[UIImage imageNamed:@"background.jpg"]];
     [self printPuzzle];
-    //[self render];
 }
 
 - (void) printPuzzle {

@@ -9,7 +9,7 @@
 #define Giguesaur_Piece_h
 
 // Should be an even number or there is a line visbible between pieces when they snap together
-#define SIDE_LENGTH 50
+#define SIDE_LENGTH 60
 #define SIDE_HALF (SIDE_LENGTH/2)
 
 typedef enum {invalid, isClosed, isOpen} ACCESSIBLE_EDGE;

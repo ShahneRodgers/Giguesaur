@@ -13,8 +13,8 @@
 #define BOARD_WIDTH 1024
 #define BOARD_HIEGHT 768
 
-#define NUM_OF_ROWS 4
-#define NUM_OF_COLS 4
+#define NUM_OF_ROWS 2
+#define NUM_OF_COLS 2
 #define NUM_OF_PIECES (NUM_OF_ROWS*NUM_OF_COLS)
 
 #define TEXTURE_WIDTH (1.0/NUM_OF_COLS)
