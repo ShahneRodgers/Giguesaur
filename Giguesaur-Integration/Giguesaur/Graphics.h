@@ -29,8 +29,6 @@
 #define BOARD_WIDTH 1024
 #define BOARD_HEIGHT 768
 
-typedef enum {USE_BACKGROUND, USE_PUZZLE} use_image;
-
 @class Network;
 
 @interface Graphics: UIView {
@@ -73,7 +71,7 @@ typedef enum {USE_BACKGROUND, USE_PUZZLE} use_image;
 - (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4*) matrix;
 
 // Called by Network
-- (void) placePiece: (int) pieceID andCoords: (int[3]) coords;
+- (void) placePiece: (int) pieceID andCoords: (float[3]) coords;
 - (void) pickupPiece: (int) pieceID;
 - (void) addToHeld: (int) pieceID;
 
