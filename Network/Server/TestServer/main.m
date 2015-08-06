@@ -281,8 +281,10 @@ void startServer(){
 void readImage(NSString *path){
     NSError *errorPtr;
     NSData *image = [NSData dataWithContentsOfFile:path options:NSDataReadingUncached error:&errorPtr];
-    if (errorPtr != NULL)
+    if (errorPtr != NULL) {
         NSLog(@"Error reading file: %@", errorPtr);
+        NSLog(@"Ensure an image is located at: %@", path);
+    }
     imageLen = (int)[image length];
     boardState = malloc(imageLen);
     memcpy(boardState, [image bytes], imageLen);
