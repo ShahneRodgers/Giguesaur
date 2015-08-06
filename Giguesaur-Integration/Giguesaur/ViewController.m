@@ -67,9 +67,9 @@
         name = [[NSString alloc]initWithFormat:@"Anonymous"];
     }
     [network prepare:address called:name];
-    while(!network.hasImage){
+   /* while(!network.hasImage){
         [network checkMessages];
-    }
+    }*/
     //Should give the network the chosen client name and check this is okay.
     [controller prepare:network];
     [controller setModalPresentationStyle:UIModalPresentationFullScreen];

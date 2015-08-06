@@ -91,11 +91,11 @@ cv::Mat cameraMatrix, distCoeffs;
     bool vectors = false;
     
     NSDate *start = [NSDate date];
-   /* bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners,
+   bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners,
                                               cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_NORMALIZE_IMAGE
-                                              + cv::CALIB_CB_FAST_CHECK);*/
+                                              + cv::CALIB_CB_FAST_CHECK);
     
-    bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners, cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_FAST_CHECK + cv::CALIB_CB_FILTER_QUADS);
+    /*bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners, cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_FAST_CHECK + cv::CALIB_CB_FILTER_QUADS);*/
     
     NSDate *finish = [NSDate date];
     NSTimeInterval runtime = [finish timeIntervalSinceDate:start];
