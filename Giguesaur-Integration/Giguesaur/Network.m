@@ -8,7 +8,7 @@
 
 #import "Network.h"
 
-int TIMEOUT = 3;
+int TIMEOUT = 5;
 Piece *pieces;
 
 @implementation Network
@@ -27,7 +27,7 @@ Piece *pieces;
     self.context = zmq_ctx_new();
     [self startSendSocket:self.context];
     [self startRecvSocket:self.context];
-    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)2.0
+    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)1.0
                                      target:self
                                    selector:@selector(checkMessages)
                                    userInfo:nil
@@ -90,7 +90,6 @@ void free_data(void* data, void* hint){
     if (rc == -1)
         NSLog(@"Problem connecting");
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "SetupMode", 9);
-    zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "Error", 5);
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "PickUp", 6);
     zmq_setsockopt(socket, ZMQ_SUBSCRIBE, "Drop", 4);
     
@@ -157,6 +156,7 @@ void free_data(void* data, void* hint){
         DEBUG_SAY(3, "Unsubscribe from board init from Network.m\n");
         //Unsubscribe from board initialisation messages.
         zmq_setsockopt(self.recvSocket, ZMQ_UNSUBSCRIBE, "SetupMode", 9);
+        zmq_setsockopt(self.recvSocket, ZMQ_SUBSCRIBE, "Error", 5);
         self.hasImage = YES;
     }
     zmq_msg_close(&picture);
@@ -188,7 +188,7 @@ void free_data(void* data, void* hint){
 /* Drops the piece that is being held at location (x, y) with rotation r. */
 -(void)droppedPiece:(float)xNum WithY:(float)yNum WithRotation:(float)rotationNum{
     //We've already asked to drop this piece
-    if (self.wantedPiece == self.heldPiece && [self.lastRequest timeIntervalSinceNow] < -TIMEOUT)
+    if (self.wantedPiece == self.heldPiece && [self.lastRequest timeIntervalSinceNow] < -TIMEOUT/2)
         return;
     const char *piece = [self intToString:self.heldPiece];
     const char *x = [self floatToString:xNum];
@@ -282,6 +282,7 @@ void free_data(void* data, void* hint){
  * is holding a piece.
  */
 -(void)keepAlive{
+    DEBUG_SAY(2, "Network.m :: keepAlive");
     const char *piece = [[[NSString alloc] initWithFormat:@"%d", self.heldPiece] UTF8String];
     zmq_send(self.socket, "KeepAlive", 9, ZMQ_SNDMORE);
     zmq_send(self.socket, piece, sizeof(piece), 0);
@@ -303,6 +304,8 @@ void free_data(void* data, void* hint){
         if ([self.lastHeard timeIntervalSinceNow]*-1 > TIMEOUT){
             zmq_setsockopt(self.recvSocket, ZMQ_SUBSCRIBE, "SetupMode", 9);
             self.timedOut = YES;
+            self.heldPiece = -1;
+            self.wantedPiece = -1;
         }
         return;
     }
@@ -315,13 +318,12 @@ void free_data(void* data, void* hint){
         return;
         //If a piece has been picked up.
     } else if ([stringType hasPrefix:@"PickUp"]){
-        //NSLog(@"Hello");
         [self pickUp];
         //If a piece has been dropped
     } else if ([stringType hasPrefix:@"Drop"]){
         [self drop];
     } else if ([stringType hasPrefix:@"Error"]){
-        zmq_msg_recv(&type, self.recvSocket, 0); //This message is irrelevant.
+        //zmq_msg_recv(&type, self.recvSocket, 0); //This message is irrelevant.
         self.lastHeard = [NSDate date];
     } else {
         //NSLog(@"%@", stringType);

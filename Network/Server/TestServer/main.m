@@ -15,7 +15,9 @@
 #import "Giguesaur/PieceNeighbours.h"
 #import "SimpleMath/SimpleMath.h"
 
-double TIMEOUT = 6;
+double TOOQUIET = 5; //Used to send empty message if the server hasn't sent anything in a while so clients know they haven't lost connection.
+double SENDBOARD = 3; //Used to slow down the rate of sending the board so clients don't receive too many copies.
+double LOSEPIECE = 5; //Used to give a maximum amount of time a client can hold a piece for after losing connection.
 
 CFNetServiceRef broadcaster;
 PublishingDelegate *delegate;
@@ -238,8 +240,9 @@ void receiveMessage(){
  * in a while to inform everyone that they haven't lost connection
  */
 void sendAlive(){
-    zmq_send(publisher, "Error", 5, ZMQ_SNDMORE);
-    zmq_send(publisher, "Blah", 4, 0); //This doesn't matter but has to be something.
+    zmq_send(publisher, "Error", 5, 0);
+    //zmq_send(publisher, "Blah", 4, 0); //This doesn't matter but has to be something.
+    lastSent = [NSDate date];
 }
 
 void checkPieces(){
@@ -247,7 +250,7 @@ void checkPieces(){
         id piece = heldPieces[i];
         if (! [piece isEqual:[NSNull null]]){
             NSTimeInterval interval = -1 * [piece timeIntervalSinceNow];
-            if (interval > TIMEOUT){
+            if (interval > LOSEPIECE){
                 dropPiece(i, pieces[i].x_location, pieces[i].y_location, pieces[i].rotation);
                 NSLog(@"Dropped piece %i after interval %f", i, interval);
             }
@@ -268,22 +271,26 @@ void startServer(){
         NSLog(@"Error binding: %s", strerror(errno));
         return;
     }
+    lastSent = [NSDate date];
     
     NSLog(@"Listening on port 5555. Publishing on port 5556");
-    NSDate *date = [NSDate date];
+    NSDate *boardDate = [NSDate date];
+    NSDate *loseDate = [NSDate date];
     
     while (true){
-        //This loops too quickly if no messages are being received.
-        if ([date timeIntervalSinceNow] < -TIMEOUT/3){
-            sendBoard();
-            date = [NSDate date];
-            checkPieces();
-        }
         receiveMessage();
-        if ([lastSent timeIntervalSinceNow] < -TIMEOUT/2)
+        //This loops too quickly if no messages are being received.
+        if ([boardDate timeIntervalSinceNow] < -SENDBOARD){
+            sendBoard();
+            boardDate = [NSDate date];
+        }
+        if ([loseDate timeIntervalSinceNow] < -LOSEPIECE){
+            checkPieces();
+            loseDate = [NSDate date];
+        }
+        if ([lastSent timeIntervalSinceNow] < -TOOQUIET)
             sendAlive();
-        
-    }
+        }
     
 }
 
