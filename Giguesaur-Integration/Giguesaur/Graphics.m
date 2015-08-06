@@ -316,7 +316,7 @@ const GLubyte BackgroundIndices[] = {
         DEBUG_SAY(2, "Have not recieved the puzzle state yet!\n");
     }
     else if (holdingPiece >= 0) {
-        [self.network droppedPiece:point.x WithY:point.y WithRotation:0]; //BUG
+        [self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[holdingPiece].rotation];
     }
     else {
         for (int i = 0; i < num_of_pieces; i++) {
@@ -408,6 +408,14 @@ const GLubyte BackgroundIndices[] = {
                 C_WHITE,
                 {texture_width * col, texture_height * (row+1)}
             };
+            GLKMatrix4 translation1 = GLKMatrix4MakeTranslation(_pieces[i].x_location,_pieces[i].y_location,-1);
+            GLKMatrix4 rotation1 = GLKMatrix4MakeRotation(degToRad(_pieces[i].rotation), 0, 0, 1);
+            GLKMatrix4 translation2 = GLKMatrix4MakeTranslation(-_pieces[i].x_location,-_pieces[i].y_location,-1);
+            GLKMatrix4 modelView1 = GLKMatrix4Multiply(translation1, rotation1);
+            modelView1 = GLKMatrix4Multiply(modelView1, translation2);
+
+            glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView1.m);
+
         }
         // Piece being held
         else if (i == holdingPiece) {
@@ -431,6 +439,9 @@ const GLubyte BackgroundIndices[] = {
                 C_GOLD,
                 {texture_width * col, texture_height * (row+1)}
             };
+
+            glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.m);
+
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
