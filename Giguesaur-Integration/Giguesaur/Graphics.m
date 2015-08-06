@@ -8,6 +8,10 @@
 
 #import "Graphics.h"
 
+// Puzzle State
+int holdingPiece = -1;
+BOOL puzzleStateRevieved = NO;
+
 typedef struct {
     float Position[3];
     float Colour[4];
@@ -307,15 +311,16 @@ const GLubyte BackgroundIndices[] = {
     point.y = result.v[1] + (self.frame.size.height / 2);
 
     DEBUG_PRINT(2,"touchesBegan :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
-    
-    // Ask server to place piece
-    if (holdingPiece >= 0) {
+
+    if (!puzzleStateRevieved) {
+        DEBUG_SAY(2, "Have not recieved the puzzle state yet!\n");
+    }
+    else if (holdingPiece >= 0) {
         [self.network droppedPiece:point.x WithY:point.y WithRotation:0]; //BUG
     }
     else {
         for (int i = 0; i < num_of_pieces; i++) {
             if(point.x >= _pieces[i].x_location - SIDE_HALF && point.x < _pieces[i].x_location + SIDE_HALF) {
-                // Ask server to pickup a piece
                 if (point.y >= _pieces[i].y_location - SIDE_HALF && point.y < _pieces[i].y_location + SIDE_HALF) {
                     [self.network requestPiece:i];
                     i = num_of_pieces;
@@ -431,7 +436,7 @@ const GLubyte BackgroundIndices[] = {
         glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(NewPiece), NewPiece, GL_STATIC_DRAW);
-        
+
         glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
         glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
         glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
@@ -439,7 +444,7 @@ const GLubyte BackgroundIndices[] = {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, _puzzleTexture);
         glUniform1i(_textureUniform, 0);
-        
+
         glDrawElements(GL_TRIANGLES, sizeof(PieceIndices)/sizeof(PieceIndices[0]), GL_UNSIGNED_BYTE, 0);
     }
 
@@ -469,6 +474,8 @@ const GLubyte BackgroundIndices[] = {
 }
 
 - (id) initWithFrame: (CGRect) frame andNetwork: (Network*) theNetwork {
+
+    DEBUG_SAY(1, "Graphics.m :: initWithFrame\n");
     self = [super initWithFrame:frame];
     if (self) {
         // Call all the OpenGL setup code
@@ -483,6 +490,7 @@ const GLubyte BackgroundIndices[] = {
         self.network = theNetwork;
         self.network.graphics = self;
 
+        [self printPuzzle];
         [self render];
     }
     return self;
@@ -493,17 +501,37 @@ const GLubyte BackgroundIndices[] = {
              andNumRows: (int) numRows
              andNumCols: (int) numCols {
 
+    DEBUG_SAY(1, "Graphics.m :: initWithPuzzle\n");
     _pieces = pieces;
-    //_puzzleImage = [UIImage imageNamed:@"puppy.png"];//puzzleImage;
+    _puzzleImage = puzzleImage;
     puzzle_rows = numRows;
     puzzle_cols = numCols;
     num_of_pieces = numRows * numCols;
     texture_height = 1.0/num_of_pieces;
     texture_width = 1.0/num_of_pieces;
-    holdingPiece = -1;
     _puzzleTexture = [self setupTexturePuzzle:puzzleImage];
 
+    puzzleStateRevieved = YES;
+
+    [self printPuzzle];
     [self render];
+}
+
+- (void) printPuzzle {
+    if (DEBUG_LEVEL >= 2) {
+        printf("Puzzle State:\n\tpuzzle_rows:%d\n\tpuzzle_cols:%d\n\tnum_of_pieces:%d\nPieces:\n",
+               puzzle_rows,
+               puzzle_cols,
+               num_of_pieces);
+        for (int i = 0; i < num_of_pieces; i++) {
+            printf("\t%d: [x,y,r,h] = [%f,%f,%f,%d]\n",
+                   _pieces[i].piece_id,
+                   _pieces[i].x_location,
+                   _pieces[i].y_location,
+                   _pieces[i].rotation,
+                   _pieces[i].held);
+        }
+    }
 }
 
 @end

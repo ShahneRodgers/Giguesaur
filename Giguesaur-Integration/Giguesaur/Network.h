@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "zmq.h"
 #import "Graphics.h"
+#import "Debug.h"
 
 @class Graphics;
 

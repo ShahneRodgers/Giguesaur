@@ -44,9 +44,6 @@ typedef enum {USE_BACKGROUND, USE_PUZZLE} use_image;
     int texture_height;
     int texture_width;
 
-    // Puzzle State
-    int holdingPiece;
-
     CAEAGLLayer* _eaglLayer;
     EAGLContext* _context;
     

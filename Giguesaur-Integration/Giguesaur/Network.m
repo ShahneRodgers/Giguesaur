@@ -36,7 +36,6 @@ Piece *pieces;
 
 /* Frees the memory */
 void free_data(void* data, void* hint){
-    printf("free_data()\n");
     free(data);
 }
 
@@ -72,7 +71,6 @@ void free_data(void* data, void* hint){
 
 /*Creates the socket responsible for sending data and saves it to the client. */
 -(void)startSendSocket:(void *)context{
-    printf("startSendSocket()\n");
     void *socket = zmq_socket(context, ZMQ_DEALER);
     const char* ip = [[[NSString alloc] initWithFormat:@"tcp://%@:5555", self.address] UTF8String];
     char* id = (char *)[self.name UTF8String];
@@ -85,7 +83,6 @@ void free_data(void* data, void* hint){
 
 /* Creates the socket responsible for receiving messages and saves it to the client. */
 -(void)startRecvSocket:(void *)context{
-    printf("startRecvSocket()\n");
     void *socket = zmq_socket(context, ZMQ_SUB);
     const char* address = [[[NSString alloc] initWithFormat:@"tcp://%@:5556", self.address] UTF8String];
     int rc = zmq_connect(socket, address);
@@ -121,7 +118,7 @@ void free_data(void* data, void* hint){
 
 /* Receives the board image and initial piece locations from the server */
 -(void)setUpMode{
-    printf("setUpMode()\n");
+    DEBUG_SAY(1, "Network.m :: setUpMode\n");
     zmq_msg_t picture;
     zmq_msg_init(&picture);
     zmq_msg_t numRow;
@@ -130,7 +127,8 @@ void free_data(void* data, void* hint){
     zmq_msg_init(&numCol);
     zmq_msg_t pieceLocations;
     zmq_msg_init(&pieceLocations);
-    
+
+    DEBUG_SAY(3, "Recieve the image data from Network.m\n");
     //Receive the image data.
     int len = zmq_msg_recv(&picture, self.recvSocket, 0);
     NSData *data = [NSData dataWithBytes:zmq_msg_data(&picture) length:len];
@@ -140,22 +138,24 @@ void free_data(void* data, void* hint){
     //Display the image so that we can see it's working.
     //self.imageView.image = [UIImage imageWithData:data];
     
-    
+    DEBUG_SAY(3, "atoi numRow and numCol from Network.m\n");
     zmq_msg_recv(&pieceLocations, self.recvSocket, 0);
     int row = atoi(zmq_msg_data(&numRow));
     int col = atoi(zmq_msg_data(&numCol));
-    
+
+    DEBUG_SAY(3, "malloc pieces from Network.m\n");
     pieces = malloc(sizeof(Piece)*row*col);
     memcpy(pieces, zmq_msg_data(&pieceLocations), zmq_msg_size(&pieceLocations));
-    
+
+    DEBUG_SAY(3, "Call initWithPuzzle from Network.m\n");
     [self.graphics initWithPuzzle:[UIImage imageWithData:data] withPieces:pieces andNumRows:row andNumCols:col];
-    
     
     //[self displayPieces:pieces withSize:atoi(zmq_msg_data(&numPieces))];
     //[self displayPieces:pieces withSize:(row+col)];
     
     //Needs to call the appropriate method in Ash's class.
-    
+
+    DEBUG_SAY(3, "Unsubscribe from board from Network.m\n");
     //Unsubscribe from board initialisation messages.
     zmq_setsockopt(self.recvSocket, ZMQ_UNSUBSCRIBE, "SetupMode", 9);
     self.hasImage = YES;
@@ -168,7 +168,6 @@ void free_data(void* data, void* hint){
 
 /* Asks the server for the piece specified by the number */
 -(void)requestPiece:(int)pieceNum{
-    printf("Requesting %i\n", pieceNum);
     const char *piece = [[[NSString alloc] initWithFormat:@"%d", pieceNum] UTF8String];
     zmq_send(self.socket, "PickUp", 6, ZMQ_SNDMORE);
     zmq_send(self.socket, piece, pieceNum%10+1, 0);
