@@ -136,7 +136,7 @@ GLKMatrix4 modelView = GLKMatrix4Identity;
             for(int col = 0; col < 3; col++){
                 viewMat.at<double>(row,col) = rotation.at<double>(row,col);
             }
-            viewMat.at<double>(row,3) = tvec.at<double>(0,row);
+            viewMat.at<double>(row,3) = tvec.at<double>(0,row);// changed, might be wrong
         }
         viewMat.at<double>(3,3) = 1.0f;
         viewMat = viewMat * matToGL;
