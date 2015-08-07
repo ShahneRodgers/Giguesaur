@@ -224,7 +224,7 @@ void free_data(void* data, void* hint){
     zmq_msg_recv(&piece, self.recvSocket, 0);
     
     NSString *identity = [self messageToNSString:ident];
-    DEBUG_SAY(2, "Network.h :: pickUp\n");
+    DEBUG_SAY(2, "Network.m :: pickUp\n");
     int pieceNum = atoi(zmq_msg_data(&piece));
     //UIButton *button = [self.buttons objectAtIndex:pieceNum];
     if ([identity hasPrefix:self.name]){
@@ -267,7 +267,7 @@ void free_data(void* data, void* hint){
                        zmq_msg_data(&y),
                        zmq_msg_data(&rotation)]; */
     int pieceNum = atoi(zmq_msg_data(&piece));
-    int locs[3] = {atof(zmq_msg_data(&x)), atof(zmq_msg_data(&y)), atof(zmq_msg_data(&rotation))};
+    float locs[3] = {atof(zmq_msg_data(&x)), atof(zmq_msg_data(&y)), atof(zmq_msg_data(&rotation))};
    // [[self.buttons objectAtIndex:atoi(zmq_msg_data(&piece))]setTitle:title forState:normal];
     [self.graphics placePiece:pieceNum andCoords:locs];
     
@@ -282,7 +282,7 @@ void free_data(void* data, void* hint){
  * is holding a piece.
  */
 -(void)keepAlive{
-    DEBUG_SAY(2, "Network.m :: keepAlive");
+    DEBUG_SAY(2, "Network.m :: keepAlive\n");
     const char *piece = [[[NSString alloc] initWithFormat:@"%d", self.heldPiece] UTF8String];
     zmq_send(self.socket, "KeepAlive", 9, ZMQ_SNDMORE);
     zmq_send(self.socket, piece, sizeof(piece), 0);

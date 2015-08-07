@@ -442,11 +442,11 @@ const GLubyte Indices2[] = {
         }
     }
     
-    [self render];
+    //[self render];
 }
 
 /***** DRAW CODE *****/
-- (void) render {//:(CADisplayLink*)displayLink {
+- (void) render:(CADisplayLink*)displayLink {
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
@@ -523,6 +523,14 @@ const GLubyte Indices2[] = {
                 C_WHITE,
                 {TEXTURE_WIDTH * col, TEXTURE_HEIGHT * (row+1)}
             };
+
+            // Apply the piece rotation
+            GLKMatrix4 translation_P = GLKMatrix4MakeTranslation(pieces[i].x_location,pieces[i].y_location,-1);
+            GLKMatrix4 rotation_P = GLKMatrix4MakeRotation(degToRad(pieces[i].rotation), 0, 0, 1);
+            GLKMatrix4 modelView_P = GLKMatrix4Multiply(translation_P, rotation_P);
+            translation_P = GLKMatrix4MakeTranslation(-pieces[i].x_location,-pieces[i].y_location,-1);
+            modelView_P = GLKMatrix4Multiply(modelView_P, translation_P);
+            glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView_P.m);
         }
         // Piece being held
         else {
@@ -546,6 +554,9 @@ const GLubyte Indices2[] = {
                 C_GOLD,
                 {TEXTURE_WIDTH * col, TEXTURE_HEIGHT * (row+1)}
             };
+
+            // Reset modelView for piece being held
+            glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.m);
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
@@ -585,13 +596,13 @@ const GLubyte Indices2[] = {
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
-/*
+
 // Renders the game in 60fps
 - (void)setupDisplayLink {
     CADisplayLink* displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(render:)];
     [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
-*/
+
 
 /* "Main" for the frame */
 - (id)initWithFrame:(CGRect)frame {
@@ -605,12 +616,12 @@ const GLubyte Indices2[] = {
         [self setupFrameBuffer];
         [self compileShaders];
         [self setupVBOs];
-        //[self setupDisplayLink];
+        [self setupDisplayLink];
         _puzzleTexture = [self setupTexture:@"puppy.png"];
         _backgroundTexture = [self setupTexture:@"background.jpg"];
         simpleMath = [[SimpleMath alloc] init];
         generatePieces(pieces);
-        [self render];
+        //[self render];
     }
     return self;
 }

@@ -19,17 +19,17 @@ typedef struct {
 } Vertex;
 
 const Vertex DefaultPiece[] = {
-    {{SIDE_HALF, -SIDE_HALF, PIECE_Z}, C_BLACK, {1, 0}},
-    {{SIDE_HALF, SIDE_HALF, PIECE_Z}, C_BLACK, {1, 1}},
-    {{-SIDE_HALF, SIDE_HALF, PIECE_Z}, C_BLACK, {0, 1}},
-    {{-SIDE_HALF, -SIDE_HALF, PIECE_Z}, C_BLACK, {0, 0}}
+    {{SIDE_HALF, -SIDE_HALF, PIECE_Z}, {C_BLACK}, {1, 0}},
+    {{SIDE_HALF, SIDE_HALF, PIECE_Z}, {C_BLACK}, {1, 1}},
+    {{-SIDE_HALF, SIDE_HALF, PIECE_Z}, {C_BLACK}, {0, 1}},
+    {{-SIDE_HALF, -SIDE_HALF, PIECE_Z}, {C_BLACK}, {0, 0}}
 };
 
 const Vertex BackgroundVertices[] = {
-    {{BOARD_WIDTH, 0, 0}, C_WHITE, {1, 1}},
-    {{BOARD_WIDTH, BOARD_HEIGHT, 0}, C_WHITE, {1, 0}},
-    {{0, BOARD_HEIGHT, 0}, C_WHITE, {0, 0}},
-    {{0, 0, 0}, C_WHITE, {0, 1}}
+    {{BOARD_WIDTH, 0, 0}, {C_WHITE}, {1, 1}},
+    {{BOARD_WIDTH, BOARD_HEIGHT, 0}, {C_WHITE}, {1, 0}},
+    {{0, BOARD_HEIGHT, 0}, {C_WHITE}, {0, 0}},
+    {{0, 0, 0}, {C_WHITE}, {0, 1}}
 };
 
 const GLubyte PieceIndices[] = {
@@ -181,10 +181,10 @@ const GLubyte BackgroundIndices[] = {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(BackgroundIndices),
                  BackgroundIndices, GL_STATIC_DRAW);
 }
-/*
+
 - (GLuint) setupTexturePuzzle: (UIImage *) imageFile {
 
-    DEBUG_SAY(1, "setup texture puzzle\n");
+    DEBUG_SAY(2, "Graphics.m :: set up puzzle texture\n");
     
     CGImageRef spriteImage = imageFile.CGImage;
 
@@ -199,9 +199,9 @@ const GLubyte BackgroundIndices[] = {
 
     CGContextRelease(spriteContext);
 
-    GLuint texName;
-    glGenTextures(1, &texName);
-    glBindTexture(GL_TEXTURE_2D, texName);
+    GLuint texNamePuz;
+    glGenTextures(1, &texNamePuz);
+    glBindTexture(GL_TEXTURE_2D, texNamePuz);
 
     // use linear filetring
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -215,12 +215,12 @@ const GLubyte BackgroundIndices[] = {
 
     free(spriteData);
 
-    return texName;
+    return texNamePuz;
 }
 
-- (void) setupTexture: (UIImage *) imageFile {
+- (void) setupTextureBackground: (UIImage *) imageFile {
 
-    DEBUG_SAY(1, "setup background puzzle\n");
+    DEBUG_SAY(4, "Graphics.m :: set up background texture\n");
 
     CGImageRef spriteImage = imageFile.CGImage;
 
@@ -235,9 +235,9 @@ const GLubyte BackgroundIndices[] = {
     
     CGContextRelease(spriteContext);
     
-    GLuint texName;
-    glGenTextures(1, &texName);
-    glBindTexture(GL_TEXTURE_2D, texName);
+    GLuint texNameBac;
+    glGenTextures(1, &texNameBac);
+    glBindTexture(GL_TEXTURE_2D, texNameBac);
 
     // use linear filetring
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -251,16 +251,16 @@ const GLubyte BackgroundIndices[] = {
 
     free(spriteData);
 
-    _backgroundTexture = texName;
+    _backgroundTexture = texNameBac;
 
     [self render];
 
-    glDeleteTextures(1, &texName);
+    glDeleteTextures(1, &texNameBac);
 }
-*/
+
 - (void) setupPuzzleTexture: (UIImage *) puzzle andBackgroundTexture: (UIImage *) background{
 
-    DEBUG_SAY(1, "setup puzzle and background\n");
+    DEBUG_SAY(4, "Graphics.m :: set up puzzle and background texture\n");
 
     CGImageRef spriteImagePuz = puzzle.CGImage;
     CGImageRef spriteImageBac = background.CGImage;
@@ -282,12 +282,13 @@ const GLubyte BackgroundIndices[] = {
     CGContextRelease(spriteContextPuz);
     CGContextRelease(spriteContextBac);
 
-    glActiveTexture(GL_TEXTURE0);
     GLuint texNamePuz;
+    //glActiveTexture(GL_TEXTURE0);
     glGenTextures(1, &texNamePuz);
     glBindTexture(GL_TEXTURE_2D, texNamePuz);
-    glActiveTexture(GL_TEXTURE1);
+
     GLuint texNameBac;
+    //glActiveTexture(GL_TEXTURE1);
     glGenTextures(1, &texNameBac);
     glBindTexture(GL_TEXTURE_2D, texNameBac);
 
@@ -317,37 +318,30 @@ const GLubyte BackgroundIndices[] = {
 
 /* Method called by vision to manipulate background */
 - (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4 *) matrix {
-    _modelViewMatrix = *matrix;
+    _visionMatrix = *matrix;
     [self setupPuzzleTexture:_puzzleImage andBackgroundTexture: imageFile];
+    //[self setupTextureBackground:imageFile];
 }
 
 /* Methods called by server to manipulate the pieces on the client */
-- (void) placePiece: (int) pieceID andCoords: (int[3]) coords {
-
+- (void) placePiece: (int) pieceID andCoords: (float[3]) coords {
+    DEBUG_PRINT(3, "Graphics.m :: Place piece %d at [%.2f,%.2f]\n", pieceID, coords[0], coords[1]);
     _pieces[pieceID].x_location = coords[0];
     _pieces[pieceID].y_location = coords[1];
     _pieces[pieceID].rotation = coords[2];
     _pieces[pieceID].held = P_FALSE;
-
     if (holdingPiece == pieceID) holdingPiece = -1;
-
-    //[self render];
 }
 
 - (void) pickupPiece: (int) pieceID {
-
+    DEBUG_PRINT(3, "Graphics.m :: Pick up piece %d\n", pieceID);
     _pieces[pieceID].held = P_TRUE;
-
     holdingPiece = pieceID;
-
-    //[self render];
 }
 
 - (void) addToHeld: (int) pieceID {
-
+    DEBUG_PRINT(3, "Graphics.m :: Add piece %d to held\n", pieceID);
     _pieces[pieceID].held = P_TRUE;
-
-    //[self render];
 }
 
 /***** SCREEN TOUCH *****/
@@ -367,56 +361,71 @@ const GLubyte BackgroundIndices[] = {
     GLKVector3 newPoints = GLKVector3Make(new_x, new_y, 0);
     GLKVector3 result = GLKMatrix4MultiplyVector3(viewProjectionInverse, newPoints);
 
+    DEBUG_PRINT(2,"Graphics.m :: Original [x,y] = [%.2f,%.2f]\n", point.x, point.y);
+
     point.x = result.v[0] + (self.frame.size.width / 2);
     point.y = result.v[1] + (self.frame.size.height / 2);
 
-    DEBUG_PRINT(2,"touchesBegan :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
+    DEBUG_PRINT(2,"Graphics.m :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
 
     if (!puzzleStateRevieved) {
-        DEBUG_SAY(2, "Have not recieved the puzzle state yet!\n");
+        NSLog(@"Have not recieved the puzzle state yet!");
     }
     else if (holdingPiece >= 0) {
+        DEBUG_PRINT(3, "Graphics.m :: Ask server to place piece %d\n", holdingPiece);
         [self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[holdingPiece].rotation];
     }
     else {
         for (int i = 0; i < num_of_pieces; i++) {
             if(point.x >= _pieces[i].x_location - SIDE_HALF && point.x < _pieces[i].x_location + SIDE_HALF) {
                 if (point.y >= _pieces[i].y_location - SIDE_HALF && point.y < _pieces[i].y_location + SIDE_HALF) {
+                    DEBUG_PRINT(3, "Graphics.m :: Ask server to pick up piece %d\n", i);
                     [self.network requestPiece:i];
                     i = num_of_pieces;
                 }
             }
         }
     }
-    
 }
 
 /***** DRAW CODE *****/
 - (void) render {
 
+    GLKMatrix4 projection;
+    GLKMatrix4 translation;
+    GLKMatrix4 rotation;
+    GLKMatrix4 modelView;
+    BOOL usePerspective = NO;
+
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
-    glClearColor(230.0/255.0, 1.0, 1.0, 0.0);
+    glClearColor(C_CALM);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     
     // Sort out projection Matrix
-    GLKMatrix4 projection = GLKMatrix4MakeOrtho(0, self.frame.size.width, 0, self.frame.size.height, 0.1, 1000);
-    //float h = 4.0 * BOARD_WIDTH / BOARD_HEIGHT;
-    //GLKMatrix4 projection = GLKMatrix4MakeFrustum(-2, 2, -h/2, h/2, 0.1, 1000);
+    if (usePerspective) {
+        float h = 4.0 * self.frame.size.width / self.frame.size.height;
+        projection = GLKMatrix4MakeFrustum(-2, 2, -h/2, h/2, 0.1, 1000);
+    }
+    else
+        projection = GLKMatrix4MakeOrtho(0, self.frame.size.width, 0, self.frame.size.height, 0.1, 1000);
 
     _projectionMatrix = projection;
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.m);
     
     // Sort out Model-View Matrix
-    GLKMatrix4 translation = GLKMatrix4MakeTranslation(0,0,-1);
-    //GLKMatrix4 translation = GLKMatrix4MakeTranslation(-BOARD_WIDTH/2,-BOARD_HEIGHT/2,-25);
-    GLKMatrix4 rotation = GLKMatrix4MakeRotation(degToRad(0), 0, 0, 1);
-    GLKMatrix4 modelView = GLKMatrix4Multiply(translation, rotation);
+    if (usePerspective)
+        translation = GLKMatrix4MakeTranslation(-BOARD_WIDTH/2,-BOARD_HEIGHT/2,-25);
+    else
+        translation = GLKMatrix4MakeTranslation(0,0,-1);
+
+    rotation = GLKMatrix4MakeRotation(degToRad(0), 0, 0, 1);
+    modelView = GLKMatrix4Multiply(translation, rotation);
     
-    //_modelViewMatrix = modelView;
-    glUniformMatrix4fv(_modelViewUniform, 1, 0, _modelViewMatrix.m);//modelView.m);
+    _modelViewMatrix = modelView;
+    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.m);
 
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 
@@ -450,59 +459,67 @@ const GLubyte BackgroundIndices[] = {
         if (_pieces[i].held == P_FALSE) {
             NewPiece[0] = (Vertex) {
                 {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
-                C_WHITE,
+                {C_WHITE},
                 {texture_width * (col+1), texture_height * (row + 1)}
             };
             NewPiece[1] = (Vertex) {
                 {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
-                C_WHITE,
+                {C_WHITE},
                 {texture_width * (col+1), texture_height * row}
             };
             NewPiece[2] = (Vertex) {
                 {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
-                C_WHITE,
+                {C_WHITE},
                 {texture_width * col, texture_height * row}
             };
             NewPiece[3] = (Vertex) {
                 {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
-                C_WHITE,
+                {C_WHITE},
                 {texture_width * col, texture_height * (row+1)}
             };
-            GLKMatrix4 translation1 = GLKMatrix4MakeTranslation(_pieces[i].x_location,_pieces[i].y_location,-1);
-            GLKMatrix4 rotation1 = GLKMatrix4MakeRotation(degToRad(_pieces[i].rotation), 0, 0, 1);
-            GLKMatrix4 translation2 = GLKMatrix4MakeTranslation(-_pieces[i].x_location,-_pieces[i].y_location,-1);
-            GLKMatrix4 modelView1 = GLKMatrix4Multiply(translation1, rotation1);
-            modelView1 = GLKMatrix4Multiply(modelView1, translation2);
 
-            glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView1.m);
-
+            // Apply the piece rotation
+            GLKMatrix4 translation_P = GLKMatrix4MakeTranslation(_pieces[i].x_location,_pieces[i].y_location,-1);
+            GLKMatrix4 rotation_P = GLKMatrix4MakeRotation(degToRad(_pieces[i].rotation), 0, 0, 1);
+            GLKMatrix4 modelView_P = GLKMatrix4Multiply(translation_P, rotation_P);
+            translation_P = GLKMatrix4MakeTranslation(-_pieces[i].x_location,-_pieces[i].y_location,-1);
+            modelView_P = GLKMatrix4Multiply(modelView_P, translation_P);
+            modelView_P = GLKMatrix4Multiply(modelView_P, _visionMatrix);
+            glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView_P.m);
         }
         // Piece being held
         else if (i == holdingPiece) {
             NewPiece[0] = (Vertex) {
                 {SIDE_LENGTH*2+10, 10, HOLDING_Z},
-                C_GOLD,
+                {C_GOLD},
                 {texture_width * (col+1), texture_height * (row + 1)}
             };
             NewPiece[1] = (Vertex) {
                 {SIDE_LENGTH*2+10, SIDE_LENGTH*2+10, HOLDING_Z},
-                C_GOLD,
+                {C_GOLD},
                 {texture_width * (col+1), texture_height * row}
             };
             NewPiece[2] = (Vertex) {
                 {10, SIDE_LENGTH*2+10, HOLDING_Z},
-                C_GOLD,
+                {C_GOLD},
                 {texture_width * col, texture_height * row}
             };
             NewPiece[3] = (Vertex) {
                 {10, 10, HOLDING_Z},
-                C_GOLD,
+                {C_GOLD},
                 {texture_width * col, texture_height * (row+1)}
             };
 
+            // Reset modelView for piece being held
             glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.m);
 
         }
+        else
+            DEBUG_PRINT(3, "Piece %d is not on the board or being held\n", i);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(NewPiece), NewPiece, GL_STATIC_DRAW);
 
         glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
         glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
@@ -512,14 +529,9 @@ const GLubyte BackgroundIndices[] = {
         glBindTexture(GL_TEXTURE_2D, _puzzleTexture);
         glUniform1i(_textureUniform, 0);
 
-        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(NewPiece), NewPiece, GL_STATIC_DRAW);
-        
         glDrawElements(GL_TRIANGLES, sizeof(PieceIndices)/sizeof(PieceIndices[0]), GL_UNSIGNED_BYTE, 0);
     }
 
-    [_context presentRenderbuffer:GL_RENDERBUFFER];
     // Set Orthographic Projection for Background Image
     projection = GLKMatrix4MakeOrtho(0, self.frame.size.width, 0, self.frame.size.height, 0.1, 1000);
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.m);
@@ -530,10 +542,7 @@ const GLubyte BackgroundIndices[] = {
 
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
-
-    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _backgroundTexture);
-    glUniform1i(_textureUniform, 0);
 
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
@@ -581,11 +590,10 @@ const GLubyte BackgroundIndices[] = {
     num_of_pieces = numRows * numCols;
     texture_height = 1.0/num_of_pieces;
     texture_width = 1.0/num_of_pieces;
-
+    //_puzzleTexture = [self setupTexturePuzzle:_puzzleImage];
     puzzleStateRevieved = YES;
-
+    //[self setupTextureBackground:[UIImage imageNamed:@"background.jpg"]];
     [self printPuzzle];
-    //[self render];
 }
 
 - (void) printPuzzle {
