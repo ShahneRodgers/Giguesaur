@@ -17,7 +17,7 @@
 #define PI 3.141592653
 #define degToRad(DEG) (float)(DEG * PI / 180.0)
 
-#define PIECE_Z 0
+#define PIECE_Z -10
 #define HOLDING_Z 0.01
 
 #define C_BLACK 0, 0, 0, 1

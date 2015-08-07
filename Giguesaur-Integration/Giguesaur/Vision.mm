@@ -13,6 +13,9 @@ cv::Size boardSize(9,6);
 std::vector<cv::Point3f> corners;
 //vector<Point3f> polypoints;
 cv::Mat cameraMatrix, distCoeffs;
+
+std::vector<cv::Point3f> polypoints;
+
 GLKMatrix4 modelView;// GLKMatrix4Identity;
 
 @implementation Vision
@@ -23,6 +26,16 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 
 - (void) visionInit:(Graphics *) graphics{
     
+    
+    polypoints.push_back(cv::Point3f(float(0), float(0), float(0)));
+    polypoints.push_back(cv::Point3f(float(56), float(0), float(0)));
+    polypoints.push_back(cv::Point3f(float(56), float(56), float(0)));
+    polypoints.push_back(cv::Point3f(float(0), float(56), float(0)));
+
+    polypoints.push_back(cv::Point3f(float(0), float(0), float(-56)));
+    polypoints.push_back(cv::Point3f(float(56), float(0), float(-56)));
+    polypoints.push_back(cv::Point3f(float(56), float(56), float(-56)));
+    polypoints.push_back(cv::Point3f(float(0), float(56), float(-56)));
     self.graphics = graphics;
     
     for( int i = 0; i < boardSize.height; ++i ){
@@ -32,7 +45,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     }
     
      NSBundle *mainBundle = [NSBundle mainBundle];
-     NSString *myFile = [mainBundle pathForResource: @"camera_params" ofType: @"xml"];
+     NSString *myFile = [mainBundle pathForResource: @"0.7params" ofType: @"xml"];
      //std::string *path = new std::string([myFile UTF8String]);
      const char *path = [myFile UTF8String];
      
@@ -85,6 +98,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 
 - (void) calculatePose:(cv::Mat &)frame{
     
+    std::vector<cv::Point2f> imagepoints;
     std::vector<cv::Point2f> pixelcorners;
     cv::Mat rvec;
     cv::Mat tvec;
@@ -130,6 +144,23 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         /*GLKMatrix4 rotation = GLKMatrix4MakeRotation(degToRad(0), 0, 0, 1);
         GLKMatrix4 translation = GLKMatrix4MakeTranslation(0,0,-1);*/
         //modelView = GLKMatrix4Multiply(rotation, translation);
+        
+        projectPoints(polypoints, rvec, tvec, cameraMatrix, distCoeffs, imagepoints);
+        line(frame, imagepoints[0], imagepoints[1], cv::Scalar(255,0,0), 5, 8);
+        //line(frame, imagepoints[1], imagepoints[2], Scalar(255,0,0), 5, 8);
+        //line(frame, imagepoints[2], imagepoints[3], Scalar(255,0,0), 5, 8);
+        line(frame, imagepoints[3], imagepoints[0], cv::Scalar(0,255,0), 5, 8);
+        
+        line(frame, imagepoints[0], imagepoints[4], cv::Scalar(0,0,255), 5, 8);
+        /*line(frame, imagepoints[1], imagepoints[5], Scalar(255,0,0), 5, 8);
+         line(frame, imagepoints[2], imagepoints[6], Scalar(255,0,0), 5, 8);
+         line(frame, imagepoints[3], imagepoints[7], Scalar(255,0,0), 5, 8);
+         
+         line(frame, imagepoints[4], imagepoints[5], Scalar(255,0,0), 5, 8);
+         line(frame, imagepoints[5], imagepoints[6], Scalar(255,0,0), 5, 8);
+         line(frame, imagepoints[6], imagepoints[7], Scalar(255,0,0), 5, 8);
+         line(frame, imagepoints[7], imagepoints[4], Scalar(255,0,0), 5, 8);*/
+
 
         cv::Rodrigues(rvec, rotation);
         for(int row = 0; row < 3; row++){
