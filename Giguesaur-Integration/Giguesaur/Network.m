@@ -267,7 +267,7 @@ void free_data(void* data, void* hint){
                        zmq_msg_data(&y),
                        zmq_msg_data(&rotation)]; */
     int pieceNum = atoi(zmq_msg_data(&piece));
-    int locs[3] = {atof(zmq_msg_data(&x)), atof(zmq_msg_data(&y)), atof(zmq_msg_data(&rotation))};
+    float locs[3] = {atof(zmq_msg_data(&x)), atof(zmq_msg_data(&y)), atof(zmq_msg_data(&rotation))};
    // [[self.buttons objectAtIndex:atoi(zmq_msg_data(&piece))]setTitle:title forState:normal];
     [self.graphics placePiece:pieceNum andCoords:locs];
     
