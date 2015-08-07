@@ -55,6 +55,7 @@
 
     GLKMatrix4 _projectionMatrix;
     GLKMatrix4 _modelViewMatrix;
+    GLKMatrix4 _visionMatrix;
 
     GLuint _puzzleTexture;
     GLuint _backgroundTexture;

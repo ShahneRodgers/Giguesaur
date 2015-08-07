@@ -283,12 +283,12 @@ const GLubyte BackgroundIndices[] = {
     CGContextRelease(spriteContextBac);
 
     GLuint texNamePuz;
-    glActiveTexture(GL_TEXTURE0);
+    //glActiveTexture(GL_TEXTURE0);
     glGenTextures(1, &texNamePuz);
     glBindTexture(GL_TEXTURE_2D, texNamePuz);
 
     GLuint texNameBac;
-    glActiveTexture(GL_TEXTURE1);
+    //glActiveTexture(GL_TEXTURE1);
     glGenTextures(1, &texNameBac);
     glBindTexture(GL_TEXTURE_2D, texNameBac);
 
@@ -318,7 +318,7 @@ const GLubyte BackgroundIndices[] = {
 
 /* Method called by vision to manipulate background */
 - (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4 *) matrix {
-    //_modelViewMatrix = *matrix;
+    _visionMatrix = *matrix;
     [self setupPuzzleTexture:_puzzleImage andBackgroundTexture: imageFile];
     //[self setupTextureBackground:imageFile];
 }
@@ -484,8 +484,8 @@ const GLubyte BackgroundIndices[] = {
             GLKMatrix4 modelView_P = GLKMatrix4Multiply(translation_P, rotation_P);
             translation_P = GLKMatrix4MakeTranslation(-_pieces[i].x_location,-_pieces[i].y_location,-1);
             modelView_P = GLKMatrix4Multiply(modelView_P, translation_P);
+            modelView_P = GLKMatrix4Multiply(modelView_P, _visionMatrix);
             glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView_P.m);
-
         }
         // Piece being held
         else if (i == holdingPiece) {
@@ -521,13 +521,13 @@ const GLubyte BackgroundIndices[] = {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(NewPiece), NewPiece, GL_STATIC_DRAW);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, _puzzleTexture);
-        glUniform1i(_textureUniform, 0);
-
         glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
         glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float)*3));
         glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, _puzzleTexture);
+        glUniform1i(_textureUniform, 0);
 
         glDrawElements(GL_TRIANGLES, sizeof(PieceIndices)/sizeof(PieceIndices[0]), GL_UNSIGNED_BYTE, 0);
     }
