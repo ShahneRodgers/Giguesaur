@@ -177,6 +177,7 @@ void free_data(void* data, void* hint){
 
 /* Asks the server for the piece specified by the number */
 -(void)requestPiece:(int)pieceNum{
+    DEBUG_PRINT(3, "Network::requestPiece %d\n", pieceNum);
     const char *piece = [[[NSString alloc] initWithFormat:@"%d", pieceNum] UTF8String];
     zmq_send(self.socket, "PickUp", 6, ZMQ_SNDMORE);
     zmq_send(self.socket, piece, pieceNum%10+1, 0);
@@ -188,7 +189,7 @@ void free_data(void* data, void* hint){
 /* Drops the piece that is being held at location (x, y) with rotation r. */
 -(void)droppedPiece:(float)xNum WithY:(float)yNum WithRotation:(float)rotationNum{
     //We've already asked to drop this piece
-    if (self.wantedPiece == self.heldPiece && [self.lastRequest timeIntervalSinceNow] < -TIMEOUT/2)
+    if (self.wantedPiece == self.heldPiece && [self.lastRequest timeIntervalSinceNow] > -TIMEOUT/2)
         return;
     const char *piece = [self intToString:self.heldPiece];
     const char *x = [self floatToString:xNum];
@@ -333,7 +334,6 @@ void free_data(void* data, void* hint){
     //If a piece has been requested but we haven't had a response within TIMEOUT
     int time = [self.lastRequest timeIntervalSinceNow] *-1;
     if (self.wantedPiece != -1 && self.heldPiece == -1 && time > TIMEOUT){
-        self.wantedPiece = -1;
         [self requestPiece:self.wantedPiece];
     }
     
