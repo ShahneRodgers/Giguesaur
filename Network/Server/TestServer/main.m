@@ -15,6 +15,8 @@
 #import "Giguesaur/PieceNeighbours.h"
 #import "SimpleMath/SimpleMath.h"
 
+@import AppKit;
+
 double TOOQUIET = 5; //Used to send empty message if the server hasn't sent anything in a while so clients know they haven't lost connection.
 double SENDBOARD = 3; //Used to slow down the rate of sending the board so clients don't receive too many copies.
 double LOSEPIECE = 5; //Used to give a maximum amount of time a client can hold a piece for after losing connection.
@@ -294,7 +296,7 @@ void startServer(){
     
 }
 
-void readImage(NSString *path){
+void readImageFromPath(NSString *path){
     NSError *errorPtr;
     NSData *image = [NSData dataWithContentsOfFile:path options:NSDataReadingUncached error:&errorPtr];
     if (errorPtr != NULL) {
@@ -306,13 +308,40 @@ void readImage(NSString *path){
     memcpy(boardState, [image bytes], imageLen);
 }
 
+void readImage(NSURL *path){
+    NSError *errorPtr;
+    NSData *image = [NSData dataWithContentsOfURL:path options:NSDataReadingUncached error:&errorPtr];
+    if (errorPtr != NULL) {
+        NSLog(@"Error reading file: %@", errorPtr);
+        NSLog(@"Ensure an image is located at: %@", path);
+    }
+    imageLen = (int)[image length];
+    boardState = malloc(imageLen);
+    memcpy(boardState, [image bytes], imageLen);
+}
+
+void chooseImage(){
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseFiles:YES];
+    NSArray* imageTypes = [NSImage imageTypes];
+    [panel setAllowedFileTypes:imageTypes];
+    NSInteger result = [panel runModal];
+    if (result == NSFileHandlingPanelOKButton){
+        NSURL *theImage = [[panel URLs]objectAtIndex:0];
+        readImage(theImage);
+    } else {
+        NSLog(@"Error getting image");
+        NSString *path = [[NSMutableString alloc] initWithFormat:@"%@/puppy.png", [[NSBundle mainBundle] resourcePath]];
+        readImageFromPath(path);
+    }
+}
+
 int main(int argc, const char * argv[]) {
     NSLog(@"Remember to check the address");
-    publishService();
     pieceNeighbours = [[PieceNeighbours alloc] init];
     simpleMath = [[SimpleMath alloc] init];
-    NSString *path = [[NSMutableString alloc] initWithFormat:@"%@/puppy.png", [[NSBundle mainBundle] resourcePath]];
-    readImage(path);
+    chooseImage();
+    publishService();
     players = [NSMutableArray array];
     heldPieces = [NSMutableArray array];
     generatePieces(pieces);
