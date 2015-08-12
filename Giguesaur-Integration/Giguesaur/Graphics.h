@@ -91,3 +91,10 @@
 @property void* pieces;
 
 @end
+
+typedef struct {
+ float Postion[3];
+ float TexCoord[2];
+ }PieceCoords;
+
+PieceCoords pieceCoords[4][4];

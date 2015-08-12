@@ -8,6 +8,9 @@
 
 #import "Vision.h"
 
+#define numpieces 4
+/*#define texture_width (1.0/numpieces)
+#define texture_height (1.0/numpieces)*/
 
 cv::Size boardSize(9,6);
 std::vector<cv::Point3f> corners;
@@ -100,6 +103,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     
     std::vector<cv::Point2f> imagepoints;
     std::vector<cv::Point2f> pixelcorners;
+    std::vector<cv::Point3f> worldpieces;
     cv::Mat rvec;
     cv::Mat tvec;
     cv::Mat rotation;
@@ -110,6 +114,16 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     matToGL.at<double>(1,1) = -1.0f; //inverts y
     matToGL.at<double>(2,2) = -1.0f; //inverts z
     matToGL.at<double>(3,3) = 1.0f;
+    
+
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 4; j++){
+            float x = pieceCoords[i][j].Postion[0];
+            float y = pieceCoords[i][j].Postion[1];
+            float z = pieceCoords[i][j].Postion[2];
+            worldpieces.push_back(cv::Point3f(x,y,z));
+        }
+    }
     
     //vector<Point2f> imagepoints;
     bool vectors = false;
@@ -130,6 +144,29 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     }
     
     if(vectors){
+        
+        NSBundle *mainBundle = [NSBundle mainBundle];
+        NSString *myFile = [mainBundle pathForResource: @"puppy" ofType: @"png"];
+        //std::string *path = new std::string([myFile UTF8String]);
+        const char *path = [myFile UTF8String];
+        
+        cv::projectPoints(worldpieces, rvec, tvec, cameraMatrix, distCoeffs, imagepoints);
+        cv::Mat input = cv::imread(path);
+        cv::Mat lambda(2,4, CV_32FC1);
+        lambda = cv::Mat::zeros(input.rows, input.cols, input.type());
+        
+        for(int i = 0; i < 4; i++){
+            cv::Mat pieceTexture;
+            cv::Point2f inputQuad[4];
+            cv::Point2f outputQuad[4];
+            for(int j = i * 4; j < i * 4 + 4; j++){
+                float texX = pieceCoords[i][j].TexCoord[0];
+                float texY = pieceCoords[i][j].TexCoord[1];
+                inputQuad[i] = imagepoints[i];
+                outputQuad[i] = cv::Point2f(texX, texY);
+            }
+        }
+        
         //std::cout << "rvec: " << rvec << "tvec: " << tvec << std::endl;
        /* for(int i = 0; i < 3; i++){
             rotation[i] = rvec.at<double>(0,i);
@@ -145,13 +182,14 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         GLKMatrix4 translation = GLKMatrix4MakeTranslation(0,0,-1);*/
         //modelView = GLKMatrix4Multiply(rotation, translation);
         
-        projectPoints(polypoints, rvec, tvec, cameraMatrix, distCoeffs, imagepoints);
+        /*projectPoints(polypoints, rvec, tvec, cameraMatrix, distCoeffs, imagepoints);
         line(frame, imagepoints[0], imagepoints[1], cv::Scalar(255,0,0), 5, 8);
         //line(frame, imagepoints[1], imagepoints[2], Scalar(255,0,0), 5, 8);
         //line(frame, imagepoints[2], imagepoints[3], Scalar(255,0,0), 5, 8);
         line(frame, imagepoints[3], imagepoints[0], cv::Scalar(0,255,0), 5, 8);
         
-        line(frame, imagepoints[0], imagepoints[4], cv::Scalar(0,0,255), 5, 8);
+        line(frame, imagepoints[0], imagepoints[4], cv::Scalar(0,0,255), 5, 8);*/
+        
         /*line(frame, imagepoints[1], imagepoints[5], Scalar(255,0,0), 5, 8);
          line(frame, imagepoints[2], imagepoints[6], Scalar(255,0,0), 5, 8);
          line(frame, imagepoints[3], imagepoints[7], Scalar(255,0,0), 5, 8);
@@ -167,7 +205,8 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
             for(int col = 0; col < 3; col++){
                 viewMat.at<double>(row,col) = rotation.at<double>(row,col);
             }
-            viewMat.at<double>(row,3) = tvec.at<double>(0,row);// changed, might be wrong
+            viewMat.at<double>(row,3) = tvec.at<double>(row,0);// changed, might be wrong curerntly in line with example
+           // std::cout << tvec.at<double>(row,0) << std::endl;
         }
         viewMat.at<double>(3,3) = 1.0f;
         viewMat = viewMat * matToGL;
@@ -181,6 +220,10 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         
         cv::cvtColor(frame, frame, CV_BGRA2RGBA);
         
+    
+      /* cv::Rect crop(240,0,1440,1080);
+        frame = frame(crop);
+        std::cout << frame.cols << " " << frame.rows << std::endl;*/
         UIImage *image = [self UIImageFromCVMat:frame];
         /*[[self graphics] performSelectorOnMainThread:@selector(visionBackgroundRender:)
          withObject:image
@@ -203,7 +246,8 @@ fromConnection:(AVCaptureConnection *)connection {
     //NSLog(@"delegate works!");
     cv::Mat frame;
     [self fromSampleBuffer:sampleBuffer toCVMat: frame];
-    
+       // std::cout << frame.size().height << frame.size().width << std::endl;
+        //std::cout << frame.cols << " " << frame.rows << std::endl;
     [self calculatePose:frame];
    /* cv::cvtColor(frame, frame, CV_BGRA2RGBA);
     

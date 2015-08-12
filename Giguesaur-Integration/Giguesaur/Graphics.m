@@ -8,9 +8,16 @@
 
 #import "Graphics.h"
 
+/*typedef struct {
+    float Postion[3];
+    float TexCoord[2];
+}PieceCoords;*/
+
 // Puzzle State
 int holdingPiece = -1;
 BOOL puzzleStateRevieved = NO;
+//PieceCoords needs to be dynamically allocated
+//PieceCoords pieceCoords[4][4];
 
 typedef struct {
     float Position[3];
@@ -319,8 +326,8 @@ const GLubyte BackgroundIndices[] = {
 /* Method called by vision to manipulate background */
 - (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4 *) matrix {
     _visionMatrix = *matrix;
-    [self setupPuzzleTexture:_puzzleImage andBackgroundTexture: imageFile];
-    //[self setupTextureBackground:imageFile];
+    //[self setupPuzzleTexture:_puzzleImage andBackgroundTexture: imageFile];
+    [self setupTextureBackground:imageFile];
 }
 
 /* Methods called by server to manipulate the pieces on the client */
@@ -590,8 +597,41 @@ const GLubyte BackgroundIndices[] = {
     num_of_pieces = numRows * numCols;
     texture_height = 1.0/num_of_pieces;
     texture_width = 1.0/num_of_pieces;
-    //_puzzleTexture = [self setupTexturePuzzle:_puzzleImage];
+    _puzzleTexture = [self setupTexturePuzzle:_puzzleImage];
     puzzleStateRevieved = YES;
+    
+    // Vision Stuff
+    PieceCoords NewPiece[4];
+    for (int i = 0; i < num_of_pieces; i++) {
+        // set row and col to get the sub-section of the texture
+        int row = 0;
+        int col = 0;
+        int index = 0;
+        while (index != i) {
+            col++;
+            index++;
+            if (col >= puzzle_cols) {
+                col = 0;
+                row++;
+            }
+        }
+        NewPiece[0] = (PieceCoords) {
+            {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
+            {texture_width * (col+1), texture_height * (row + 1)}
+        };
+        NewPiece[1] = (PieceCoords) {
+            {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
+            {texture_width * (col+1), texture_height * row}
+        };
+        NewPiece[2] = (PieceCoords) {
+            {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
+            {texture_width * col, texture_height * row}
+        };
+        NewPiece[3] = (PieceCoords) {
+            {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
+            {texture_width * col, texture_height * (row+1)}
+        };
+    }
     //[self setupTextureBackground:[UIImage imageNamed:@"background.jpg"]];
     [self printPuzzle];
 }

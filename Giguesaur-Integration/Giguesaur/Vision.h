@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "Graphics.h"
+#import "Piece.h"
 //#import <opencv2/opencv.hpp>
 #import "opencv2/core/core_c.h"
 #import "opencv2/core/core.hpp"
