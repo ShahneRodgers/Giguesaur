@@ -10,7 +10,7 @@
 
 // Puzzle State
 int holdingPiece = -1;
-BOOL puzzleStateRevieved = NO;
+BOOL puzzleStateRecieved = NO;
 //PieceCoords needs to be dynamically allocated
 PieceCoords pieceCoords[4][4];
 
@@ -21,7 +21,6 @@ typedef struct {
 } Vertex;
 
 Vertex ImageVertices[4];
-
 const GLubyte ImageIndices[] = {
     1, 0, 2, 3
 };
@@ -165,6 +164,7 @@ const GLubyte ImageIndices[] = {
                  ImageIndices, GL_STATIC_DRAW);
 }
 
+/* Called by vision to set up the image to display to the screen */
 - (void) setupTextureImage: (UIImage *) imageFile {
 
     DEBUG_SAY(4, "Graphics.m :: set up image texture\n");
@@ -203,11 +203,6 @@ const GLubyte ImageIndices[] = {
     [self render];
 
     glDeleteTextures(1, &texName);
-}
-
-/* Method called by vision to manipulate image displayed to the screen */
-- (void) visionImageRender: (UIImage *) imageFile {
-    [self setupTextureImage:imageFile];
 }
 
 /* Methods called by server to manipulate the pieces on the client */
@@ -255,7 +250,7 @@ const GLubyte ImageIndices[] = {
 
     DEBUG_PRINT(2,"Graphics.m :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
 
-    if (!puzzleStateRevieved) {
+    if (!puzzleStateRecieved) {
         NSLog(@"Have not recieved the puzzle state yet!");
     }
     else if (holdingPiece >= 0) {
@@ -263,12 +258,12 @@ const GLubyte ImageIndices[] = {
         [self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[holdingPiece].rotation];
     }
     else {
-        for (int i = 0; i < num_of_pieces; i++) {
+        for (int i = 0; i < _num_of_pieces; i++) {
             if(point.x >= _pieces[i].x_location - SIDE_HALF && point.x < _pieces[i].x_location + SIDE_HALF) {
                 if (point.y >= _pieces[i].y_location - SIDE_HALF && point.y < _pieces[i].y_location + SIDE_HALF) {
                     DEBUG_PRINT(3, "Graphics.m :: Ask server to pick up piece %d\n", i);
                     [self.network requestPiece:i];
-                    i = num_of_pieces;
+                    i = _num_of_pieces;
                 }
             }
         }
@@ -334,23 +329,23 @@ const GLubyte ImageIndices[] = {
     return self;
 }
 
-- (void) initWithPuzzle: (UIImage *) puzzleImage
-             withPieces: (Piece *) pieces
+- (void) initWithPuzzle: (UIImage *) puzzleImageS
+             withPieces: (Piece *) piecesS
              andNumRows: (int) numRows
              andNumCols: (int) numCols {
 
-    DEBUG_SAY(1, "Graphics.m :: initWithPuzzle\n");
-    _pieces = pieces;
-    _puzzleImage = puzzleImage;
-    puzzle_rows = numRows;
-    puzzle_cols = numCols;
-    num_of_pieces = numRows * numCols;
-    texture_height = 1.0/(float)numRows;
-    texture_width = 1.0/(float)numCols;
-    puzzleStateRevieved = YES;
+    DEBUG_SAY(2, "Graphics.m :: initWithPuzzle\n");
+    _pieces = piecesS;
+    _puzzleImage = puzzleImageS;
+    _puzzle_rows = numRows;
+    _puzzle_cols = numCols;
+    _num_of_pieces = numRows * numCols;
+    _texture_height = 1.0/(float)numRows;
+    _texture_width = 1.0/(float)numCols;
+    puzzleStateRecieved = YES;
     
     // Vision Stuff
-    for (int i = 0; i < num_of_pieces; i++) {
+    for (int i = 0; i < _num_of_pieces; i++) {
         // set row and col to get the sub-section of the texture
         int row = 0;
         int col = 0;
@@ -358,34 +353,28 @@ const GLubyte ImageIndices[] = {
         while (index != i) {
             col++;
             index++;
-            if (col >= puzzle_cols) {
+            if (col >= _puzzle_cols) {
                 col = 0;
                 row++;
             }
         }
-        DEBUG_PRINT(2, "row, col = %d,%d\n", row, col);
         // 0 and 2 swapped positions for openCV
        pieceCoords[i][0] = (PieceCoords) {
             {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
-            {texture_width * (float)col, texture_height * (float)row}
+            {_texture_width * (float)col, _texture_height * (float)row}
         };
         pieceCoords[i][1] = (PieceCoords) {
             {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
-            {texture_width * (col+1), texture_height * row}
+            {_texture_width * (col+1), _texture_height * row}
         };
         pieceCoords[i][2] = (PieceCoords) {
             {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
-            {texture_width * (col+1), texture_height * (row + 1)}
+            {_texture_width * (col+1), _texture_height * (row + 1)}
         };
         pieceCoords[i][3] = (PieceCoords) {
             {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
-            {texture_width * col, texture_height * (row+1)}
+            {_texture_width * col, _texture_height * (row+1)}
         };
-    }
-    for (int i = 0; i < num_of_pieces; i++) {
-        for (int j = 0; j < num_of_pieces; j++) {
-            DEBUG_PRINT(4, "[%dx%d] >>>>>> %.2f, %.2f\n", i, j, pieceCoords[i][j].TexCoord[0], pieceCoords[i][j].TexCoord[1]);
-        }
     }
 }
 

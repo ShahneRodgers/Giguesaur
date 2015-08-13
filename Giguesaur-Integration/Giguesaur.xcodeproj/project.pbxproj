@@ -362,16 +362,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		74A209031B604BE900578FBE /* Game Logic/OpenGL Rendering */ = {
+		74A209031B604BE900578FBE /* Game Logic/Rendering */ = {
 			isa = PBXGroup;
 			children = (
 				CE8831731B6ADB0E00614EAD /* Piece.h */,
+				74A209131B607D0B00578FBE /* Vision.h */,
+				74A209111B607CEA00578FBE /* Vision.mm */,
 				74A208F91B604B9600578FBE /* Graphics.h */,
 				74A208FA1B604B9600578FBE /* Graphics.m */,
 				74A208FB1B604B9600578FBE /* SimpleFragment.glsl */,
 				74A208FE1B604B9600578FBE /* SimpleVertex.glsl */,
 			);
-			name = "Game Logic/OpenGL Rendering";
+			name = "Game Logic/Rendering";
 			sourceTree = "<group>";
 		};
 		74A2090F1B604C8500578FBE /* resources */ = {
@@ -411,14 +413,12 @@
 			isa = PBXGroup;
 			children = (
 				74A2090F1B604C8500578FBE /* resources */,
-				74A208F81B604B9600578FBE /* Debug.h */,
-				74A209031B604BE900578FBE /* Game Logic/OpenGL Rendering */,
+				74A209031B604BE900578FBE /* Game Logic/Rendering */,
 				74D60E961B5CA81C00F5008F /* AppDelegate.h */,
 				74D60E971B5CA81C00F5008F /* AppDelegate.m */,
+				74A208F81B604B9600578FBE /* Debug.h */,
 				74D60FBF1B5CA9AE00F5008F /* ViewController.h */,
 				74D60FC01B5CA9AE00F5008F /* ViewController.m */,
-				74A209131B607D0B00578FBE /* Vision.h */,
-				74A209111B607CEA00578FBE /* Vision.mm */,
 				74D9A93F1B5DE2730088C8A4 /* Network.h */,
 				74D9A9401B5DE2730088C8A4 /* Network.m */,
 				74D9A93C1B5DD88D0088C8A4 /* GameController.h */,

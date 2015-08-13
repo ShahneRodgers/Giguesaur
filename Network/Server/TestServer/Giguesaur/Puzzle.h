@@ -10,8 +10,8 @@
 #ifndef Giguesaur_Puzzle_h
 #define Giguesaur_Puzzle_h
 
-#define BOARD_WIDTH 896
-#define BOARD_HEIGHT 560
+#define BOARD_WIDTH 224
+#define BOARD_HEIGHT 140
 
 #define NUM_OF_ROWS 2
 #define NUM_OF_COLS 2

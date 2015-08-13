@@ -14,7 +14,7 @@
 #import "Network.h"
 #import "Debug.h"
 
-#define PIECE_Z -10
+#define PIECE_Z 0
 
 #define C_WHITE 1, 1, 1, 1
 #define C_CALM 230.0/255.0, 1.0, 1.0, 0.0
@@ -22,15 +22,6 @@
 @class Network;
 
 @interface Graphics: UIView {
-
-    // Puzzle Variables
-    Piece* _pieces;
-    UIImage *_puzzleImage;
-    int puzzle_rows;
-    int puzzle_cols;
-    int num_of_pieces;
-    float texture_height;
-    float texture_width;
 
     CAEAGLLayer* _eaglLayer;
     EAGLContext* _context;
@@ -54,8 +45,17 @@
     
 }
 
+// Puzzle Variables
+@property Piece* pieces;
+@property UIImage *puzzleImage;
+@property int puzzle_rows;
+@property int puzzle_cols;
+@property int num_of_pieces;
+@property float texture_height;
+@property float texture_width;
+
 // Called by Vision
-- (void) visionImageRender: (UIImage *) imageFile;
+- (void) setupTextureImage: (UIImage *) imageFile;
 
 // Called by Network
 - (void) placePiece: (int) pieceID andCoords: (float[3]) coords;
@@ -67,13 +67,12 @@
          andNetwork: (Network*) theNetwork;
 
 // Setup the Game
-- (void) initWithPuzzle: (UIImage *) puzzleImage
-             withPieces: (Piece *) pieces
+- (void) initWithPuzzle: (UIImage *) puzzleImageS
+             withPieces: (Piece *) piecesS
              andNumRows: (int) numRows
              andNumCols: (int) numCols;
 
 @property Network* network;
-@property void* pieces;
 
 @end
 
