@@ -183,12 +183,12 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
                 outputQuad[3] = imagepoints[j+3];
                 
                 
-                
-                //cv::Mat subImage = input(cv::Rect(texX, texY, input.rows/2, input.cols/2));
+            
+                cv::Mat subImage = input(cv::Rect(inputQuad[0].x, inputQuad[0].y, width/2, height/2)); //Hardcoded height and width. 
                 
                 lambda = cv::getPerspectiveTransform(inputQuad, outputQuad);
                 
-                cv::warpPerspective(input, output, lambda, output.size());
+                cv::warpPerspective(subImage, output, lambda, output.size());
             std::cout << output.rows << " " << output.cols << " " << output.type() << std::endl;
             output.copyTo(frame,output);
             
