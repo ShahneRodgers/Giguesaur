@@ -40,8 +40,8 @@
     int puzzle_rows;
     int puzzle_cols;
     int num_of_pieces;
-    int texture_height;
-    int texture_width;
+    float texture_height;
+    float texture_width;
 
     CAEAGLLayer* _eaglLayer;
     EAGLContext* _context;
@@ -93,8 +93,8 @@
 @end
 
 typedef struct {
- float Postion[3];
- float TexCoord[2];
- }PieceCoords;
+    float Postion[3];
+    float TexCoord[2];
+ } PieceCoords;
 
-PieceCoords pieceCoords[4][4];
+extern PieceCoords pieceCoords[4][4];

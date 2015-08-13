@@ -17,7 +17,7 @@
 int holdingPiece = -1;
 BOOL puzzleStateRevieved = NO;
 //PieceCoords needs to be dynamically allocated
-//PieceCoords pieceCoords[4][4];
+PieceCoords pieceCoords[4][4];
 
 typedef struct {
     float Position[3];
@@ -595,13 +595,12 @@ const GLubyte BackgroundIndices[] = {
     puzzle_rows = numRows;
     puzzle_cols = numCols;
     num_of_pieces = numRows * numCols;
-    texture_height = 1.0/num_of_pieces;
-    texture_width = 1.0/num_of_pieces;
+    texture_height = 1.0/(float)numRows;
+    texture_width = 1.0/(float)numCols;
     _puzzleTexture = [self setupTexturePuzzle:_puzzleImage];
     puzzleStateRevieved = YES;
     
     // Vision Stuff
-    PieceCoords NewPiece[4];
     for (int i = 0; i < num_of_pieces; i++) {
         // set row and col to get the sub-section of the texture
         int row = 0;
@@ -615,24 +614,31 @@ const GLubyte BackgroundIndices[] = {
                 row++;
             }
         }
-        NewPiece[0] = (PieceCoords) {
-            {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
-            {texture_width * (col+1), texture_height * (row + 1)}
+        DEBUG_PRINT(2, "row, col = %d,%d\n", row, col);
+        // 0 and 2 swapped positions for openCV
+       pieceCoords[i][0] = (PieceCoords) {
+            {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
+            {texture_width * (float)col, texture_height * (float)row}
         };
-        NewPiece[1] = (PieceCoords) {
+        pieceCoords[i][1] = (PieceCoords) {
             {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
             {texture_width * (col+1), texture_height * row}
         };
-        NewPiece[2] = (PieceCoords) {
-            {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
-            {texture_width * col, texture_height * row}
+        pieceCoords[i][2] = (PieceCoords) {
+            {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
+            {texture_width * (col+1), texture_height * (row + 1)}
         };
-        NewPiece[3] = (PieceCoords) {
+        pieceCoords[i][3] = (PieceCoords) {
             {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
             {texture_width * col, texture_height * (row+1)}
         };
     }
-    //[self setupTextureBackground:[UIImage imageNamed:@"background.jpg"]];
+    for (int i = 0; i < num_of_pieces; i++) {
+        for (int j = 0; j < num_of_pieces; j++) {
+            DEBUG_PRINT(4, "[%dx%d] >>>>>> %.2f, %.2f\n", i, j, pieceCoords[i][j].TexCoord[0], pieceCoords[i][j].TexCoord[1]);
+        }
+    }
+        //[self setupTextureBackground:[UIImage imageNamed:@"background.jpg"]];
     [self printPuzzle];
 }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7418FA7B1B7C28630011B2A6 /* puppy_copy.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7418FA7A1B7C28630011B2A6 /* puppy_copy.jpg */; };
 		744FBCA21B745A0E00A16EF0 /* 0.7params.xml in Resources */ = {isa = PBXBuildFile; fileRef = 744FBCA11B745A0E00A16EF0 /* 0.7params.xml */; };
 		74A208FF1B604B9600578FBE /* Graphics.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A208FA1B604B9600578FBE /* Graphics.m */; };
 		74A209001B604B9600578FBE /* SimpleFragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 74A208FB1B604B9600578FBE /* SimpleFragment.glsl */; };
@@ -119,6 +120,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7418FA7A1B7C28630011B2A6 /* puppy_copy.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = puppy_copy.jpg; path = resources/puppy_copy.jpg; sourceTree = "<group>"; };
 		744FBCA11B745A0E00A16EF0 /* 0.7params.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 0.7params.xml; sourceTree = "<group>"; };
 		74A208F81B604B9600578FBE /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
 		74A208F91B604B9600578FBE /* Graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 				74A209091B604C7E00578FBE /* background.jpg */,
 				74A2090A1B604C7E00578FBE /* kitty.png */,
 				74A2090B1B604C7E00578FBE /* puppy.png */,
+				7418FA7A1B7C28630011B2A6 /* puppy_copy.jpg */,
 			);
 			name = resources;
 			sourceTree = "<group>";
@@ -739,6 +742,7 @@
 				744FBCA21B745A0E00A16EF0 /* 0.7params.xml in Resources */,
 				74A2090E1B604C7E00578FBE /* puppy.png in Resources */,
 				74A2090D1B604C7E00578FBE /* kitty.png in Resources */,
+				7418FA7B1B7C28630011B2A6 /* puppy_copy.jpg in Resources */,
 				74A209021B604B9600578FBE /* SimpleVertex.glsl in Resources */,
 				74A2090C1B604C7E00578FBE /* background.jpg in Resources */,
 				74D60EA31B5CA81C00F5008F /* LaunchScreen.xib in Resources */,
