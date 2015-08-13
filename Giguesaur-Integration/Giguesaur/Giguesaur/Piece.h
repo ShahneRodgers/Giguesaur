@@ -11,6 +11,7 @@
 // Should be an even number or there is a line visbible between pieces when they snap together
 #define SIDE_LENGTH 28
 #define SIDE_HALF (SIDE_LENGTH/2)
+
 #define P_FALSE 0
 #define P_TRUE 1
 

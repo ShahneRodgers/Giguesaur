@@ -10,8 +10,8 @@
 #ifndef Giguesaur_Puzzle_h
 #define Giguesaur_Puzzle_h
 
-#define BOARD_WIDTH 1024
-#define BOARD_HEIGHT 768
+#define BOARD_WIDTH 896
+#define BOARD_HEIGHT 560
 
 #define NUM_OF_ROWS 2
 #define NUM_OF_COLS 2
@@ -28,8 +28,5 @@ int checkIfSolved(Piece *pieces);
 
 // Resets the edges of pieces and their neighbours
 void resetEdgesOfPiece(int pieceID, Piece *pieces);
-
-// Moves any piece that is outside of the board
-void moveIfOutOfBounds(Piece *pieces);
 
 #endif

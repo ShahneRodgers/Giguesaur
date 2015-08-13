@@ -70,8 +70,6 @@ void generatePieces(Piece *pieces) {
         pieces[i].openEdge.left_open = left;
         pieces[i].openEdge.right_open = right;
     }
-
-    moveIfOutOfBounds(pieces);
 }
 
 // Check if the puzzle has been solved
@@ -112,28 +110,5 @@ void resetEdgesOfPiece(int pieceID, Piece *pieces) {
     if (rightID >= 0) {
         pieces[pieceID].openEdge.right_open = isOpen;
         pieces[rightID].openEdge.left_open = isOpen;
-    }
-}
-
-// Moves pieces back onto the board if they are out of bounds
-void moveIfOutOfBounds(Piece *pieces) {
-
-    for (int i = 0; i < NUM_OF_PIECES; i++) {
-        if (pieces[i].x_location + SIDE_HALF > BOARD_WIDTH) {
-            pieces[i].x_location = BOARD_WIDTH - SIDE_HALF;
-            resetEdgesOfPiece(i, pieces);
-        }
-        else if (pieces[i].x_location - SIDE_HALF < 0) {
-            pieces[i].x_location = SIDE_HALF;
-            resetEdgesOfPiece(i, pieces);
-        }
-        if (pieces[i].y_location + SIDE_HALF > BOARD_HEIGHT) {
-            pieces[i].y_location = BOARD_HEIGHT - SIDE_HALF;
-            resetEdgesOfPiece(i, pieces);
-        }
-        else if (pieces[i].y_location - SIDE_HALF < 0) {
-            pieces[i].y_location = SIDE_HALF;
-            resetEdgesOfPiece(i, pieces);
-        }
     }
 }

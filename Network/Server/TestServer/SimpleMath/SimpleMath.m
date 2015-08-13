@@ -11,8 +11,8 @@
 
 - (NSArray*) pointsRotated: (Piece) piece {
     
-    int x = piece.x_location;
-    int y = piece.y_location;
+    float x = piece.x_location;
+    float y = piece.y_location;
     
     float theta = degToRad(piece.rotation);
     
