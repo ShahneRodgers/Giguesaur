@@ -258,7 +258,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
          waitUntilDone:NO];*/
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[self graphics] visionBackgroundRender:image with: &modelView];
+            [[self graphics] visionImageRender:image];
         });
     }
     rvec.release();

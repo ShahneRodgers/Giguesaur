@@ -14,21 +14,10 @@
 #import "Network.h"
 #import "Debug.h"
 
-#define PI 3.141592653
-#define degToRad(DEG) (float)(DEG * PI / 180.0)
-
 #define PIECE_Z -10
-#define HOLDING_Z 0.01
 
-#define C_BLACK 0, 0, 0, 1
-#define C_GRAY 0.5, 0.5, 0.5, 1
 #define C_WHITE 1, 1, 1, 1
-#define C_GOLD 255.0/255.0, 223.0/255.0, 0.0/255.0, 1
-#define C_TRANS 0, 0, 0, 0
 #define C_CALM 230.0/255.0, 1.0, 1.0, 0.0
-
-#define BOARD_WIDTH 1024
-#define BOARD_HEIGHT 768
 
 @class Network;
 
@@ -55,22 +44,18 @@
 
     GLKMatrix4 _projectionMatrix;
     GLKMatrix4 _modelViewMatrix;
-    GLKMatrix4 _visionMatrix;
 
-    GLuint _puzzleTexture;
-    GLuint _backgroundTexture;
+    GLuint _imageTexture;
     GLuint _texCoordSlot;
     GLuint _textureUniform;
 
     GLuint _vertexBuffer;
     GLuint _indexBuffer;
-    GLuint _vertexBuffer2;
-    GLuint _indexBuffer2;
     
 }
 
 // Called by Vision
-- (void) visionBackgroundRender: (UIImage *) imageFile with: (GLKMatrix4 *) matrix;
+- (void) visionImageRender: (UIImage *) imageFile;
 
 // Called by Network
 - (void) placePiece: (int) pieceID andCoords: (float[3]) coords;
