@@ -30,6 +30,8 @@ typedef struct {
     float TexCoord[2];
 } PieceCoords;
 
+@class Graphics;
+
 @interface Vision : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate>
 
 //ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate>

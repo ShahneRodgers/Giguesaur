@@ -13,6 +13,7 @@ std::vector<cv::Point3f> corners;
 //vector<Point3f> polypoints;
 cv::Mat cameraMatrix, distCoeffs;
 cv::Mat input;
+BOOL puzzleImageCopied = NO;
 
 std::vector<cv::Point3f> polypoints;
 
@@ -26,9 +27,12 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 
 - (void) visionInit:(Graphics *) graphics{
 
+    // This needs to be replaced with the UIImage held in Graphics
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSString *filePath = [mainBundle pathForResource: @"puppy" ofType: @"png"];
     UIImage* resImage = [UIImage imageWithContentsOfFile:filePath];
+
+    //UIImage* resImage = self.graphics.puzzleImage;
     input = [self cvMatFromUIImage:resImage];
 
 
@@ -92,6 +96,11 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 }
 
 - (void) calculatePose:(cv::Mat &)frame{
+
+    if (self.graphics.puzzleStateRecieved && !puzzleImageCopied) {
+        input = [self cvMatFromUIImage:self.graphics.puzzleImage];
+        puzzleImageCopied = YES;
+    }
 
     std::vector<cv::Point2f> imagepoints;
     std::vector<cv::Point2f> pixelcorners;

@@ -10,7 +10,6 @@
 
 // Puzzle State
 int holdingPiece = -1;
-BOOL puzzleStateRecieved = NO;
 
 typedef struct {
     float Position[3];
@@ -234,7 +233,7 @@ const GLubyte ImageIndices[] = {
 
     DEBUG_PRINT(2,"Graphics.m :: Original [x,y] = [%.2f,%.2f]\n", point.x, point.y);
 
-    if (!puzzleStateRecieved) {
+    if (!_puzzleStateRecieved) {
         NSLog(@"Have not recieved the puzzle state yet!");
     }
     else if (holdingPiece >= 0) {
@@ -296,7 +295,7 @@ const GLubyte ImageIndices[] = {
     DEBUG_SAY(2, "Graphics.m :: initWithFrame\n");
     self = [super initWithFrame:frame];
     if (self) {
-        // Call all the OpenGL setup code
+        // Call all the OpenGL set up code
         [self setupLayer];
         [self setupContext];
         [self setupDepthBuffer];
@@ -304,10 +303,12 @@ const GLubyte ImageIndices[] = {
         [self setupFrameBuffer];
         [self compileShaders];
         [self setupVBOs];
-
+        _puzzleStateRecieved = NO;
+        
         self.network = theNetwork;
         self.network.graphics = self;
     }
+
     return self;
 }
 
@@ -324,7 +325,7 @@ const GLubyte ImageIndices[] = {
     _num_of_pieces = numRows * numCols;
     _texture_height = 1.0/(float)numRows;
     _texture_width = 1.0/(float)numCols;
-    puzzleStateRecieved = YES;
+    _puzzleStateRecieved = YES;
 }
 
 @end

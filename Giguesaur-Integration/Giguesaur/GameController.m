@@ -15,7 +15,6 @@
  */
 -(void)prepare:(Network *)network {
     self.network = network;
-    //self.vision = vision;
 }
 
 - (void)viewDidLoad {
@@ -28,7 +27,7 @@
 - (void) loadView {
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.view = [[Graphics alloc] initWithFrame:screenBounds andNetwork: self.network];
-    
+
     self.vision = [[Vision alloc]init];
     [self.vision visionInit:(Graphics *)self.view];
 }

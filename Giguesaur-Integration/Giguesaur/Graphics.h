@@ -39,7 +39,6 @@
 
     GLuint _vertexBuffer;
     GLuint _indexBuffer;
-    
 }
 
 // Puzzle Variables
@@ -50,6 +49,7 @@
 @property int num_of_pieces;
 @property float texture_height;
 @property float texture_width;
+@property BOOL puzzleStateRecieved;
 
 // Called by Vision
 - (void) setupTextureImage: (UIImage *) imageFile;
