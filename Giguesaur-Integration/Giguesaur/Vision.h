@@ -43,7 +43,10 @@ typedef struct {
 @property Graphics *graphics;
 //@property IBOutlet UIImageView *imageView;
 
-- (void) visionInit:(Graphics *) graphics;
+- (void) visionInit: (Graphics *) graphics;
+
+// Called by graphics to get the projected coords
+- (CGPoint) projectedPoints: (CGPoint) screenCoords;
 
 #ifdef __cplusplus
 - (void) fromSampleBuffer:(CMSampleBufferRef)sampleBuffer

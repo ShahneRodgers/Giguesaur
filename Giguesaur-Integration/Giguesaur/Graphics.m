@@ -229,21 +229,26 @@ const GLubyte ImageIndices[] = {
     UITouch *touch = [[event allTouches] anyObject];
     
     // Get the specific point that was touched
-    CGPoint point = [touch locationInView:touch.view];
+    CGPoint points = [touch locationInView:touch.view];
 
-    DEBUG_PRINT(2,"Graphics.m :: Original [x,y] = [%.2f,%.2f]\n", point.x, point.y);
+    DEBUG_PRINT(2,"Graphics.m :: Original [x,y] = [%.2f,%.2f]\n", points.x, points.y);
+
+    self.vision = [[Vision alloc]init];
+    points = [self.vision projectedPoints:points];
+
+    DEBUG_PRINT(2, "Graphics.m :: Converted [x,y] = [%.2f,%.2f]\n", points.x, points.y);
 
     if (!_puzzleStateRecieved) {
         NSLog(@"Have not recieved the puzzle state yet!");
     }
     else if (holdingPiece >= 0) {
         DEBUG_PRINT(3, "Graphics.m :: Ask server to place piece %d\n", holdingPiece);
-        [self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[holdingPiece].rotation];
+        [self.network droppedPiece:points.x WithY:points.y WithRotation:_pieces[holdingPiece].rotation];
     }
     else {
         for (int i = 0; i < _num_of_pieces; i++) {
-            if(point.x >= _pieces[i].x_location - SIDE_HALF && point.x < _pieces[i].x_location + SIDE_HALF) {
-                if (point.y >= _pieces[i].y_location - SIDE_HALF && point.y < _pieces[i].y_location + SIDE_HALF) {
+            if(points.x >= _pieces[i].x_location - SIDE_HALF && points.x < _pieces[i].x_location + SIDE_HALF) {
+                if (points.y >= _pieces[i].y_location - SIDE_HALF && points.y < _pieces[i].y_location + SIDE_HALF) {
                     DEBUG_PRINT(3, "Graphics.m :: Ask server to pick up piece %d\n", i);
                     [self.network requestPiece:i];
                     i = _num_of_pieces;

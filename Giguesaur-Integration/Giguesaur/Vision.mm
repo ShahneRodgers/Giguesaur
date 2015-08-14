@@ -95,6 +95,22 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 
 }
 
+// Convert from screen coordinates to world coordinates
+- (CGPoint) projectedPoints: (CGPoint) screenCoords {
+    /*
+    double f_x = cameraMatrix.at<double>(0,0)/1000;
+    double f_y = cameraMatrix.at<double>(1,1)/1000;
+    double c_x = cameraMatrix.at<double>(0,2);
+    double c_y = cameraMatrix.at<double>(1,2);
+    double s_x = screenCoords.x*1.875; //1920 / 1024
+    double s_y = screenCoords.y*1.406; //1080 / 768
+
+    double w_x = (s_x - c_x) * 1 / f_x;
+    double w_y = (s_y - c_y) * 1 / f_y;
+     */
+    return screenCoords;//CGPointMake(w_x, w_y);
+}
+
 - (void) calculatePose:(cv::Mat &)frame{
 
     if (self.graphics.puzzleStateRecieved && !puzzleImageCopied) {

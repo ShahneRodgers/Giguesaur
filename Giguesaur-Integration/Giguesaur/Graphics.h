@@ -12,6 +12,7 @@
 #import <GLKit/GLKit.h>
 #import "Giguesaur/Piece.h"
 #import "Network.h"
+#import "Vision.h"
 #import "Debug.h"
 
 #define PIECE_Z 0
@@ -20,6 +21,7 @@
 #define C_CALM 230.0/255.0, 1.0, 1.0, 0.0
 
 @class Network;
+@class Vision;
 
 @interface Graphics: UIView {
 
@@ -70,5 +72,6 @@
              andNumCols: (int) numCols;
 
 @property Network* network;
+@property Vision* vision;
 
 @end
