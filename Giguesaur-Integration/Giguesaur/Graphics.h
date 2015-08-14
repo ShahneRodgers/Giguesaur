@@ -33,9 +33,6 @@
     GLuint _modelViewUniform;
     GLuint _depthRenderBuffer;
 
-    GLKMatrix4 _projectionMatrix;
-    GLKMatrix4 _modelViewMatrix;
-
     GLuint _imageTexture;
     GLuint _texCoordSlot;
     GLuint _textureUniform;
@@ -75,10 +72,3 @@
 @property Network* network;
 
 @end
-
-typedef struct {
-    float Postion[3];
-    float TexCoord[2];
- } PieceCoords;
-
-extern PieceCoords pieceCoords[4][4];

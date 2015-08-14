@@ -25,6 +25,11 @@
 #import "opencv2/highgui/highgui.hpp"
 #import "opencv2/contrib/contrib.hpp"
 
+typedef struct {
+    float Position[3];
+    float TexCoord[2];
+} PieceCoords;
+
 @interface Vision : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate>
 
 //ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate>

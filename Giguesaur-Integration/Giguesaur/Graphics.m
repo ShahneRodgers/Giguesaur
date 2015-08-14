@@ -11,8 +11,6 @@
 // Puzzle State
 int holdingPiece = -1;
 BOOL puzzleStateRecieved = NO;
-//PieceCoords needs to be dynamically allocated
-PieceCoords pieceCoords[4][4];
 
 typedef struct {
     float Position[3];
@@ -234,21 +232,7 @@ const GLubyte ImageIndices[] = {
     // Get the specific point that was touched
     CGPoint point = [touch locationInView:touch.view];
 
-    // Convert Screen to World Coordinates (Orthagraphic Projection)
-    float new_x = 2.0 * point.x / self.frame.size.width - 1;
-    float new_y = -2.0 * point.y / self.frame.size.height + 1;
-    bool success;
-
-    GLKMatrix4 viewProjectionInverse = GLKMatrix4Invert(GLKMatrix4Multiply(_projectionMatrix, _modelViewMatrix), &success);
-    GLKVector3 newPoints = GLKVector3Make(new_x, new_y, 0);
-    GLKVector3 result = GLKMatrix4MultiplyVector3(viewProjectionInverse, newPoints);
-
     DEBUG_PRINT(2,"Graphics.m :: Original [x,y] = [%.2f,%.2f]\n", point.x, point.y);
-
-    point.x = result.v[0] + (self.frame.size.width / 2);
-    point.y = result.v[1] + (self.frame.size.height / 2);
-
-    DEBUG_PRINT(2,"Graphics.m :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
 
     if (!puzzleStateRecieved) {
         NSLog(@"Have not recieved the puzzle state yet!");
@@ -285,12 +269,10 @@ const GLubyte ImageIndices[] = {
     
     // Sort out projection Matrix
     projection = GLKMatrix4MakeOrtho(0, self.frame.size.width, 0, self.frame.size.height, 0.1, 1000);
-    _projectionMatrix = projection;
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.m);
 
     // Send Image to the back
     modelView = GLKMatrix4MakeTranslation(0, 0, -999);
-    _modelViewMatrix = modelView;
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.m);
 
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
@@ -343,39 +325,6 @@ const GLubyte ImageIndices[] = {
     _texture_height = 1.0/(float)numRows;
     _texture_width = 1.0/(float)numCols;
     puzzleStateRecieved = YES;
-    
-    // Vision Stuff
-    for (int i = 0; i < _num_of_pieces; i++) {
-        // set row and col to get the sub-section of the texture
-        int row = 0;
-        int col = 0;
-        int index = 0;
-        while (index != i) {
-            col++;
-            index++;
-            if (col >= _puzzle_cols) {
-                col = 0;
-                row++;
-            }
-        }
-        // 0 and 2 swapped positions for openCV
-       pieceCoords[i][0] = (PieceCoords) {
-            {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
-            {_texture_width * (float)col, _texture_height * (float)row}
-        };
-        pieceCoords[i][1] = (PieceCoords) {
-            {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location + SIDE_HALF, PIECE_Z},
-            {_texture_width * (col+1), _texture_height * row}
-        };
-        pieceCoords[i][2] = (PieceCoords) {
-            {_pieces[i].x_location + SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
-            {_texture_width * (col+1), _texture_height * (row + 1)}
-        };
-        pieceCoords[i][3] = (PieceCoords) {
-            {_pieces[i].x_location - SIDE_HALF, _pieces[i].y_location - SIDE_HALF, PIECE_Z},
-            {_texture_width * col, _texture_height * (row+1)}
-        };
-    }
 }
 
 @end

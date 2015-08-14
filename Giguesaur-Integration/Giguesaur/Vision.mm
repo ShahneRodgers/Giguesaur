@@ -8,8 +8,6 @@
 
 #import "Vision.h"
 
-#define numpieces 4
-
 cv::Size boardSize(9,6);
 std::vector<cv::Point3f> corners;
 //vector<Point3f> polypoints;
@@ -65,7 +63,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 
     NSError *error = nil;
     AVCaptureDeviceInput *videoInput = [AVCaptureDeviceInput deviceInputWithDevice:videoCaptureDevice error: &error];
-    NSLog(@"This works");
+    //NSLog(@"This works");
     if(videoInput){
         [session addInput:videoInput];
     } else {
@@ -110,12 +108,51 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     matToGL.at<double>(2,2) = -1.0f; //inverts z
     matToGL.at<double>(3,3) = 1.0f;
 
+    // Get Piece Coordinates from Graphics
+    PieceCoords pieceCoords[self.graphics.num_of_pieces][4];
+    int num_of_pieces = self.graphics.num_of_pieces;
+    int num_cols = self.graphics.puzzle_cols;
+    float tex_width = self.graphics.texture_width;
+    float tex_height = self.graphics.texture_height;
+    Piece *pieces = self.graphics.pieces;
+
+    for (int i = 0; i < num_of_pieces; i++) {
+        // set row and col to get the sub-section of the texture
+        int row = 0;
+        int col = 0;
+        int index = 0;
+        while (index != i) {
+            col++;
+            index++;
+            if (col >= num_cols) {
+                col = 0;
+                row++;
+            }
+        }
+        // 0 and 2 swapped positions for openCV?
+        pieceCoords[i][0] = (PieceCoords) {
+            {pieces[i].x_location - SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
+            {tex_width * (float)col, tex_height * (float)row}
+        };
+        pieceCoords[i][1] = (PieceCoords) {
+            {pieces[i].x_location + SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
+            {tex_width * (col+1), tex_height * row}
+        };
+        pieceCoords[i][2] = (PieceCoords) {
+            {pieces[i].x_location + SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
+            {tex_width * (col+1), tex_height * (row + 1)}
+        };
+        pieceCoords[i][3] = (PieceCoords) {
+            {pieces[i].x_location - SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
+            {tex_width * col, tex_height * (row+1)}
+        };
+    }
 
     for(int i = 0; i < 4; i++){
         for(int j = 0; j < 4; j++){
-            float x = pieceCoords[i][j].Postion[0];
-            float y = pieceCoords[i][j].Postion[1];
-            float z = pieceCoords[i][j].Postion[2];
+            float x = pieceCoords[i][j].Position[0];
+            float y = pieceCoords[i][j].Position[1];
+            float z = pieceCoords[i][j].Position[2];
             worldpieces.push_back(cv::Point3f(x,y,z));
         }
     }
@@ -183,7 +220,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
             lambda = cv::getPerspectiveTransform(inputQuad, outputQuad);
 
             cv::warpPerspective(subImage, output, lambda, output.size());
-            std::cout << output.rows << " " << output.cols << " " << output.type() << std::endl;
+            //std::cout << output.rows << " " << output.cols << " " << output.type() << std::endl;
             output.copyTo(frame,output);
 
             //}
