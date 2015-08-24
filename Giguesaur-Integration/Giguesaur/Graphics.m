@@ -223,6 +223,11 @@ const GLubyte ImageIndices[] = {
     _pieces[pieceID].held = P_TRUE;
 }
 
+- (void) updateAllPieces: (Piece*) piecesS {
+    DEBUG_SAY(3, "Graphics.m :: Update all pieces\n");
+    _pieces = piecesS;
+}
+
 /***** SCREEN TOUCH *****/
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 
