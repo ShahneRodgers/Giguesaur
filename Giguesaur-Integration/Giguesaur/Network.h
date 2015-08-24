@@ -19,10 +19,12 @@
 @property (nonatomic) void* socket;
 @property (nonatomic) void* context;
 @property (nonatomic) void* recvSocket;
+@property (nonatomic) void* recvBoard;
 @property (nonatomic) NSString *address;
 @property (nonatomic) int heldPiece;
 @property (nonatomic) NSString *name;
 @property (nonatomic) int wantedPiece;
+@property (nonatomic) int recvMessagesCount;
 @property NSDate *lastRequest;
 @property (nonatomic) NSDate *lastHeard;
 @property (nonatomic) NSMutableArray *buttons;
@@ -35,6 +37,7 @@
 -(void)droppedPiece:(float)xNum WithY:(float)yNum WithRotation:(float)rotationNum;
 -(void)requestPiece:(int)pieceNum;
 -(void)checkMessages;
+-(void)setUpMode:(BOOL)withImage;
 -(NSString *)messageToNSString:(zmq_msg_t) message;
 
 @end
