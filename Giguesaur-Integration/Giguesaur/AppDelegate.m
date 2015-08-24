@@ -39,6 +39,10 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    if ([self.window.rootViewController isMemberOfClass:[GameController class]]){
+        GameController *controller= (GameController *)self.window.rootViewController;
+        free(controller.graphics.pieces);
+    }
 }
 
 @end

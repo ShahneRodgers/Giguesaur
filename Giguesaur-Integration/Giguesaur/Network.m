@@ -175,6 +175,8 @@ void free_data(void* data, void* hint){
     if (withImage){
         DEBUG_SAY(2, "Call initWithPuzzle from Network.m\n");
         [self.graphics initWithPuzzle:[UIImage imageWithData:data] withPieces:pieces andNumRows:row andNumCols:col];
+    } else {
+        [self.graphics updateAllPieces:pieces];
     }
     
     self.hasImage = YES;
