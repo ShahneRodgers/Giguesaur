@@ -356,11 +356,12 @@ void free_data(void* data, void* hint){
     }
     zmq_msg_close(&type);
     
-    //If a piece has been requested but we haven't had a response within TIMEOUT
+    /*If a piece has been requested but we haven't had a response within TIMEOUT
     int time = [self.lastRequest timeIntervalSinceNow] *-1;
     if (self.wantedPiece != -1 && self.heldPiece == -1 && time > TIMEOUT){
         [self requestPiece:self.wantedPiece];
     }
+     */
     
 }
 
