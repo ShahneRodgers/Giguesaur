@@ -100,7 +100,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 - (CGPoint) projectedPoints: (CGPoint) screenCoords {
 
     double s_x = screenCoords.x*1.875; //1920 / 1024
-    double s_y = screenCoords.y*1.406; //1080 / 768
+    double s_y = screenCoords.y*1.40625; //1080 / 768
 
     cv::Mat rvec, tvec, rotationMatrix;
     cv::solvePnP(corners, imagePlane, cameraMatrix, distCoeffs, rvec, tvec, false);

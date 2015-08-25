@@ -255,10 +255,21 @@ const GLubyte ImageIndices[] = {
             if(point.x >= _pieces[i].x_location - SIDE_HALF && point.x < _pieces[i].x_location + SIDE_HALF) {
                 if (point.y >= _pieces[i].y_location - SIDE_HALF && point.y < _pieces[i].y_location + SIDE_HALF) {
                     DEBUG_PRINT(3, "Graphics.m :: Ask server to pick up piece %d\n", i);
+                    DEBUG_PRINT(3, "Graphics.m :: Piece %d at [%.2f,%.2f]:\nLeft: %.2f, Right: %.2f\nDown: %.2f, Up: %.2f\n", i,
+                                _pieces[i].x_location,
+                                _pieces[i].y_location,
+                                _pieces[i].x_location - SIDE_HALF,
+                                _pieces[i].x_location + SIDE_HALF,
+                                _pieces[i].y_location - SIDE_HALF,
+                                _pieces[i].y_location + SIDE_HALF);
+
                     [self.network requestPiece:i];
                     i = _num_of_pieces;
                 }
             }
+        }
+        for (int i = 0; i < _num_of_pieces; i++) {
+            DEBUG_PRINT(3, "%d: [%.2f,%.2f]\n", i, _pieces[i].x_location, _pieces[i].y_location);
         }
     }
 }
