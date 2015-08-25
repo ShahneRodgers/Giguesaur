@@ -60,7 +60,7 @@
 - (void) placePiece: (int) pieceID andCoords: (float[3]) coords;
 - (void) pickupPiece: (int) pieceID;
 - (void) addToHeld: (int) pieceID;
-- (void) updateAllPieces: (Piece*) piecesS;
+- (void) updateAllPieces: (Piece *) piecesS;
 
 // Setup the Rendering
 - (id)initWithFrame: (CGRect) frame

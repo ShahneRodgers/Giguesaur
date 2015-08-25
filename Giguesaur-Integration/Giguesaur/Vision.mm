@@ -14,6 +14,7 @@ std::vector<cv::Point3f> corners;
 cv::Mat cameraMatrix, distCoeffs;
 cv::Mat input;
 BOOL puzzleImageCopied = NO;
+std::vector<cv::Point2f> imagePlane;
 
 std::vector<cv::Point3f> polypoints;
 
@@ -97,18 +98,29 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 
 // Convert from screen coordinates to world coordinates
 - (CGPoint) projectedPoints: (CGPoint) screenCoords {
-    /*
-    double f_x = cameraMatrix.at<double>(0,0)/1000;
-    double f_y = cameraMatrix.at<double>(1,1)/1000;
-    double c_x = cameraMatrix.at<double>(0,2);
-    double c_y = cameraMatrix.at<double>(1,2);
+
     double s_x = screenCoords.x*1.875; //1920 / 1024
     double s_y = screenCoords.y*1.406; //1080 / 768
 
-    double w_x = (s_x - c_x) * 1 / f_x;
-    double w_y = (s_y - c_y) * 1 / f_y;
-     */
-    return screenCoords;//CGPointMake(w_x, w_y);
+    cv::Mat rvec, tvec, rotationMatrix;
+    cv::solvePnP(corners, imagePlane, cameraMatrix, distCoeffs, rvec, tvec, false);
+    cv::Rodrigues(rvec,rotationMatrix);
+    cv::Mat uvPoint = cv::Mat::ones(3,1,cv::DataType<double>::type); //u,v,1
+    // image point
+    uvPoint.at<double>(0,0) = s_x;
+    uvPoint.at<double>(1,0) = s_y;
+
+    cv::Mat tempMat, tempMat2;
+    double s, zConst = 0;
+    tempMat = rotationMatrix.inv() * cameraMatrix.inv() * uvPoint;
+    tempMat2 = rotationMatrix.inv() * tvec;
+    s = zConst + tempMat2.at<double>(2,0);
+    s /= tempMat.at<double>(2,0);
+    cv::Mat wcPoint = rotationMatrix.inv() * (s * cameraMatrix.inv() * uvPoint - tvec);
+
+    cv::Point3f realPoint(wcPoint.at<double>(0, 0), wcPoint.at<double>(1, 0), wcPoint.at<double>(2, 0)); // point in world coordinates
+
+    return CGPointMake(wcPoint.at<double>(0,0), wcPoint.at<double>(1, 0));
 }
 
 - (void) calculatePose:(cv::Mat &)frame{
@@ -117,7 +129,6 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         input = [self cvMatFromUIImage:self.graphics.puzzleImage];
         puzzleImageCopied = YES;
     }
-
     std::vector<cv::Point2f> imagepoints;
     std::vector<cv::Point2f> pixelcorners;
     std::vector<cv::Point3f> worldpieces;
@@ -196,6 +207,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
      NSTimeInterval runtime = [finish timeIntervalSinceDate:start];
      NSLog(@"Checkerboard found in %f \n", runtime);*/
     if(patternfound){
+        imagePlane = pixelcorners;
         vectors = solvePnP(corners, pixelcorners, cameraMatrix, distCoeffs, rvec, tvec, false);
         cv::drawChessboardCorners(frame, boardSize, pixelcorners, patternfound);
     }
