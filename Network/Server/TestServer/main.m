@@ -31,8 +31,10 @@ NSMutableArray *players;
 Piece pieces[NUM_OF_PIECES];
 void *publisher;
 void *receiver;
+void *boardSocket;
 int imageLen;
 NSDate *lastSent;
+int messagesSent;
 
 void registerCallback (
                        CFNetServiceRef theService,
@@ -64,7 +66,26 @@ const char* getStringFromInt(int num){
 }
 
 void sendBoard(){
-    zmq_send(publisher, "SetupMode", 9, ZMQ_SNDMORE);
+    char buff[10];
+    int i = zmq_recv(boardSocket, buff, 1, ZMQ_DONTWAIT);
+    if (i <= 0){
+        return;
+    }
+    buff[i+1] = '\0';
+    char *numRows = (char *)getStringFromInt(NUM_OF_ROWS);
+    char *numCols = (char *)getStringFromInt(NUM_OF_COLS);
+    char *numMessages = (char *)getStringFromInt(messagesSent);
+    
+    if (buff[0] == 'a'){
+        zmq_send(boardSocket, boardState, imageLen, ZMQ_SNDMORE);
+    }
+    zmq_send(boardSocket, numRows, sizeof(numRows), ZMQ_SNDMORE);
+    zmq_send(boardSocket, numCols, sizeof(numCols), ZMQ_SNDMORE);
+    zmq_send(boardSocket, pieces, sizeof(pieces), ZMQ_SNDMORE);
+    zmq_send(boardSocket, numMessages, sizeof(numMessages), 0);
+    
+    /*  OLD SEND
+     zmq_send(publisher, "SetupMode", 9, ZMQ_SNDMORE);
     int pic = zmq_send(publisher, boardState, imageLen, ZMQ_SNDMORE);
     char *numRows = (char *)getStringFromInt(NUM_OF_ROWS);
     char *numCols = (char *)getStringFromInt(NUM_OF_COLS);
@@ -73,7 +94,7 @@ void sendBoard(){
     int arr = zmq_send(publisher, pieces, sizeof(pieces), 0);
     if (pic < 0 || arr < 0)
         NSLog(@"%s", strerror(errno));
-    
+    */
 }
 
 int getIntFromMessage(){
@@ -121,7 +142,7 @@ void dropPiece(int pieceNum, float x, float y, float r){
     zmq_send(publisher, newX, sizeof(newX), ZMQ_SNDMORE);
     zmq_send(publisher, newY, sizeof(newY), ZMQ_SNDMORE);
     zmq_send(publisher, newR, sizeof(newR), 0);
-    lastSent = [NSDate date];
+    messagesSent++;
 }
 
 NSString* messageToNSString(zmq_msg_t message){
@@ -173,8 +194,8 @@ void receiveMessage(){
             //Send the piece that has been taken
             zmq_send(publisher, pieceString, sizeof(pieceString), 0);
             
-            //Update the lastSent
-            lastSent = [NSDate date];
+            //Update the number of messages sent
+            messagesSent++;
             
             //Set the timestamp of the piece
             heldPieces[pieceNum] = [NSDate date];
@@ -242,9 +263,11 @@ void receiveMessage(){
  * in a while to inform everyone that they haven't lost connection
  */
 void sendAlive(){
-    zmq_send(publisher, "Error", 5, 0);
-    //zmq_send(publisher, "Blah", 4, 0); //This doesn't matter but has to be something.
-    lastSent = [NSDate date];
+    messagesSent++;
+    char* num = (char *)getStringFromInt(messagesSent);
+    zmq_send(publisher, "Error", 5, ZMQ_SNDMORE);
+    zmq_send(publisher, num, sizeof(num), 0);
+    messagesSent = 0;
 }
 
 void checkPieces(){
@@ -267,32 +290,37 @@ void startServer(){
     zmq_setsockopt(receiver, ZMQ_SNDHWM, "", 1);
     zmq_setsockopt(receiver, ZMQ_RCVHWM, "", 50000);
     publisher = zmq_socket(context, ZMQ_PUB);
+    boardSocket = zmq_socket(context, ZMQ_REP);
     int rb = zmq_bind(receiver, "tcp://*:5555");
     int pb = zmq_bind(publisher, "tcp://*:5556");
-    if (rb < 0 || pb < 0){
+    int qb = zmq_bind(boardSocket, "tcp://*:5557");
+    if (rb < 0 || pb < 0 || qb < 0){
         NSLog(@"Error binding: %s", strerror(errno));
         return;
     }
     lastSent = [NSDate date];
     
     NSLog(@"Listening on port 5555. Publishing on port 5556");
-    NSDate *boardDate = [NSDate date];
+   // NSDate *boardDate = [NSDate date];
     NSDate *loseDate = [NSDate date];
     
     while (true){
         receiveMessage();
-        //This loops too quickly if no messages are being received.
+        sendBoard();
+        /*This loops too quickly if no messages are being received.
         if ([boardDate timeIntervalSinceNow] < -SENDBOARD){
             sendBoard();
             boardDate = [NSDate date];
-        }
+        } */
         if ([loseDate timeIntervalSinceNow] < -LOSEPIECE){
             checkPieces();
             loseDate = [NSDate date];
         }
-        if ([lastSent timeIntervalSinceNow] < -TOOQUIET)
+        if ([lastSent timeIntervalSinceNow] < -TOOQUIET){
             sendAlive();
+            lastSent = [NSDate date];
         }
+    }
     
 }
 
@@ -350,6 +378,9 @@ int main(int argc, const char * argv[]) {
         [heldPieces addObject:[NSNull null]];
         
     }
+    
+    messagesSent = 0;
+    
     startServer();
     free(boardState);
     

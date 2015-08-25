@@ -55,10 +55,7 @@
  * Sets up an instance of the network and passes this to the main game loop.
  */
 -(void)switchViews:(NSString *)address{
-    /*
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    GameController *controller = [storyboard instantiateViewControllerWithIdentifier:@"GameController"];
-     */
+    self.delegate = NULL;
     GameController *controller = [[GameController alloc] init];
     //controller.delegate = self.delegate;
     Network *network = [[Network alloc]init];

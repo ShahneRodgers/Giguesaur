@@ -317,6 +317,7 @@ const GLubyte ImageIndices[] = {
         
         self.network = theNetwork;
         self.network.graphics = self;
+        [self.network setUpMode:YES];
     }
 
     return self;
