@@ -111,10 +111,10 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     uvPoint.at<double>(1,0) = s_y;
 
     cv::Mat tempMat, tempMat2;
-    double s, zConst = 0;
+    double s;
     tempMat = rotationMatrix.inv() * cameraMatrix.inv() * uvPoint;
     tempMat2 = rotationMatrix.inv() * tvec;
-    s = zConst + tempMat2.at<double>(2,0);
+    s = PIECE_Z + tempMat2.at<double>(2,0);
     s /= tempMat.at<double>(2,0);
     cv::Mat wcPoint = rotationMatrix.inv() * (s * cameraMatrix.inv() * uvPoint - tvec);
 
@@ -151,6 +151,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     float tex_width = self.graphics.texture_width;
     float tex_height = self.graphics.texture_height;
     Piece *pieces = self.graphics.pieces;
+    SimpleMath *simpleMath = [[SimpleMath alloc] init];
 
     for (int i = 0; i < num_of_pieces; i++) {
         // set row and col to get the sub-section of the texture
@@ -165,22 +166,36 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
                 row++;
             }
         }
-        // 0 and 2 swapped positions for openCV?
+        NSArray *rotatedPiece = [simpleMath pointsRotated:pieces[i]];
+        CGPoint topLeft = [[rotatedPiece objectAtIndex:0] CGPointValue];
+        CGPoint topRight = [[rotatedPiece objectAtIndex:1] CGPointValue];
+        CGPoint botRight = [[rotatedPiece objectAtIndex:2] CGPointValue];
+        CGPoint botLeft = [[rotatedPiece objectAtIndex:3] CGPointValue];
+
+        // What is commented out is what the texcoord should be but the program breaks
         pieceCoords[i][0] = (PieceCoords) {
-            {pieces[i].x_location - SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
-            {tex_width * (float)col, tex_height * (float)row}
+            //{pieces[i].x_location - SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
+            {static_cast<float>(topLeft.x), static_cast<float>(topLeft.y), PIECE_Z},
+            {tex_width * col, tex_height * row}
+            //{tex_width * col, tex_height * (row + 1)}
         };
         pieceCoords[i][1] = (PieceCoords) {
-            {pieces[i].x_location + SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
-            {tex_width * (col+1), tex_height * row}
+            //{pieces[i].x_location + SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
+            {static_cast<float>(topRight.x), static_cast<float>(topRight.y), PIECE_Z},
+            {tex_width * (col + 1), tex_height * row}
+            //{tex_width * (col + 1), tex_height * (row + 1)}
         };
         pieceCoords[i][2] = (PieceCoords) {
-            {pieces[i].x_location + SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
-            {tex_width * (col+1), tex_height * (row + 1)}
+            //{pieces[i].x_location + SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
+            {static_cast<float>(botRight.x), static_cast<float>(botRight.y), PIECE_Z},
+            {tex_width * (col + 1), tex_height * (row + 1)}
+            //{tex_width * (col + 1), tex_height * row}
         };
         pieceCoords[i][3] = (PieceCoords) {
-            {pieces[i].x_location - SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
-            {tex_width * col, tex_height * (row+1)}
+            //{pieces[i].x_location - SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
+            {static_cast<float>(botLeft.x), static_cast<float>(botLeft.y), PIECE_Z},
+            {tex_width * col, tex_height * (row + 1)}
+            //{tex_width * col, tex_height * row}
         };
     }
 
@@ -222,7 +237,6 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         int width = input.rows;
         int height = input.cols;
 
-
         for(int i = 0; i < 4; i++){
             cv::Point2f inputQuad[4];
             cv::Point2f outputQuad[4];
@@ -230,7 +244,6 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
             int j = i * 4;
             //float texX = pieceCoords[i][j].TexCoord[0];
             //float texY = pieceCoords[i][j].TexCoord[1];
-
 
             inputQuad[0] = cv::Point2f(pieceCoords[i][0].TexCoord[0]*width, pieceCoords[i][0].TexCoord[1]*height);
             inputQuad[1] = cv::Point2f(pieceCoords[i][1].TexCoord[0]*width, pieceCoords[i][1].TexCoord[1]*height);
@@ -243,14 +256,11 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
              std::cout << "corner 2" << inputQuad[2] << " " << pieceCoords[i][2].TexCoord[0] << " " << pieceCoords[i][2].TexCoord[1] << std::endl;
 
              std::cout << "corner 3" << inputQuad[3] << " " << pieceCoords[i][3].TexCoord[0] << " " << pieceCoords[i][3].TexCoord[1] << std::endl;*/
-            
 
             outputQuad[0] = imagepoints[j];
             outputQuad[1] = imagepoints[j+1];
             outputQuad[2] = imagepoints[j+2];
             outputQuad[3] = imagepoints[j+3];
-
-
 
             cv::Mat subImage = input(cv::Rect(inputQuad[0].x, inputQuad[0].y, width/2, height/2)); //Hardcoded height and width.
 
@@ -313,9 +323,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 
     @autoreleasepool {
 
-
         cv::cvtColor(frame, frame, CV_BGRA2RGBA);
-
 
         /* cv::Rect crop(240,0,1440,1080);
          frame = frame(crop);

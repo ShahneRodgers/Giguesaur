@@ -107,6 +107,7 @@
 		CE8832641B6AED7F00614EAD /* xsub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE88321B1B6AED7F00614EAD /* xsub.cpp */; };
 		CE8832651B6AED7F00614EAD /* zmq_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE8832211B6AED7F00614EAD /* zmq_utils.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CE8832661B6AED7F00614EAD /* zmq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE8832221B6AED7F00614EAD /* zmq.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CEEAD6441B8BFFE6002DCF48 /* SimpleMath.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEAD6421B8BFFE6002DCF48 /* SimpleMath.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -329,6 +330,8 @@
 		CE8832201B6AED7F00614EAD /* yqueue.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = yqueue.hpp; path = Giguesaur/src/yqueue.hpp; sourceTree = SOURCE_ROOT; };
 		CE8832211B6AED7F00614EAD /* zmq_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = zmq_utils.cpp; path = Giguesaur/src/zmq_utils.cpp; sourceTree = SOURCE_ROOT; };
 		CE8832221B6AED7F00614EAD /* zmq.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = zmq.cpp; path = Giguesaur/src/zmq.cpp; sourceTree = SOURCE_ROOT; };
+		CEEAD6421B8BFFE6002DCF48 /* SimpleMath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleMath.m; sourceTree = "<group>"; };
+		CEEAD6431B8BFFE6002DCF48 /* SimpleMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleMath.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -365,6 +368,8 @@
 		74A209031B604BE900578FBE /* Game Logic/Rendering */ = {
 			isa = PBXGroup;
 			children = (
+				CEEAD6421B8BFFE6002DCF48 /* SimpleMath.m */,
+				CEEAD6431B8BFFE6002DCF48 /* SimpleMath.h */,
 				CE8831731B6ADB0E00614EAD /* Piece.h */,
 				74A209131B607D0B00578FBE /* Vision.h */,
 				74A209111B607CEA00578FBE /* Vision.mm */,
@@ -836,6 +841,7 @@
 				CE8832421B6AED7F00614EAD /* pipe.cpp in Sources */,
 				CE8832451B6AED7F00614EAD /* poller_base.cpp in Sources */,
 				CE8832511B6AED7F00614EAD /* router.cpp in Sources */,
+				CEEAD6441B8BFFE6002DCF48 /* SimpleMath.m in Sources */,
 				CE88322B1B6AED7F00614EAD /* epoll.cpp in Sources */,
 				CE8832361B6AED7F00614EAD /* mailbox.cpp in Sources */,
 				CE8832311B6AED7F00614EAD /* ipc_address.cpp in Sources */,
