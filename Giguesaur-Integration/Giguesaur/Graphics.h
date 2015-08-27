@@ -19,6 +19,7 @@
 #define PIECE_Z 0
 
 #define C_WHITE 1, 1, 1, 1
+#define C_TRANS 1, 1, 1, 0.5
 #define C_CALM 230.0/255.0, 1.0, 1.0, 0.0
 
 @class Network;
@@ -42,6 +43,8 @@
 
     GLuint _vertexBuffer;
     GLuint _indexBuffer;
+    GLuint _vertexBuffer2;
+    GLuint _indexBuffer2;
 }
 
 // Puzzle Variables

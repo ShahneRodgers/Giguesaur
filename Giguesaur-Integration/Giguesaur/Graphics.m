@@ -17,6 +17,12 @@ typedef struct {
     float TexCoord[2];
 } Vertex;
 
+Vertex PieceVertices[4];
+const GLubyte PieceIndices[] = {
+    0, 1, 2,
+    2, 3, 0
+};
+
 Vertex ImageVertices[4];
 const GLubyte ImageIndices[] = {
     1, 0, 2, 3
@@ -145,6 +151,23 @@ const GLubyte ImageIndices[] = {
     float screen_width = self.frame.size.width;
     float screen_height = self.frame.size.height;
 
+    PieceVertices[0] = (Vertex){
+        {screenCentre.x + SIDE_LENGTH, screenCentre.y - SIDE_LENGTH, 0},
+        {C_TRANS},
+        {1, 1}};
+    PieceVertices[1] = (Vertex){
+        {screenCentre.x + SIDE_LENGTH, screenCentre.y + SIDE_LENGTH, 0},
+        {C_TRANS},
+        {1, 0}};
+    PieceVertices[2] = (Vertex){
+        {screenCentre.x - SIDE_LENGTH, screenCentre.y + SIDE_LENGTH, 0},
+        {C_TRANS},
+        {0, 0}};
+    PieceVertices[3] = (Vertex){
+        {screenCentre.x - SIDE_LENGTH, screenCentre.y - SIDE_LENGTH, 0},
+        {C_TRANS},
+        {0, 1}};
+    
     ImageVertices[0] = (Vertex){{screen_width, 0, 0}, {C_WHITE}, {1, 1}};
     ImageVertices[1] = (Vertex){{screen_width, screen_height, 0}, {C_WHITE}, {1, 0}};
     ImageVertices[2] = (Vertex){{0, screen_height, 0}, {C_WHITE}, {0, 0}};
@@ -159,6 +182,16 @@ const GLubyte ImageIndices[] = {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ImageIndices),
                  ImageIndices, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &_vertexBuffer2);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(PieceVertices),
+                 PieceVertices, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &_indexBuffer2);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(PieceIndices),
+                 PieceIndices, GL_STATIC_DRAW);
 }
 
 /* Called by vision to set up the image to display to the screen */
@@ -204,7 +237,7 @@ const GLubyte ImageIndices[] = {
 
 /* Methods called by server to manipulate the pieces on the client */
 - (void) placePiece: (int) pieceID andCoords: (float[3]) coords {
-    DEBUG_PRINT(3, "Graphics.m :: Place piece %d at [%.2f,%.2f]\n", pieceID, coords[0], coords[1]);
+    DEBUG_PRINT(3, "Graphics.m :: Place piece %d at [%.2f,%.2f] with r = %.2f\n", pieceID, coords[0], coords[1], coords[2]);
     _pieces[pieceID].x_location = coords[0];
     _pieces[pieceID].y_location = coords[1];
     _pieces[pieceID].rotation = coords[2];
@@ -247,14 +280,15 @@ const GLubyte ImageIndices[] = {
     }
     else if (_holdingPiece >= 0) {
         DEBUG_PRINT(3, "Graphics.m :: Ask server to place piece %d\n", _holdingPiece);
-        [self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[_holdingPiece].rotation];
+        [self.network droppedPiece:_pieces[_holdingPiece].x_location WithY:_pieces[_holdingPiece].y_location WithRotation:_pieces[_holdingPiece].rotation];
+        //[self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[_holdingPiece].rotation];
     }
     else {
         for (int i = 0; i < _num_of_pieces; i++) {
             if(point.x >= _pieces[i].x_location - SIDE_HALF && point.x < _pieces[i].x_location + SIDE_HALF) {
                 if (point.y >= _pieces[i].y_location - SIDE_HALF && point.y < _pieces[i].y_location + SIDE_HALF) {
                     DEBUG_PRINT(3, "Graphics.m :: Ask server to pick up piece %d\n", i);
-                    DEBUG_PRINT(3, "Graphics.m :: Piece %d at [%.2f,%.2f]:\nLeft: %.2f, Right: %.2f\nDown: %.2f, Up: %.2f\n", i,
+                    DEBUG_PRINT(4, "Graphics.m :: Piece %d at [%.2f,%.2f]:\nLeft: %.2f, Right: %.2f\nDown: %.2f, Up: %.2f\n", i,
                                 _pieces[i].x_location,
                                 _pieces[i].y_location,
                                 _pieces[i].x_location - SIDE_HALF,
@@ -289,11 +323,11 @@ const GLubyte ImageIndices[] = {
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 
     // Sort out projection Matrix
-    projection = GLKMatrix4MakeOrtho(0, self.frame.size.width, 0, self.frame.size.height, 0.1, 100);
+    projection = GLKMatrix4MakeOrtho(0, self.frame.size.width, 0, self.frame.size.height, 0.1, 10);
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.m);
 
     // Send Image to the back
-    modelView = GLKMatrix4MakeTranslation(0, 0, -99);
+    modelView = GLKMatrix4MakeTranslation(0, 0, -9);
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.m);
 
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
@@ -336,6 +370,7 @@ const GLubyte ImageIndices[] = {
     self = [super initWithFrame:frame];
     if (self) {
         // Call all the OpenGL set up code
+        screenCentre = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
         [self setupLayer];
         [self setupContext];
         [self setupDepthBuffer];
@@ -346,7 +381,6 @@ const GLubyte ImageIndices[] = {
         _motionManager = [[CMMotionManager alloc] init];
 
         _puzzleStateRecieved = NO;
-        screenCentre = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
 
         self.vision = [[Vision alloc]init];
         self.network = theNetwork;
