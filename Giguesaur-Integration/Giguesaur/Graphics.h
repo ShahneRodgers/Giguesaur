@@ -10,6 +10,7 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #import <GLKit/GLKit.h>
+#import <CoreMotion/CoreMotion.h>
 #import "Giguesaur/Piece.h"
 #import "Network.h"
 #import "Vision.h"
@@ -52,6 +53,9 @@
 @property float texture_height;
 @property float texture_width;
 @property BOOL puzzleStateRecieved;
+@property int holdingPiece;
+
+@property (readonly) CMMotionManager *motionManager;
 
 // Called by Vision
 - (void) setupTextureImage: (UIImage *) imageFile;

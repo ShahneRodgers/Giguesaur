@@ -16,7 +16,6 @@
 		74A2090D1B604C7E00578FBE /* kitty.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A2090A1B604C7E00578FBE /* kitty.png */; };
 		74A2090E1B604C7E00578FBE /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A2090B1B604C7E00578FBE /* puppy.png */; };
 		74A209121B607CEA00578FBE /* Vision.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74A209111B607CEA00578FBE /* Vision.mm */; };
-		74A209161B60894700578FBE /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74A209151B60894700578FBE /* opencv2.framework */; };
 		74D60E951B5CA81C00F5008F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D60E941B5CA81C00F5008F /* main.m */; };
 		74D60E981B5CA81C00F5008F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D60E971B5CA81C00F5008F /* AppDelegate.m */; };
 		74D60E9E1B5CA81C00F5008F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74D60E9C1B5CA81C00F5008F /* Main.storyboard */; };
@@ -38,6 +37,7 @@
 		74D9A93A1B5DD5220088C8A4 /* BrowsingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D9A9391B5DD5220088C8A4 /* BrowsingDelegate.m */; };
 		74D9A93E1B5DD88D0088C8A4 /* GameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D9A93D1B5DD88D0088C8A4 /* GameController.m */; };
 		74D9A9411B5DE2730088C8A4 /* Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D9A9401B5DE2730088C8A4 /* Network.m */; };
+		CE3F04001B8E889200A6234D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE3F03FF1B8E889200A6234D /* CoreMotion.framework */; };
 		CE8831721B6ADA3600614EAD /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE8831711B6ADA3600614EAD /* opencv2.framework */; };
 		CE8832231B6AED7F00614EAD /* address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE8831831B6AED7E00614EAD /* address.cpp */; };
 		CE8832241B6AED7F00614EAD /* clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE8831891B6AED7E00614EAD /* clock.cpp */; };
@@ -134,7 +134,6 @@
 		74A209111B607CEA00578FBE /* Vision.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Vision.mm; sourceTree = "<group>"; };
 		74A209131B607D0B00578FBE /* Vision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vision.h; sourceTree = "<group>"; };
 		74A209141B607E6C00578FBE /* Giguesaur-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Giguesaur-Prefix.pch"; sourceTree = "<group>"; };
-		74A209151B60894700578FBE /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../../opencv2.framework; sourceTree = "<group>"; };
 		74D60E8F1B5CA81C00F5008F /* Giguesaur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Giguesaur.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74D60E931B5CA81C00F5008F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74D60E941B5CA81C00F5008F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -165,6 +164,7 @@
 		74D9A93D1B5DD88D0088C8A4 /* GameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameController.m; sourceTree = "<group>"; };
 		74D9A93F1B5DE2730088C8A4 /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
 		74D9A9401B5DE2730088C8A4 /* Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Network.m; sourceTree = "<group>"; };
+		CE3F03FF1B8E889200A6234D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		CE8831711B6ADA3600614EAD /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		CE8831731B6ADB0E00614EAD /* Piece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Piece.h; path = Giguesaur/Piece.h; sourceTree = "<group>"; };
 		CE8831801B6AED4200614EAD /* zhelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = zhelpers.h; path = Giguesaur/include/zhelpers.h; sourceTree = SOURCE_ROOT; };
@@ -339,7 +339,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74A209161B60894700578FBE /* opencv2.framework in Frameworks */,
+				CE3F04001B8E889200A6234D /* CoreMotion.framework in Frameworks */,
 				74D60FBE1B5CA96100F5008F /* OpenGLES.framework in Frameworks */,
 				74D60EC21B5CA87A00F5008F /* Accelerate.framework in Frameworks */,
 				74D60EC31B5CA87A00F5008F /* AssetsLibrary.framework in Frameworks */,
@@ -468,9 +468,9 @@
 		74D60ECE1B5CA89400F5008F /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				CE3F03FF1B8E889200A6234D /* CoreMotion.framework */,
 				CE8831711B6ADA3600614EAD /* opencv2.framework */,
 				74D60FBD1B5CA96100F5008F /* OpenGLES.framework */,
-				74A209151B60894700578FBE /* opencv2.framework */,
 				74D60EB81B5CA87A00F5008F /* Accelerate.framework */,
 				74D60EB91B5CA87A00F5008F /* AssetsLibrary.framework */,
 				74D60EBA1B5CA87A00F5008F /* AVFoundation.framework */,

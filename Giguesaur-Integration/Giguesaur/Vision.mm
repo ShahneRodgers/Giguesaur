@@ -203,7 +203,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 
 
     for(int i = 0; i < num_of_pieces; i++){
-        if (!pieces[i].held) {
+        if (!pieces[i].held || self.graphics.holdingPiece == i) {
             num_pieces_draw++;
             for(int j = 0; j < 4; j++){
                 float x = pieceCoords[i][j].Position[0];
