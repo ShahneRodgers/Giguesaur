@@ -145,13 +145,14 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     matToGL.at<double>(3,3) = 1.0f;
 
     // Get Piece Coordinates from Graphics
-    PieceCoords pieceCoords[self.graphics.num_of_pieces][4];
     int num_of_pieces = self.graphics.num_of_pieces;
+    PieceCoords pieceCoords[num_of_pieces][4];
     int num_cols = self.graphics.puzzle_cols;
     float tex_width = self.graphics.texture_width;
     float tex_height = self.graphics.texture_height;
     Piece *pieces = self.graphics.pieces;
     SimpleMath *simpleMath = [[SimpleMath alloc] init];
+    int num_pieces_draw = 0;
 
     for (int i = 0; i < num_of_pieces; i++) {
         // set row and col to get the sub-section of the texture
@@ -172,7 +173,8 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         CGPoint botRight = [[rotatedPiece objectAtIndex:2] CGPointValue];
         CGPoint botLeft = [[rotatedPiece objectAtIndex:3] CGPointValue];
 
-        // What is commented out is what the texcoord should be but the program breaks
+        // First comment for each corner is the coords without rotation
+        // Second comment is what the texcoord should be but the program breaks
         pieceCoords[i][0] = (PieceCoords) {
             //{pieces[i].x_location - SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
             {static_cast<float>(topLeft.x), static_cast<float>(topLeft.y), PIECE_Z},
@@ -199,12 +201,16 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         };
     }
 
-    for(int i = 0; i < 4; i++){
-        for(int j = 0; j < 4; j++){
-            float x = pieceCoords[i][j].Position[0];
-            float y = pieceCoords[i][j].Position[1];
-            float z = pieceCoords[i][j].Position[2];
-            worldpieces.push_back(cv::Point3f(x,y,z));
+
+    for(int i = 0; i < num_of_pieces; i++){
+        if (!pieces[i].held || self.graphics.holdingPiece == i) {
+            num_pieces_draw++;
+            for(int j = 0; j < 4; j++){
+                float x = pieceCoords[i][j].Position[0];
+                float y = pieceCoords[i][j].Position[1];
+                float z = pieceCoords[i][j].Position[2];
+                worldpieces.push_back(cv::Point3f(x,y,z));
+            }
         }
     }
 
@@ -232,12 +238,12 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         cv::projectPoints(worldpieces, rvec, tvec, cameraMatrix, distCoeffs, imagepoints);
 
         cv::Mat lambda(2,4, CV_32FC1);
-        lambda = cv::Mat::zeros(input.rows/2, input.cols/2, input.type());
+        lambda = cv::Mat::zeros(input.rows*tex_height, input.cols*tex_width, input.type()); // <- might be broken
 
         int width = input.rows;
         int height = input.cols;
 
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < num_pieces_draw; i++){
             cv::Point2f inputQuad[4];
             cv::Point2f outputQuad[4];
             // for(int j = i * 4; j < i * 4 + 4; j++){
@@ -262,7 +268,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
             outputQuad[2] = imagepoints[j+2];
             outputQuad[3] = imagepoints[j+3];
 
-            cv::Mat subImage = input(cv::Rect(inputQuad[0].x, inputQuad[0].y, width/2, height/2)); //Hardcoded height and width.
+            cv::Mat subImage = input(cv::Rect(inputQuad[0].x, inputQuad[0].y, width*tex_width, height*tex_height));
 
             lambda = cv::getPerspectiveTransform(inputQuad, outputQuad);
 

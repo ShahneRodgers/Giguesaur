@@ -9,13 +9,19 @@
 #import "Graphics.h"
 
 // Puzzle State
-int holdingPiece = -1;
+CGPoint screenCentre;
 
 typedef struct {
     float Position[3];
     float Colour[4];
     float TexCoord[2];
 } Vertex;
+
+Vertex PieceVertices[4];
+const GLubyte PieceIndices[] = {
+    0, 1, 2,
+    2, 3, 0
+};
 
 Vertex ImageVertices[4];
 const GLubyte ImageIndices[] = {
@@ -145,6 +151,23 @@ const GLubyte ImageIndices[] = {
     float screen_width = self.frame.size.width;
     float screen_height = self.frame.size.height;
 
+    PieceVertices[0] = (Vertex){
+        {screenCentre.x + SIDE_LENGTH, screenCentre.y - SIDE_LENGTH, 0},
+        {C_TRANS},
+        {1, 1}};
+    PieceVertices[1] = (Vertex){
+        {screenCentre.x + SIDE_LENGTH, screenCentre.y + SIDE_LENGTH, 0},
+        {C_TRANS},
+        {1, 0}};
+    PieceVertices[2] = (Vertex){
+        {screenCentre.x - SIDE_LENGTH, screenCentre.y + SIDE_LENGTH, 0},
+        {C_TRANS},
+        {0, 0}};
+    PieceVertices[3] = (Vertex){
+        {screenCentre.x - SIDE_LENGTH, screenCentre.y - SIDE_LENGTH, 0},
+        {C_TRANS},
+        {0, 1}};
+    
     ImageVertices[0] = (Vertex){{screen_width, 0, 0}, {C_WHITE}, {1, 1}};
     ImageVertices[1] = (Vertex){{screen_width, screen_height, 0}, {C_WHITE}, {1, 0}};
     ImageVertices[2] = (Vertex){{0, screen_height, 0}, {C_WHITE}, {0, 0}};
@@ -159,6 +182,16 @@ const GLubyte ImageIndices[] = {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ImageIndices),
                  ImageIndices, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &_vertexBuffer2);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(PieceVertices),
+                 PieceVertices, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &_indexBuffer2);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(PieceIndices),
+                 PieceIndices, GL_STATIC_DRAW);
 }
 
 /* Called by vision to set up the image to display to the screen */
@@ -204,18 +237,18 @@ const GLubyte ImageIndices[] = {
 
 /* Methods called by server to manipulate the pieces on the client */
 - (void) placePiece: (int) pieceID andCoords: (float[3]) coords {
-    DEBUG_PRINT(3, "Graphics.m :: Place piece %d at [%.2f,%.2f]\n", pieceID, coords[0], coords[1]);
+    DEBUG_PRINT(3, "Graphics.m :: Place piece %d at [%.2f,%.2f] with r = %.2f\n", pieceID, coords[0], coords[1], coords[2]);
     _pieces[pieceID].x_location = coords[0];
     _pieces[pieceID].y_location = coords[1];
     _pieces[pieceID].rotation = coords[2];
     _pieces[pieceID].held = P_FALSE;
-    if (holdingPiece == pieceID) holdingPiece = -1;
+    if (_holdingPiece == pieceID) _holdingPiece = -1;
 }
 
 - (void) pickupPiece: (int) pieceID {
     DEBUG_PRINT(3, "Graphics.m :: Pick up piece %d\n", pieceID);
     _pieces[pieceID].held = P_TRUE;
-    holdingPiece = pieceID;
+    _holdingPiece = pieceID;
 }
 
 - (void) addToHeld: (int) pieceID {
@@ -238,7 +271,6 @@ const GLubyte ImageIndices[] = {
 
     DEBUG_PRINT(2,"Graphics.m :: Original [x,y] = [%.2f,%.2f]\n", point.x, point.y);
 
-    self.vision = [[Vision alloc]init];
     point = [self.vision projectedPoints:point];
 
     DEBUG_PRINT(2, "Graphics.m :: Converted [x,y] = [%.2f,%.2f]\n", point.x, point.y);
@@ -246,16 +278,17 @@ const GLubyte ImageIndices[] = {
     if (!_puzzleStateRecieved) {
         NSLog(@"Have not recieved the puzzle state yet!");
     }
-    else if (holdingPiece >= 0) {
-        DEBUG_PRINT(3, "Graphics.m :: Ask server to place piece %d\n", holdingPiece);
-        [self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[holdingPiece].rotation];
+    else if (_holdingPiece >= 0) {
+        DEBUG_PRINT(3, "Graphics.m :: Ask server to place piece %d\n", _holdingPiece);
+        [self.network droppedPiece:_pieces[_holdingPiece].x_location WithY:_pieces[_holdingPiece].y_location WithRotation:_pieces[_holdingPiece].rotation];
+        //[self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[_holdingPiece].rotation];
     }
     else {
         for (int i = 0; i < _num_of_pieces; i++) {
             if(point.x >= _pieces[i].x_location - SIDE_HALF && point.x < _pieces[i].x_location + SIDE_HALF) {
                 if (point.y >= _pieces[i].y_location - SIDE_HALF && point.y < _pieces[i].y_location + SIDE_HALF) {
                     DEBUG_PRINT(3, "Graphics.m :: Ask server to pick up piece %d\n", i);
-                    DEBUG_PRINT(3, "Graphics.m :: Piece %d at [%.2f,%.2f]:\nLeft: %.2f, Right: %.2f\nDown: %.2f, Up: %.2f\n", i,
+                    DEBUG_PRINT(4, "Graphics.m :: Piece %d at [%.2f,%.2f]:\nLeft: %.2f, Right: %.2f\nDown: %.2f, Up: %.2f\n", i,
                                 _pieces[i].x_location,
                                 _pieces[i].y_location,
                                 _pieces[i].x_location - SIDE_HALF,
@@ -286,16 +319,16 @@ const GLubyte ImageIndices[] = {
     glClearColor(C_CALM);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
-    
+
+    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+
     // Sort out projection Matrix
-    projection = GLKMatrix4MakeOrtho(0, self.frame.size.width, 0, self.frame.size.height, 0.1, 1000);
+    projection = GLKMatrix4MakeOrtho(0, self.frame.size.width, 0, self.frame.size.height, 0.1, 10);
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.m);
 
     // Send Image to the back
-    modelView = GLKMatrix4MakeTranslation(0, 0, -999);
+    modelView = GLKMatrix4MakeTranslation(0, 0, -9);
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.m);
-
-    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
@@ -309,6 +342,26 @@ const GLubyte ImageIndices[] = {
 
     // Flush everything to the screen
     [_context presentRenderbuffer:GL_RENDERBUFFER];
+
+    if (_holdingPiece >= 0) {
+        DEBUG_PRINT(4, "Graphics.m :: Screen Centre [x,y] = [%.2f,%2.f]\n", screenCentre.x, screenCentre.y);
+        CGPoint pieceCentreScreen = [self.vision projectedPoints:screenCentre];
+        _pieces[_holdingPiece].x_location = pieceCentreScreen.x;
+        _pieces[_holdingPiece].y_location = pieceCentreScreen.x;
+        _pieces[_holdingPiece].rotation = 0;
+        DEBUG_PRINT(4, "Graphics.m :: Piece Centre [x,y] = [%.2f,%2.f]\n", pieceCentreScreen.x, pieceCentreScreen.y);
+        if (_motionManager.deviceMotionAvailable) {
+            _motionManager.deviceMotionUpdateInterval = 0.01f;
+            [_motionManager startDeviceMotionUpdatesToQueue:[[NSOperationQueue alloc] init]
+                                         withHandler:^(CMDeviceMotion *data, NSError *error) {
+                                             double rotation = atan2(data.gravity.x, data.gravity.y) - M_PI;
+                                             DEBUG_PRINT(5, "Graphics.m :: Device Rotation = %.2f\n", radToDeg(rotation)-90);
+                                             if (_holdingPiece >= 0) {
+                                                 _pieces[_holdingPiece].rotation = radToDeg(rotation)-90;
+                                             }
+                                         }];
+        }
+    }
 }
 
 - (id) initWithFrame: (CGRect) frame andNetwork: (Network*) theNetwork {
@@ -317,6 +370,7 @@ const GLubyte ImageIndices[] = {
     self = [super initWithFrame:frame];
     if (self) {
         // Call all the OpenGL set up code
+        screenCentre = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
         [self setupLayer];
         [self setupContext];
         [self setupDepthBuffer];
@@ -324,8 +378,11 @@ const GLubyte ImageIndices[] = {
         [self setupFrameBuffer];
         [self compileShaders];
         [self setupVBOs];
+        _motionManager = [[CMMotionManager alloc] init];
+
         _puzzleStateRecieved = NO;
-        
+
+        self.vision = [[Vision alloc]init];
         self.network = theNetwork;
         self.network.graphics = self;
         [self.network setUpMode:YES];
@@ -347,6 +404,7 @@ const GLubyte ImageIndices[] = {
     _num_of_pieces = numRows * numCols;
     _texture_height = 1.0/(float)numRows;
     _texture_width = 1.0/(float)numCols;
+    _holdingPiece = -1;
     _puzzleStateRecieved = YES;
 }
 

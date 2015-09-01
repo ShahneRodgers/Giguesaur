@@ -10,6 +10,7 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #import <GLKit/GLKit.h>
+#import <CoreMotion/CoreMotion.h>
 #import "Giguesaur/Piece.h"
 #import "Network.h"
 #import "Vision.h"
@@ -18,6 +19,7 @@
 #define PIECE_Z 0
 
 #define C_WHITE 1, 1, 1, 1
+#define C_TRANS 1, 1, 1, 0.5
 #define C_CALM 230.0/255.0, 1.0, 1.0, 0.0
 
 @class Network;
@@ -41,6 +43,8 @@
 
     GLuint _vertexBuffer;
     GLuint _indexBuffer;
+    GLuint _vertexBuffer2;
+    GLuint _indexBuffer2;
 }
 
 // Puzzle Variables
@@ -52,6 +56,9 @@
 @property float texture_height;
 @property float texture_width;
 @property BOOL puzzleStateRecieved;
+@property int holdingPiece;
+
+@property (readonly) CMMotionManager *motionManager;
 
 // Called by Vision
 - (void) setupTextureImage: (UIImage *) imageFile;
