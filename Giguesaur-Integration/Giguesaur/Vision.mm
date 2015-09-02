@@ -312,7 +312,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
          line(frame, imagepoints[7], imagepoints[4], Scalar(255,0,0), 5, 8);*/
 
 
-        cv::Rodrigues(rvec, rotation);
+       /* cv::Rodrigues(rvec, rotation);
         for(int row = 0; row < 3; row++){
             for(int col = 0; col < 3; col++){
                 viewMat.at<double>(row,col) = rotation.at<double>(row,col);
@@ -324,7 +324,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         viewMat = viewMat * matToGL;
         cv::transpose(viewMat, viewMat);
 
-        modelView = GLKMatrix4Make(viewMat.at<double>(0,0), viewMat.at<double>(0,1), viewMat.at<double>(0,2), viewMat.at<double>(0,3), viewMat.at<double>(1,0), viewMat.at<double>(1,1), viewMat.at<double>(1,2), viewMat.at<double>(1,3), viewMat.at<double>(2,0), viewMat.at<double>(2,1), viewMat.at<double>(2,2), viewMat.at<double>(2,3), viewMat.at<double>(3,0), viewMat.at<double>(3,1), viewMat.at<double>(3,2), viewMat.at<double>(3,3));
+        modelView = GLKMatrix4Make(viewMat.at<double>(0,0), viewMat.at<double>(0,1), viewMat.at<double>(0,2), viewMat.at<double>(0,3), viewMat.at<double>(1,0), viewMat.at<double>(1,1), viewMat.at<double>(1,2), viewMat.at<double>(1,3), viewMat.at<double>(2,0), viewMat.at<double>(2,1), viewMat.at<double>(2,2), viewMat.at<double>(2,3), viewMat.at<double>(3,0), viewMat.at<double>(3,1), viewMat.at<double>(3,2), viewMat.at<double>(3,3));*/
     }
 
     @autoreleasepool {
