@@ -9,14 +9,13 @@
 #import "Vision.h"
 
 cv::Size boardSize(9,6);
-std::vector<cv::Point3d> corners;
-//vector<Point3f> polypoints;
+std::vector<cv::Point3f> corners;
 cv::Mat cameraMatrix, distCoeffs;
 cv::Mat input;
 BOOL puzzleImageCopied = NO;
-std::vector<cv::Point2d> imagePlane;
+std::vector<cv::Point2f> imagePlane;
 
-std::vector<cv::Point3d> polypoints;
+std::vector<cv::Point3f> polypoints;
 
 GLKMatrix4 modelView;// GLKMatrix4Identity;
 
@@ -118,7 +117,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     s /= tempMat.at<double>(2,0);
     cv::Mat wcPoint = rotationMatrix.inv() * (s * cameraMatrix.inv() * uvPoint - tvec);
 
-    cv::Point3d realPoint(wcPoint.at<double>(0, 0), wcPoint.at<double>(1, 0), wcPoint.at<double>(2, 0)); // point in world coordinates
+    cv::Point3f realPoint(wcPoint.at<double>(0, 0), wcPoint.at<double>(1, 0), wcPoint.at<double>(2, 0)); // point in world coordinates
 
     return CGPointMake(wcPoint.at<double>(0,0), wcPoint.at<double>(1, 0));
 }
@@ -129,9 +128,9 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         input = [self cvMatFromUIImage:self.graphics.puzzleImage];
         puzzleImageCopied = YES;
     }
-    std::vector<cv::Point2d> imagepoints;
-    std::vector<cv::Point2d> pixelcorners;
-    std::vector<cv::Point3d> worldpieces;
+    std::vector<cv::Point2f> imagepoints;
+    std::vector<cv::Point2f> pixelcorners;
+    std::vector<cv::Point3f> worldpieces;
     cv::Mat rvec;
     cv::Mat tvec;
     cv::Mat rotation;
