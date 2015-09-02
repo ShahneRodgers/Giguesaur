@@ -307,7 +307,7 @@ void free_data(void* data, void* hint){
  * is holding a piece.
  */
 -(void)keepAlive{
-    DEBUG_SAY(2, "Network.m :: keepAlive\n");
+    DEBUG_SAY(4, "Network.m :: keepAlive\n");
     const char *piece = [[[NSString alloc] initWithFormat:@"%d", self.heldPiece] UTF8String];
     zmq_send(self.socket, "KeepAlive", 9, ZMQ_SNDMORE);
     zmq_send(self.socket, piece, strlen(piece), 0);

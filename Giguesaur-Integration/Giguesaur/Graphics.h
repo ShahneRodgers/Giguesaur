@@ -16,6 +16,8 @@
 #import "Vision.h"
 #import "Debug.h"
 
+#define PLAY_LOCAL 1
+
 #define PIECE_Z 0
 
 #define C_WHITE 1, 1, 1, 1

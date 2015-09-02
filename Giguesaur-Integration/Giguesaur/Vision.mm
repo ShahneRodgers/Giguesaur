@@ -9,14 +9,14 @@
 #import "Vision.h"
 
 cv::Size boardSize(9,6);
-std::vector<cv::Point3f> corners;
+std::vector<cv::Point3d> corners;
 //vector<Point3f> polypoints;
 cv::Mat cameraMatrix, distCoeffs;
 cv::Mat input;
 BOOL puzzleImageCopied = NO;
-std::vector<cv::Point2f> imagePlane;
+std::vector<cv::Point2d> imagePlane;
 
-std::vector<cv::Point3f> polypoints;
+std::vector<cv::Point3d> polypoints;
 
 GLKMatrix4 modelView;// GLKMatrix4Identity;
 
@@ -118,7 +118,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     s /= tempMat.at<double>(2,0);
     cv::Mat wcPoint = rotationMatrix.inv() * (s * cameraMatrix.inv() * uvPoint - tvec);
 
-    cv::Point3f realPoint(wcPoint.at<double>(0, 0), wcPoint.at<double>(1, 0), wcPoint.at<double>(2, 0)); // point in world coordinates
+    cv::Point3d realPoint(wcPoint.at<double>(0, 0), wcPoint.at<double>(1, 0), wcPoint.at<double>(2, 0)); // point in world coordinates
 
     return CGPointMake(wcPoint.at<double>(0,0), wcPoint.at<double>(1, 0));
 }
@@ -129,9 +129,9 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         input = [self cvMatFromUIImage:self.graphics.puzzleImage];
         puzzleImageCopied = YES;
     }
-    std::vector<cv::Point2f> imagepoints;
-    std::vector<cv::Point2f> pixelcorners;
-    std::vector<cv::Point3f> worldpieces;
+    std::vector<cv::Point2d> imagepoints;
+    std::vector<cv::Point2d> pixelcorners;
+    std::vector<cv::Point3d> worldpieces;
     cv::Mat rvec;
     cv::Mat tvec;
     cv::Mat rotation;
@@ -230,11 +230,12 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     if(patternfound){
         imagePlane = pixelcorners;
         vectors = solvePnP(corners, pixelcorners, cameraMatrix, distCoeffs, rvec, tvec, false);
-        cv::drawChessboardCorners(frame, boardSize, pixelcorners, patternfound);
+        //cv::drawChessboardCorners(frame, boardSize, pixelcorners, patternfound);
     }
 
     if(vectors){
 
+        /* May need to do this fo each piece, not all pieces at the same time */
         cv::projectPoints(worldpieces, rvec, tvec, cameraMatrix, distCoeffs, imagepoints);
 
         cv::Mat lambda(2,4, CV_32FC1);
