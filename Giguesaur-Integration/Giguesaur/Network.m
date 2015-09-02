@@ -204,7 +204,7 @@ void free_data(void* data, void* hint){
     DEBUG_PRINT(3, "Network::requestPiece %d\n", pieceNum);
     const char *piece = [[[NSString alloc] initWithFormat:@"%d", pieceNum] UTF8String];
     zmq_send(self.socket, "PickUp", 6, ZMQ_SNDMORE);
-    zmq_send(self.socket, piece, pieceNum%10+1, 0);
+    zmq_send(self.socket, piece, strlen(piece), 0);
     self.wantedPiece = pieceNum;
     self.lastRequest = [NSDate date];
 }
@@ -221,10 +221,10 @@ void free_data(void* data, void* hint){
     const char *rotation = [self floatToString:rotationNum];
     
     zmq_send(self.socket, "Drop", 4, ZMQ_SNDMORE);
-    zmq_send(self.socket, piece, sizeof(piece), ZMQ_SNDMORE);
-    zmq_send(self.socket, x, sizeof(x), ZMQ_SNDMORE);
-    zmq_send(self.socket, y, sizeof(y), ZMQ_SNDMORE);
-    zmq_send(self.socket, rotation, sizeof(rotation), 0);
+    zmq_send(self.socket, piece, strlen(piece), ZMQ_SNDMORE);
+    zmq_send(self.socket, x, strlen(x), ZMQ_SNDMORE);
+    zmq_send(self.socket, y, strlen(y), ZMQ_SNDMORE);
+    zmq_send(self.socket, rotation, strlen(rotation), 0);
     
     self.wantedPiece = self.heldPiece;
     self.lastRequest = [NSDate date];
@@ -307,10 +307,10 @@ void free_data(void* data, void* hint){
  * is holding a piece.
  */
 -(void)keepAlive{
-    DEBUG_SAY(2, "Network.m :: keepAlive\n");
+    DEBUG_SAY(4, "Network.m :: keepAlive\n");
     const char *piece = [[[NSString alloc] initWithFormat:@"%d", self.heldPiece] UTF8String];
     zmq_send(self.socket, "KeepAlive", 9, ZMQ_SNDMORE);
-    zmq_send(self.socket, piece, sizeof(piece), 0);
+    zmq_send(self.socket, piece, strlen(piece), 0);
 }
 
 /* Checks for messages from the server */
