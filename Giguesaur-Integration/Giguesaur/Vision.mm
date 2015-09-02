@@ -67,7 +67,6 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 
     NSError *error = nil;
     AVCaptureDeviceInput *videoInput = [AVCaptureDeviceInput deviceInputWithDevice:videoCaptureDevice error: &error];
-    //NSLog(@"This works");
     if(videoInput){
         [session addInput:videoInput];
     } else {
@@ -89,22 +88,18 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     preview.frame = self.graphics.bounds;
     preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
     preview.hidden = YES;
-    // [self.graphics.layer addSublayer:preview];
-    //[self.graphics bringSublayerToFront]; This doesn';t work
-    //[self.graphics.layer insertSublayer:preview atIndex:1];
-
 }
 
 // Convert from screen coordinates to world coordinates
 - (CGPoint) projectedPoints: (CGPoint) screenCoords {
 
-    double s_x = screenCoords.x*1.875; //1920 / 1024
-    double s_y = screenCoords.y*1.40625; //1080 / 768
+    double s_x = screenCoords.x*1.875; // 1920 / 1024
+    double s_y = screenCoords.y*1.40625; // 1080 / 768
 
     cv::Mat rvec, tvec, rotationMatrix;
     cv::solvePnP(corners, imagePlane, cameraMatrix, distCoeffs, rvec, tvec, false);
     cv::Rodrigues(rvec,rotationMatrix);
-    cv::Mat uvPoint = cv::Mat::ones(3,1,cv::DataType<double>::type); //u,v,1
+    cv::Mat uvPoint = cv::Mat::ones(3,1,cv::DataType<double>::type); // u,v,1
     // image point
     uvPoint.at<double>(0,0) = s_x;
     uvPoint.at<double>(1,0) = s_y;
@@ -134,7 +129,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     cv::Mat rvec;
     cv::Mat tvec;
     cv::Mat rotation;
-    cv::Mat viewMat = cv::Mat::zeros(4, 4, CV_64FC1);//might need to change format
+    cv::Mat viewMat = cv::Mat::zeros(4, 4, CV_64FC1); // might need to change format
     cv::Mat matToGL = cv::Mat::zeros(4, 4, CV_64FC1);
     cv::Mat output = cv::Mat::zeros(frame.size(), frame.type());
 
@@ -166,6 +161,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
                 row++;
             }
         }
+
         NSArray *rotatedPiece = [simpleMath pointsRotated:pieces[i]];
         CGPoint topLeft = [[rotatedPiece objectAtIndex:0] CGPointValue];
         CGPoint topRight = [[rotatedPiece objectAtIndex:1] CGPointValue];
@@ -198,10 +194,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
             {tex_width * col, tex_height * (row + 1)}
             //{tex_width * col, tex_height * row}
         };
-    }
 
-
-    for(int i = 0; i < num_of_pieces; i++){
         if (!pieces[i].held || self.graphics.holdingPiece == i) {
             num_pieces_draw++;
             for(int j = 0; j < 4; j++){
@@ -213,26 +206,18 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         }
     }
 
-    //vector<Point2f> imagepoints;
     bool vectors = false;
-
-    // NSDate *start = [NSDate date];
     bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners,
                                               cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_NORMALIZE_IMAGE
                                               + cv::CALIB_CB_FAST_CHECK);
 
-    /*bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners, cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_FAST_CHECK + cv::CALIB_CB_FILTER_QUADS);*/
-
-    /* NSDate *finish = [NSDate date];
-     NSTimeInterval runtime = [finish timeIntervalSinceDate:start];
-     NSLog(@"Checkerboard found in %f \n", runtime);*/
-    if(patternfound){
+    if (patternfound) {
         imagePlane = pixelcorners;
         vectors = solvePnP(corners, pixelcorners, cameraMatrix, distCoeffs, rvec, tvec, false);
         //cv::drawChessboardCorners(frame, boardSize, pixelcorners, patternfound);
     }
 
-    if(vectors){
+    if (vectors) {
 
         /* May need to do this fo each piece, not all pieces at the same time */
         cv::projectPoints(worldpieces, rvec, tvec, cameraMatrix, distCoeffs, imagepoints);
@@ -246,22 +231,13 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         for(int i = 0; i < num_pieces_draw; i++){
             cv::Point2f inputQuad[4];
             cv::Point2f outputQuad[4];
-            // for(int j = i * 4; j < i * 4 + 4; j++){
+
             int j = i * 4;
-            //float texX = pieceCoords[i][j].TexCoord[0];
-            //float texY = pieceCoords[i][j].TexCoord[1];
 
             inputQuad[0] = cv::Point2f(pieceCoords[i][0].TexCoord[0]*width, pieceCoords[i][0].TexCoord[1]*height);
             inputQuad[1] = cv::Point2f(pieceCoords[i][1].TexCoord[0]*width, pieceCoords[i][1].TexCoord[1]*height);
             inputQuad[2] = cv::Point2f(pieceCoords[i][2].TexCoord[0]*width, pieceCoords[i][2].TexCoord[1]*height);
             inputQuad[3] = cv::Point2f(pieceCoords[i][3].TexCoord[0]*width, pieceCoords[i][3].TexCoord[1]*height);
-
-            /*  std::cout << "corner 0" << inputQuad[0] << " " << pieceCoords[i][0].TexCoord[0] << " " << pieceCoords[i][j].TexCoord[1] << std::endl;
-             std::cout << "corner 1" << inputQuad[1] << " " << pieceCoords[i][1].TexCoord[0] << " " << pieceCoords[i][1].TexCoord[1] << std::endl;
-
-             std::cout << "corner 2" << inputQuad[2] << " " << pieceCoords[i][2].TexCoord[0] << " " << pieceCoords[i][2].TexCoord[1] << std::endl;
-
-             std::cout << "corner 3" << inputQuad[3] << " " << pieceCoords[i][3].TexCoord[0] << " " << pieceCoords[i][3].TexCoord[1] << std::endl;*/
 
             outputQuad[0] = imagepoints[j];
             outputQuad[1] = imagepoints[j+1];
@@ -273,10 +249,7 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
             lambda = cv::getPerspectiveTransform(inputQuad, outputQuad);
 
             cv::warpPerspective(subImage, output, lambda, output.size());
-            //std::cout << output.rows << " " << output.cols << " " << output.type() << std::endl;
             output.copyTo(frame,output);
-
-            //}
         }
 
         //std::cout << "rvec: " << rvec << "tvec: " << tvec << std::endl;
@@ -452,7 +425,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
                                                     colorSpace,                 // Colorspace
                                                     kCGImageAlphaNoneSkipLast |
                                                     kCGBitmapByteOrderDefault); // Bitmap info flags
-
+    
     CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), image.CGImage);
     CGContextRelease(contextRef);
     
