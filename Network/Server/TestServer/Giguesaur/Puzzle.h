@@ -13,7 +13,7 @@
 #define BOARD_WIDTH 224
 #define BOARD_HEIGHT 140
 
-#define NUM_OF_ROWS 1
+#define NUM_OF_ROWS 2
 #define NUM_OF_COLS 2
 #define NUM_OF_PIECES (NUM_OF_ROWS*NUM_OF_COLS)
 
