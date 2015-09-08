@@ -10,14 +10,11 @@
 
 cv::Size boardSize(9,6);
 std::vector<cv::Point3f> corners;
-//vector<Point3f> polypoints;
 cv::Mat cameraMatrix, distCoeffs;
-cv::Mat input;
+cv::Mat input; // the puzzle image, who named it input?
 BOOL puzzleImageCopied = NO;
 std::vector<cv::Point2f> imagePlane;
-
 std::vector<cv::Point3f> polypoints;
-
 GLKMatrix4 modelView;// GLKMatrix4Identity;
 
 @implementation Vision
@@ -68,7 +65,6 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 
     NSError *error = nil;
     AVCaptureDeviceInput *videoInput = [AVCaptureDeviceInput deviceInputWithDevice:videoCaptureDevice error: &error];
-    //NSLog(@"This works");
     if(videoInput){
         [session addInput:videoInput];
     } else {
@@ -90,22 +86,18 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     preview.frame = self.graphics.bounds;
     preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
     preview.hidden = YES;
-    // [self.graphics.layer addSublayer:preview];
-    //[self.graphics bringSublayerToFront]; This doesn';t work
-    //[self.graphics.layer insertSublayer:preview atIndex:1];
-
 }
 
 // Convert from screen coordinates to world coordinates
 - (CGPoint) projectedPoints: (CGPoint) screenCoords {
 
-    double s_x = screenCoords.x*1.875; //1920 / 1024
-    double s_y = screenCoords.y*1.40625; //1080 / 768
+    double s_x = screenCoords.x*1.875; // 1920 / 1024
+    double s_y = screenCoords.y*1.40625; // 1080 / 768
 
     cv::Mat rvec, tvec, rotationMatrix;
     cv::solvePnP(corners, imagePlane, cameraMatrix, distCoeffs, rvec, tvec, false);
     cv::Rodrigues(rvec,rotationMatrix);
-    cv::Mat uvPoint = cv::Mat::ones(3,1,cv::DataType<double>::type); //u,v,1
+    cv::Mat uvPoint = cv::Mat::ones(3,1,cv::DataType<double>::type); // u,v,1
     // image point
     uvPoint.at<double>(0,0) = s_x;
     uvPoint.at<double>(1,0) = s_y;
@@ -129,32 +121,33 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         input = [self cvMatFromUIImage:self.graphics.puzzleImage];
         puzzleImageCopied = YES;
     }
+
     std::vector<cv::Point2f> imagepoints;
     std::vector<cv::Point2f> pixelcorners;
     std::vector<cv::Point3f> worldpieces;
     cv::Mat rvec;
     cv::Mat tvec;
     cv::Mat rotation;
-    cv::Mat viewMat = cv::Mat::zeros(4, 4, CV_64FC1);//might need to change format
+    cv::Mat viewMat = cv::Mat::zeros(4, 4, CV_64FC1); // might need to change format
     cv::Mat matToGL = cv::Mat::zeros(4, 4, CV_64FC1);
     cv::Mat output = cv::Mat::zeros(frame.size(), frame.type());
+    int width = input.rows;
+    int height = input.cols;
+    bool vectors = false;
+    bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners,
+                                              cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_NORMALIZE_IMAGE
+                                              + cv::CALIB_CB_FAST_CHECK);
 
     matToGL.at<double>(0,0) = 1.0f;
     matToGL.at<double>(1,1) = -1.0f; //inverts y
     matToGL.at<double>(2,2) = -1.0f; //inverts z
     matToGL.at<double>(3,3) = 1.0f;
 
-    // Get Piece Coordinates from Graphics
-    int num_of_pieces = self.graphics.num_of_pieces;
-    PieceCoords pieceCoords[num_of_pieces][4];
-    int num_cols = self.graphics.puzzle_cols;
-    float tex_width = self.graphics.texture_width;
-    float tex_height = self.graphics.texture_height;
-    Piece *pieces = self.graphics.pieces;
     SimpleMath *simpleMath = [[SimpleMath alloc] init];
+    PieceCoords pieceCoords[self.graphics.num_of_pieces][4]; // 4 = number of corners
     int num_pieces_draw = 0;
 
-    for (int i = 0; i < num_of_pieces; i++) {
+    for (int i = 0; i < self.graphics.num_of_pieces; i++) {
         // set row and col to get the sub-section of the texture
         int row = 0;
         int col = 0;
@@ -162,12 +155,13 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         while (index != i) {
             col++;
             index++;
-            if (col >= num_cols) {
+            if (col >= self.graphics.puzzle_cols) {
                 col = 0;
                 row++;
             }
         }
-        NSArray *rotatedPiece = [simpleMath pointsRotated:pieces[i]];
+
+        NSArray *rotatedPiece = [simpleMath pointsRotated:self.graphics.pieces[i]];
         CGPoint topLeft = [[rotatedPiece objectAtIndex:0] CGPointValue];
         CGPoint topRight = [[rotatedPiece objectAtIndex:1] CGPointValue];
         CGPoint botRight = [[rotatedPiece objectAtIndex:2] CGPointValue];
@@ -176,34 +170,31 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         // First comment for each corner is the coords without rotation
         // Second comment is what the texcoord should be but the program breaks
         pieceCoords[i][0] = (PieceCoords) {
-            //{pieces[i].x_location - SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
+            //{self.graphics.pieces[i].x_location - SIDE_HALF, self.graphics.pieces[i].y_location + SIDE_HALF, PIECE_Z},
             {static_cast<float>(topLeft.x), static_cast<float>(topLeft.y), PIECE_Z},
-            {tex_width * col, tex_height * row}
-            //{tex_width * col, tex_height * (row + 1)}
+            {self.graphics.texture_width * col, self.graphics.texture_height * row}
+            //{self.graphics.texture_width * col, self.graphics.texture_height * (row + 1)}
         };
         pieceCoords[i][1] = (PieceCoords) {
-            //{pieces[i].x_location + SIDE_HALF, pieces[i].y_location + SIDE_HALF, PIECE_Z},
+            //{self.graphics.pieces[i].x_location + SIDE_HALF, self.graphics.pieces[i].y_location + SIDE_HALF, PIECE_Z},
             {static_cast<float>(topRight.x), static_cast<float>(topRight.y), PIECE_Z},
-            {tex_width * (col + 1), tex_height * row}
-            //{tex_width * (col + 1), tex_height * (row + 1)}
+            {self.graphics.texture_width * (col + 1), self.graphics.texture_height * row}
+            //{self.graphics.texture_width * (col + 1), self.graphics.texture_height * (row + 1)}
         };
         pieceCoords[i][2] = (PieceCoords) {
-            //{pieces[i].x_location + SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
+            //{self.graphics.pieces[i].x_location + SIDE_HALF, self.graphics.pieces[i].y_location - SIDE_HALF, PIECE_Z},
             {static_cast<float>(botRight.x), static_cast<float>(botRight.y), PIECE_Z},
-            {tex_width * (col + 1), tex_height * (row + 1)}
-            //{tex_width * (col + 1), tex_height * row}
+            {self.graphics.texture_width * (col + 1), self.graphics.texture_height * (row + 1)}
+            //{self.graphics.texture_width * (col + 1), self.graphics.texture_height * row}
         };
         pieceCoords[i][3] = (PieceCoords) {
-            //{pieces[i].x_location - SIDE_HALF, pieces[i].y_location - SIDE_HALF, PIECE_Z},
+            //{self.graphics.pieces[i].x_location - SIDE_HALF, self.graphics.pieces[i].y_location - SIDE_HALF, PIECE_Z},
             {static_cast<float>(botLeft.x), static_cast<float>(botLeft.y), PIECE_Z},
-            {tex_width * col, tex_height * (row + 1)}
-            //{tex_width * col, tex_height * row}
+            {self.graphics.texture_width * col, self.graphics.texture_height * (row + 1)}
+            //{self.graphics.texture_width * col, self.graphics.texture_height * row}
         };
-    }
 
-
-    for(int i = 0; i < num_of_pieces; i++){
-        if (!pieces[i].held || self.graphics.holdingPiece == i) {
+        if (!self.graphics.pieces[i].held || self.graphics.holdingPiece == i) {
             num_pieces_draw++;
             for(int j = 0; j < 4; j++){
                 float x = pieceCoords[i][j].Position[0];
@@ -214,70 +205,59 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         }
     }
 
-    //vector<Point2f> imagepoints;
-    bool vectors = false;
-
-    // NSDate *start = [NSDate date];
-    bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners,
-                                              cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_NORMALIZE_IMAGE
-                                              + cv::CALIB_CB_FAST_CHECK);
-
-    /*bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners, cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_FAST_CHECK + cv::CALIB_CB_FILTER_QUADS);*/
-
-    /* NSDate *finish = [NSDate date];
-     NSTimeInterval runtime = [finish timeIntervalSinceDate:start];
-     NSLog(@"Checkerboard found in %f \n", runtime);*/
-    if(patternfound){
+    if (patternfound) {
         imagePlane = pixelcorners;
         vectors = solvePnP(corners, pixelcorners, cameraMatrix, distCoeffs, rvec, tvec, false);
-        cv::drawChessboardCorners(frame, boardSize, pixelcorners, patternfound);
+        //cv::drawChessboardCorners(frame, boardSize, pixelcorners, patternfound);
     }
 
-    if(vectors){
+    if (vectors) {
 
-        cv::projectPoints(worldpieces, rvec, tvec, cameraMatrix, distCoeffs, imagepoints);
+        /* May need to do this fo each piece, not all pieces at the same time */
+        for (int piece = 0; piece < num_pieces_draw; piece++) {
+            std::vector<cv::Point2f> imagePiece;
+            std::vector<cv::Point3f> worldPiece;
+            int corner = piece * 4;
 
-        cv::Mat lambda(2,4, CV_32FC1);
-        lambda = cv::Mat::zeros(input.rows*tex_height, input.cols*tex_width, input.type()); // <- might be broken
+            worldPiece.push_back(worldpieces.at(corner));
+            worldPiece.push_back(worldpieces.at(corner+1));
+            worldPiece.push_back(worldpieces.at(corner+2));
+            worldPiece.push_back(worldpieces.at(corner+3));
 
-        int width = input.rows;
-        int height = input.cols;
+            cv::projectPoints(worldPiece, rvec, tvec, cameraMatrix, distCoeffs, imagePiece);
 
-        for(int i = 0; i < num_pieces_draw; i++){
+            imagepoints.push_back(imagePiece.at(0));
+            imagepoints.push_back(imagePiece.at(1));
+            imagepoints.push_back(imagePiece.at(2));
+            imagepoints.push_back(imagePiece.at(3));
+
+            cv::Mat lambda(2,4, CV_32FC1);
+            //lambda = cv::Mat::zeros(input.rows*self.graphics.texture_height, input.cols*self.graphics.texture_width, input.type());
+
             cv::Point2f inputQuad[4];
             cv::Point2f outputQuad[4];
-            // for(int j = i * 4; j < i * 4 + 4; j++){
-            int j = i * 4;
-            //float texX = pieceCoords[i][j].TexCoord[0];
-            //float texY = pieceCoords[i][j].TexCoord[1];
 
-            inputQuad[0] = cv::Point2f(pieceCoords[i][0].TexCoord[0]*width, pieceCoords[i][0].TexCoord[1]*height);
-            inputQuad[1] = cv::Point2f(pieceCoords[i][1].TexCoord[0]*width, pieceCoords[i][1].TexCoord[1]*height);
-            inputQuad[2] = cv::Point2f(pieceCoords[i][2].TexCoord[0]*width, pieceCoords[i][2].TexCoord[1]*height);
-            inputQuad[3] = cv::Point2f(pieceCoords[i][3].TexCoord[0]*width, pieceCoords[i][3].TexCoord[1]*height);
+            inputQuad[0] = cv::Point2f(pieceCoords[piece][0].TexCoord[0]*width, pieceCoords[piece][0].TexCoord[1]*height);
+            inputQuad[1] = cv::Point2f(pieceCoords[piece][1].TexCoord[0]*width, pieceCoords[piece][1].TexCoord[1]*height);
+            inputQuad[2] = cv::Point2f(pieceCoords[piece][2].TexCoord[0]*width, pieceCoords[piece][2].TexCoord[1]*height);
+            inputQuad[3] = cv::Point2f(pieceCoords[piece][3].TexCoord[0]*width, pieceCoords[piece][3].TexCoord[1]*height);
 
-            /*  std::cout << "corner 0" << inputQuad[0] << " " << pieceCoords[i][0].TexCoord[0] << " " << pieceCoords[i][j].TexCoord[1] << std::endl;
-             std::cout << "corner 1" << inputQuad[1] << " " << pieceCoords[i][1].TexCoord[0] << " " << pieceCoords[i][1].TexCoord[1] << std::endl;
+            outputQuad[0] = imagepoints[corner];
+            outputQuad[1] = imagepoints[corner+1];
+            outputQuad[2] = imagepoints[corner+2];
+            outputQuad[3] = imagepoints[corner+3];
 
-             std::cout << "corner 2" << inputQuad[2] << " " << pieceCoords[i][2].TexCoord[0] << " " << pieceCoords[i][2].TexCoord[1] << std::endl;
-
-             std::cout << "corner 3" << inputQuad[3] << " " << pieceCoords[i][3].TexCoord[0] << " " << pieceCoords[i][3].TexCoord[1] << std::endl;*/
-
-            outputQuad[0] = imagepoints[j];
-            outputQuad[1] = imagepoints[j+1];
-            outputQuad[2] = imagepoints[j+2];
-            outputQuad[3] = imagepoints[j+3];
-
-            cv::Mat subImage = input(cv::Rect(inputQuad[0].x, inputQuad[0].y, width*tex_width, height*tex_height));
+            cv::Rect crop(inputQuad[0].x, inputQuad[0].y, width*self.graphics.texture_width, height*self.graphics.texture_height);
+            cv::Mat subImage = input(crop);//cv::Rect(inputQuad[0].x, inputQuad[0].y, width*self.graphics.texture_width, height*self.graphics.texture_height));
 
             lambda = cv::getPerspectiveTransform(inputQuad, outputQuad);
 
             cv::warpPerspective(subImage, output, lambda, output.size());
-            //std::cout << output.rows << " " << output.cols << " " << output.type() << std::endl;
-            output.copyTo(frame,output);
-
-            //}
+            output.copyTo(frame, output);
         }
+
+        //std::cout << "worldpieces: " << worldpieces << "\n";
+        //std::cout << "imagepoints: " << imagepoints << "\n";
 
         //std::cout << "rvec: " << rvec << "tvec: " << tvec << std::endl;
         /* for(int i = 0; i < 3; i++){
@@ -452,7 +432,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
                                                     colorSpace,                 // Colorspace
                                                     kCGImageAlphaNoneSkipLast |
                                                     kCGBitmapByteOrderDefault); // Bitmap info flags
-
+    
     CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), image.CGImage);
     CGContextRelease(contextRef);
     

@@ -280,8 +280,13 @@ const GLubyte ImageIndices[] = {
     }
     else if (_holdingPiece >= 0) {
         DEBUG_PRINT(3, "Graphics.m :: Ask server to place piece %d\n", _holdingPiece);
-        [self.network droppedPiece:_pieces[_holdingPiece].x_location WithY:_pieces[_holdingPiece].y_location WithRotation:_pieces[_holdingPiece].rotation];
-        //[self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[_holdingPiece].rotation];
+        //[self.network droppedPiece:_pieces[_holdingPiece].x_location WithY:_pieces[_holdingPiece].y_location WithRotation:_pieces[_holdingPiece].rotation];
+        if (PLAY_LOCAL) {
+            float coords[3] = {point.x, point.y, _pieces[_holdingPiece].rotation};
+            [self placePiece:_holdingPiece andCoords:coords];
+        }
+        else
+            [self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[_holdingPiece].rotation];
     }
     else {
         for (int i = 0; i < _num_of_pieces; i++) {
@@ -296,7 +301,10 @@ const GLubyte ImageIndices[] = {
                                 _pieces[i].y_location - SIDE_HALF,
                                 _pieces[i].y_location + SIDE_HALF);
 
-                    [self.network requestPiece:i];
+                    if (PLAY_LOCAL)
+                        [self pickupPiece:i];
+                    else
+                        [self.network requestPiece:i];
                     i = _num_of_pieces;
                 }
             }
@@ -342,7 +350,7 @@ const GLubyte ImageIndices[] = {
 
     // Flush everything to the screen
     [_context presentRenderbuffer:GL_RENDERBUFFER];
-
+/*
     if (_holdingPiece >= 0) {
         DEBUG_PRINT(4, "Graphics.m :: Screen Centre [x,y] = [%.2f,%2.f]\n", screenCentre.x, screenCentre.y);
         CGPoint pieceCentreScreen = [self.vision projectedPoints:screenCentre];
@@ -362,6 +370,7 @@ const GLubyte ImageIndices[] = {
                                          }];
         }
     }
+ */
 }
 
 - (id) initWithFrame: (CGRect) frame andNetwork: (Network*) theNetwork {

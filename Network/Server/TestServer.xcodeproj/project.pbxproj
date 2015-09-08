@@ -96,7 +96,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		165683DC1AB668E30085CB9F /* TestServer */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = TestServer; sourceTree = BUILT_PRODUCTS_DIR; };
+		165683DC1AB668E30085CB9F /* TestServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestServer; sourceTree = BUILT_PRODUCTS_DIR; };
 		165683DF1AB668E30085CB9F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2163E0FD1B0174C4000CBFBD /* zhelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zhelpers.h; sourceTree = "<group>"; };
 		217D79C11AC65AA00047DD11 /* zmq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = zmq.h; path = ../../include/zmq.h; sourceTree = "<group>"; };
