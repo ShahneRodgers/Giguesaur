@@ -95,6 +95,7 @@ void sendBoard(){
     if (pic < 0 || arr < 0)
         NSLog(@"%s", strerror(errno));
     */
+    sendBoard();
 }
 
 int getIntFromMessage(){
