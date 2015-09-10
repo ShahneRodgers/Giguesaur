@@ -325,13 +325,6 @@ void free_data(void* data, void* hint){
     int i = zmq_msg_recv(&type, self.recvSocket, ZMQ_DONTWAIT);
     //If no message type was received, return
     if (i <= 0){
-        //Lost server connection
-        if ([self.lastHeard timeIntervalSinceNow]*-1 > TIMEOUT){
-            zmq_setsockopt(self.recvSocket, ZMQ_SUBSCRIBE, "SetupMode", 9);
-            self.timedOut = YES;
-            self.heldPiece = -1;
-            self.wantedPiece = -1;
-        }
         return;
     }
     self.recvMessagesCount++;
