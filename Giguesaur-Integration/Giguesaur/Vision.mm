@@ -161,7 +161,12 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
             }
         }
 
-        NSArray *rotatedPiece = [simpleMath pointsRotated:self.graphics.pieces[i]];
+        Piece tempPiece = self.graphics.pieces[i];
+        tempPiece.x_location += SIDE_LENGTH*col;
+        tempPiece.y_location += SIDE_LENGTH*row;
+        tempPiece.rotation = 0;
+
+        NSArray *rotatedPiece = [simpleMath pointsRotated:tempPiece];
         CGPoint topLeft = [[rotatedPiece objectAtIndex:0] CGPointValue];
         CGPoint topRight = [[rotatedPiece objectAtIndex:1] CGPointValue];
         CGPoint botRight = [[rotatedPiece objectAtIndex:2] CGPointValue];
@@ -170,28 +175,20 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         // First comment for each corner is the coords without rotation
         // Second comment is what the texcoord should be but the program breaks
         pieceCoords[i][0] = (PieceCoords) {
-            //{self.graphics.pieces[i].x_location - SIDE_HALF, self.graphics.pieces[i].y_location + SIDE_HALF, PIECE_Z},
-            {static_cast<float>(topLeft.x), static_cast<float>(topLeft.y), PIECE_Z},
+            {static_cast<float>(botLeft.x), static_cast<float>(botLeft.y), PIECE_Z},
             {self.graphics.texture_width * col, self.graphics.texture_height * row}
-            //{self.graphics.texture_width * col, self.graphics.texture_height * (row + 1)}
         };
         pieceCoords[i][1] = (PieceCoords) {
-            //{self.graphics.pieces[i].x_location + SIDE_HALF, self.graphics.pieces[i].y_location + SIDE_HALF, PIECE_Z},
-            {static_cast<float>(topRight.x), static_cast<float>(topRight.y), PIECE_Z},
+            {static_cast<float>(botRight.x), static_cast<float>(botRight.y), PIECE_Z},
             {self.graphics.texture_width * (col + 1), self.graphics.texture_height * row}
-            //{self.graphics.texture_width * (col + 1), self.graphics.texture_height * (row + 1)}
         };
         pieceCoords[i][2] = (PieceCoords) {
-            //{self.graphics.pieces[i].x_location + SIDE_HALF, self.graphics.pieces[i].y_location - SIDE_HALF, PIECE_Z},
-            {static_cast<float>(botRight.x), static_cast<float>(botRight.y), PIECE_Z},
+            {static_cast<float>(topRight.x), static_cast<float>(topRight.y), PIECE_Z},
             {self.graphics.texture_width * (col + 1), self.graphics.texture_height * (row + 1)}
-            //{self.graphics.texture_width * (col + 1), self.graphics.texture_height * row}
         };
         pieceCoords[i][3] = (PieceCoords) {
-            //{self.graphics.pieces[i].x_location - SIDE_HALF, self.graphics.pieces[i].y_location - SIDE_HALF, PIECE_Z},
-            {static_cast<float>(botLeft.x), static_cast<float>(botLeft.y), PIECE_Z},
+            {static_cast<float>(topLeft.x), static_cast<float>(topLeft.y), PIECE_Z},
             {self.graphics.texture_width * col, self.graphics.texture_height * (row + 1)}
-            //{self.graphics.texture_width * col, self.graphics.texture_height * row}
         };
 
         if (!self.graphics.pieces[i].held || self.graphics.holdingPiece == i) {
