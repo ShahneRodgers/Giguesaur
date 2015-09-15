@@ -21,6 +21,7 @@
 @property Graphics *graphics;
 
 -(void)addButton:(NSString*)title;
+-(void)switchViews:(NSString *)address;
 
 @end
 

@@ -52,7 +52,8 @@ void MyResolveCallback (
     else if (result->sin_family != AF_INET)
         NSLog(@"Error: only IPv6 found");
     else {
-        [viewClass addButton:[[NSString alloc]initWithFormat:@"%s", string]];
+        //[viewClass addButton:[[NSString alloc]initWithFormat:@"%s", string]];
+        [viewClass switchViews:[[NSString alloc]initWithFormat:@"%s", string]];
     }
 }
 
