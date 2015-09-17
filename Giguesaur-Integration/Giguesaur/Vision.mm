@@ -15,7 +15,8 @@ cv::Mat input; // the puzzle image, who named it input?
 BOOL puzzleImageCopied = NO;
 std::vector<cv::Point2f> imagePlane;
 std::vector<cv::Point3f> polypoints;
-GLKMatrix4 modelView;// GLKMatrix4Identity;
+GLKMatrix4 modelView;
+float current_rotation = 0;
 
 @implementation Vision
 
@@ -147,6 +148,12 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
     PieceCoords pieceCoords[self.graphics.num_of_pieces][4]; // 4 = number of corners
     int num_pieces_draw = 0;
 
+    current_rotation += 5;
+    if (current_rotation >= 360) {
+        current_rotation = 0;
+    }
+    printf("rotation: %.2f\n", current_rotation);
+
     for (int i = 0; i < self.graphics.num_of_pieces; i++) {
         // set row and col to get the sub-section of the texture
         int row = 0;
@@ -160,11 +167,32 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
                 row++;
             }
         }
-
         Piece tempPiece = self.graphics.pieces[i];
+        if (i == 1) {
+            tempPiece.rotation += current_rotation;
+
+
         tempPiece.x_location += SIDE_LENGTH*col;
         tempPiece.y_location += SIDE_LENGTH*row;
-        tempPiece.rotation = 0;
+        }
+        /*
+        if (tempPiece.rotation == 0) {
+            tempPiece.x_location += SIDE_LENGTH*col;
+            tempPiece.y_location += SIDE_LENGTH*row;
+        }
+        else if (tempPiece.rotation == 90) {
+            tempPiece.x_location -= SIDE_LENGTH*row;
+            tempPiece.y_location += SIDE_LENGTH*col;
+        }
+        else if (tempPiece.rotation == 180) {
+            tempPiece.x_location -= SIDE_LENGTH*col;
+            tempPiece.y_location -= SIDE_LENGTH*row;
+        }
+        else if (tempPiece.rotation == 270) {
+            tempPiece.x_location += SIDE_LENGTH*row;
+            tempPiece.y_location -= SIDE_LENGTH*col;
+        }
+        */
 
         NSArray *rotatedPiece = [simpleMath pointsRotated:tempPiece];
         CGPoint topLeft = [[rotatedPiece objectAtIndex:0] CGPointValue];
@@ -172,8 +200,6 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         CGPoint botRight = [[rotatedPiece objectAtIndex:2] CGPointValue];
         CGPoint botLeft = [[rotatedPiece objectAtIndex:3] CGPointValue];
 
-        // First comment for each corner is the coords without rotation
-        // Second comment is what the texcoord should be but the program breaks
         pieceCoords[i][0] = (PieceCoords) {
             {static_cast<float>(botLeft.x), static_cast<float>(botLeft.y), PIECE_Z},
             {self.graphics.texture_width * col, self.graphics.texture_height * row}
@@ -194,8 +220,15 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
         if (!self.graphics.pieces[i].held || self.graphics.holdingPiece == i) {
             num_pieces_draw++;
             for(int j = 0; j < 4; j++){
-                float x = pieceCoords[i][j].Position[0];
-                float y = pieceCoords[i][j].Position[1];
+                float x, y;
+                if (i == 1) {
+                     x = pieceCoords[i][j].Position[0] -= SIDE_LENGTH*col;
+                     y = pieceCoords[i][j].Position[1] -= SIDE_LENGTH*row;
+                }
+                else {
+                     x = pieceCoords[i][j].Position[0];// -= SIDE_LENGTH*col;
+                     y = pieceCoords[i][j].Position[1];// -= SIDE_LENGTH*row;
+                }
                 float z = pieceCoords[i][j].Position[2];
                 worldpieces.push_back(cv::Point3f(x,y,z));
             }
@@ -210,7 +243,6 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
 
     if (vectors) {
 
-        /* May need to do this fo each piece, not all pieces at the same time */
         for (int piece = 0; piece < num_pieces_draw; piece++) {
             std::vector<cv::Point2f> imagePiece;
             std::vector<cv::Point3f> worldPiece;
@@ -252,42 +284,6 @@ GLKMatrix4 modelView;// GLKMatrix4Identity;
             cv::warpPerspective(subImage, output, lambda, output.size());
             output.copyTo(frame, output);
         }
-
-        //std::cout << "worldpieces: " << worldpieces << "\n";
-        //std::cout << "imagepoints: " << imagepoints << "\n";
-
-        //std::cout << "rvec: " << rvec << "tvec: " << tvec << std::endl;
-        /* for(int i = 0; i < 3; i++){
-         rotation[i] = rvec.at<double>(0,i);
-         translation[i] = tvec.at<double>(0,i);
-         }
-
-         for(int i = 0; i < 3; i++){
-         printf("rotation %d: %f\n", i+1, rotation[i]);
-         printf("translation %d: %f\n", i+1, translation[i]);
-         }*/
-
-        /*GLKMatrix4 rotation = GLKMatrix4MakeRotation(degToRad(0), 0, 0, 1);
-         GLKMatrix4 translation = GLKMatrix4MakeTranslation(0,0,-1);*/
-        //modelView = GLKMatrix4Multiply(rotation, translation);
-
-        /*projectPoints(polypoints, rvec, tvec, cameraMatrix, distCoeffs, imagepoints);
-         line(frame, imagepoints[0], imagepoints[1], cv::Scalar(255,0,0), 5, 8);
-         //line(frame, imagepoints[1], imagepoints[2], Scalar(255,0,0), 5, 8);
-         //line(frame, imagepoints[2], imagepoints[3], Scalar(255,0,0), 5, 8);
-         line(frame, imagepoints[3], imagepoints[0], cv::Scalar(0,255,0), 5, 8);
-
-         line(frame, imagepoints[0], imagepoints[4], cv::Scalar(0,0,255), 5, 8);*/
-
-        /*line(frame, imagepoints[1], imagepoints[5], Scalar(255,0,0), 5, 8);
-         line(frame, imagepoints[2], imagepoints[6], Scalar(255,0,0), 5, 8);
-         line(frame, imagepoints[3], imagepoints[7], Scalar(255,0,0), 5, 8);
-
-         line(frame, imagepoints[4], imagepoints[5], Scalar(255,0,0), 5, 8);
-         line(frame, imagepoints[5], imagepoints[6], Scalar(255,0,0), 5, 8);
-         line(frame, imagepoints[6], imagepoints[7], Scalar(255,0,0), 5, 8);
-         line(frame, imagepoints[7], imagepoints[4], Scalar(255,0,0), 5, 8);*/
-
 
         cv::Rodrigues(rvec, rotation);
         for(int row = 0; row < 3; row++){

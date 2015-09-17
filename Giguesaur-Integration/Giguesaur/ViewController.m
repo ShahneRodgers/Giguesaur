@@ -49,7 +49,6 @@
     button.frame = CGRectMake(220, self.xLocation, 160, 40);
     self.xLocation += 40;
     [self.view addSubview:button];
-    [self joinGame:button];
 }
 
 /*
