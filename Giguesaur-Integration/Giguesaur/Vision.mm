@@ -137,7 +137,7 @@ float current_rotation = 0;
                                               cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_NORMALIZE_IMAGE
                                               + cv::CALIB_CB_FAST_CHECK);
 
-    SimpleMath *simpleMath = [[SimpleMath alloc] init];
+    //SimpleMath *simpleMath = [[SimpleMath alloc] init];
     PieceCoords pieceCoords[self.graphics.num_of_pieces][4]; // 4 = number of corners
     int num_pieces_draw = 0;
 
@@ -145,7 +145,6 @@ float current_rotation = 0;
     if (current_rotation >= 360) {
         current_rotation = 0;
     }
-    printf("rotation: %.2f\n", current_rotation);
 
     for (int i = 0; i < self.graphics.num_of_pieces; i++) {
         // set row and col to get the sub-section of the texture
@@ -161,13 +160,10 @@ float current_rotation = 0;
             }
         }
         Piece tempPiece = self.graphics.pieces[i];
-        if (i == 1) {
-            tempPiece.rotation += current_rotation;
+        tempPiece.rotation = 0;
+        //tempPiece.x_location += SIDE_LENGTH*col;
+        //tempPiece.y_location += SIDE_LENGTH*row;
 
-
-        tempPiece.x_location += SIDE_LENGTH*col;
-        tempPiece.y_location += SIDE_LENGTH*row;
-        }
         /*
         if (tempPiece.rotation == 0) {
             tempPiece.x_location += SIDE_LENGTH*col;
@@ -186,43 +182,41 @@ float current_rotation = 0;
             tempPiece.y_location -= SIDE_LENGTH*col;
         }
         */
-
+        /*
         NSArray *rotatedPiece = [simpleMath pointsRotated:tempPiece];
         CGPoint topLeft = [[rotatedPiece objectAtIndex:0] CGPointValue];
         CGPoint topRight = [[rotatedPiece objectAtIndex:1] CGPointValue];
         CGPoint botRight = [[rotatedPiece objectAtIndex:2] CGPointValue];
         CGPoint botLeft = [[rotatedPiece objectAtIndex:3] CGPointValue];
-
+         */
         pieceCoords[i][0] = (PieceCoords) {
-            {static_cast<float>(botLeft.x), static_cast<float>(botLeft.y), PIECE_Z},
+            //{static_cast<float>(botLeft.x), static_cast<float>(botLeft.y), PIECE_Z},
+            {tempPiece.x_location-SIDE_HALF, tempPiece.y_location-SIDE_HALF, PIECE_Z},
             {self.graphics.texture_width * col, self.graphics.texture_height * row}
         };
         pieceCoords[i][1] = (PieceCoords) {
-            {static_cast<float>(botRight.x), static_cast<float>(botRight.y), PIECE_Z},
+            //{static_cast<float>(botRight.x), static_cast<float>(botRight.y), PIECE_Z},
+            {tempPiece.x_location+SIDE_HALF, tempPiece.y_location-SIDE_HALF, PIECE_Z},
             {self.graphics.texture_width * (col + 1), self.graphics.texture_height * row}
         };
         pieceCoords[i][2] = (PieceCoords) {
-            {static_cast<float>(topRight.x), static_cast<float>(topRight.y), PIECE_Z},
+            //{static_cast<float>(topRight.x), static_cast<float>(topRight.y), PIECE_Z},
+            {tempPiece.x_location+SIDE_HALF, tempPiece.y_location+SIDE_HALF, PIECE_Z},
             {self.graphics.texture_width * (col + 1), self.graphics.texture_height * (row + 1)}
         };
         pieceCoords[i][3] = (PieceCoords) {
-            {static_cast<float>(topLeft.x), static_cast<float>(topLeft.y), PIECE_Z},
+            //{static_cast<float>(topLeft.x), static_cast<float>(topLeft.y), PIECE_Z},
+            {tempPiece.x_location-SIDE_HALF, tempPiece.y_location+SIDE_HALF, PIECE_Z},
             {self.graphics.texture_width * col, self.graphics.texture_height * (row + 1)}
         };
 
         if (!self.graphics.pieces[i].held || self.graphics.holdingPiece == i) {
             num_pieces_draw++;
             for(int j = 0; j < 4; j++){
-                float x, y;
-                if (i == 1) {
-                     x = pieceCoords[i][j].Position[0] -= SIDE_LENGTH*col;
-                     y = pieceCoords[i][j].Position[1] -= SIDE_LENGTH*row;
-                }
-                else {
-                     x = pieceCoords[i][j].Position[0];// -= SIDE_LENGTH*col;
-                     y = pieceCoords[i][j].Position[1];// -= SIDE_LENGTH*row;
-                }
-                float z = pieceCoords[i][j].Position[2];
+                float x, y, z;
+                x = pieceCoords[i][j].Position[0];
+                y = pieceCoords[i][j].Position[1];
+                z = pieceCoords[i][j].Position[2];
                 worldpieces.push_back(cv::Point3f(x,y,z));
             }
         }
