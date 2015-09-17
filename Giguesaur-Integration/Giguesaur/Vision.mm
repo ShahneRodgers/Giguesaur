@@ -129,8 +129,6 @@ float current_rotation = 0;
     cv::Mat rvec;
     cv::Mat tvec;
     cv::Mat rotation;
-    cv::Mat viewMat = cv::Mat::zeros(4, 4, CV_64FC1); // might need to change format
-    cv::Mat matToGL = cv::Mat::zeros(4, 4, CV_64FC1);
     cv::Mat output = cv::Mat::zeros(frame.size(), frame.type());
     int width = input.rows;
     int height = input.cols;
@@ -138,11 +136,6 @@ float current_rotation = 0;
     bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners,
                                               cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_NORMALIZE_IMAGE
                                               + cv::CALIB_CB_FAST_CHECK);
-
-    matToGL.at<double>(0,0) = 1.0f;
-    matToGL.at<double>(1,1) = -1.0f; //inverts y
-    matToGL.at<double>(2,2) = -1.0f; //inverts z
-    matToGL.at<double>(3,3) = 1.0f;
 
     SimpleMath *simpleMath = [[SimpleMath alloc] init];
     PieceCoords pieceCoords[self.graphics.num_of_pieces][4]; // 4 = number of corners
@@ -285,19 +278,6 @@ float current_rotation = 0;
             output.copyTo(frame, output);
         }
 
-        cv::Rodrigues(rvec, rotation);
-        for(int row = 0; row < 3; row++){
-            for(int col = 0; col < 3; col++){
-                viewMat.at<double>(row,col) = rotation.at<double>(row,col);
-            }
-            viewMat.at<double>(row,3) = tvec.at<double>(row,0);// changed, might be wrong curerntly in line with example
-            // std::cout << tvec.at<double>(row,0) << std::endl;
-        }
-        viewMat.at<double>(3,3) = 1.0f;
-        viewMat = viewMat * matToGL;
-        cv::transpose(viewMat, viewMat);
-
-        modelView = GLKMatrix4Make(viewMat.at<double>(0,0), viewMat.at<double>(0,1), viewMat.at<double>(0,2), viewMat.at<double>(0,3), viewMat.at<double>(1,0), viewMat.at<double>(1,1), viewMat.at<double>(1,2), viewMat.at<double>(1,3), viewMat.at<double>(2,0), viewMat.at<double>(2,1), viewMat.at<double>(2,2), viewMat.at<double>(2,3), viewMat.at<double>(3,0), viewMat.at<double>(3,1), viewMat.at<double>(3,2), viewMat.at<double>(3,3));
     }
 
     @autoreleasepool {
