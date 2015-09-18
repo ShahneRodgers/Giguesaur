@@ -129,9 +129,9 @@ float current_rotation = 0;
     cv::Mat rvec;
     cv::Mat tvec;
     cv::Mat rotation;
-    cv::Mat output = cv::Mat::zeros(frame.size(), frame.type());
-    int width = input.rows;
-    int height = input.cols;
+    //cv::Mat output = cv::Mat::zeros(frame.size(), frame.type());
+    int width = input.cols;
+    int height = input.rows;
     bool vectors = false;
     bool patternfound = findChessboardCorners(frame, boardSize, pixelcorners,
                                               cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_NORMALIZE_IMAGE
@@ -229,7 +229,12 @@ float current_rotation = 0;
     }
 
     if (vectors) {
-
+        
+        for(int a = 0; a < 4; a++){
+            pieceCoords[1][a].TexCoord[0] = pieceCoords[0][a].TexCoord[0];
+            pieceCoords[1][a].TexCoord[1] = pieceCoords[0][a].TexCoord[1];
+        }
+        
         for (int piece = 0; piece < num_pieces_draw; piece++) {
             std::vector<cv::Point2f> imagePiece;
             std::vector<cv::Point3f> worldPiece;
@@ -247,29 +252,59 @@ float current_rotation = 0;
             imagepoints.push_back(imagePiece.at(2));
             imagepoints.push_back(imagePiece.at(3));
 
-            cv::Mat lambda(2,4, CV_32FC1);
+            cv::Mat lambda(3,3, CV_32FC1);
             //lambda = cv::Mat::zeros(input.rows*self.graphics.texture_height, input.cols*self.graphics.texture_width, input.type());
 
+            std::cout << "input type: " << input.type() << std::endl;
             cv::Point2f inputQuad[4];
             cv::Point2f outputQuad[4];
 
-            inputQuad[0] = cv::Point2f(pieceCoords[piece][0].TexCoord[0]*width, pieceCoords[piece][0].TexCoord[1]*height);
+            cv::Point2f tempQuad = cv::Point2f(pieceCoords[piece][0].TexCoord[0]*width, pieceCoords[piece][0].TexCoord[1]*height);
+            cv::Rect crop(tempQuad.x, tempQuad.y, width*self.graphics.texture_width, height*self.graphics.texture_height);
+            cv::Mat subImage = input(crop);
+            
+            /*inputQuad[0] = cv::Point2f(pieceCoords[piece][0].TexCoord[0]*width, pieceCoords[piece][0].TexCoord[1]*height);
             inputQuad[1] = cv::Point2f(pieceCoords[piece][1].TexCoord[0]*width, pieceCoords[piece][1].TexCoord[1]*height);
             inputQuad[2] = cv::Point2f(pieceCoords[piece][2].TexCoord[0]*width, pieceCoords[piece][2].TexCoord[1]*height);
-            inputQuad[3] = cv::Point2f(pieceCoords[piece][3].TexCoord[0]*width, pieceCoords[piece][3].TexCoord[1]*height);
+            inputQuad[3] = cv::Point2f(pieceCoords[piece][3].TexCoord[0]*width, pieceCoords[piece][3].TexCoord[1]*height);*/
+            
+            inputQuad[0] = cv::Point2f(0,0);
+            inputQuad[1] = cv::Point2f(subImage.cols-1, 0);
+            inputQuad[2] = cv::Point2f(subImage.cols-1, subImage.rows-1);
+            inputQuad[3] = cv::Point2f(0, subImage.rows-1);
 
+            /*float cenX = (inputQuad[1].x - inputQuad[0].x)/2;
+            float cenY = (inputQuad[2].y - inputQuad[1].y)/2;
+            cv::Point2f inputQuadCentre = cv::Point2f(cenX,cenY);*/
+            
             outputQuad[0] = imagepoints[corner];
             outputQuad[1] = imagepoints[corner+1];
             outputQuad[2] = imagepoints[corner+2];
             outputQuad[3] = imagepoints[corner+3];
+            
+            std::cout << "Piece: " << piece << std::endl;
+            std::cout << "Texture Coords: " << std::endl;
+            std::cout << inputQuad[0] << " " << inputQuad[1]<< " " << inputQuad[2] << " " << inputQuad[3] << std::endl;
+            std::cout << std::endl;
+            std::cout << "Image Coords" << std::endl;
+            std::cout << outputQuad[0] << " " << outputQuad[1] << " " << outputQuad[2] << " " << outputQuad[3] << std::endl;
+            std::cout << std::endl;
 
-            cv::Rect crop(inputQuad[0].x, inputQuad[0].y, width*self.graphics.texture_width, height*self.graphics.texture_height);
-            cv::Mat subImage = input(crop);//cv::Rect(inputQuad[0].x, inputQuad[0].y, width*self.graphics.texture_width, height*self.graphics.texture_height));
-
+            
+            //cv::Rect crop(inputQuad[0].x, inputQuad[0].y, width*self.graphics.texture_width, height*self.graphics.texture_height);
+            
+            //cv::Mat subImage = input(crop);//cv::Rect(inputQuad[0].x, inputQuad[0].y, width*self.graphics.texture_width, height*self.graphics.texture_height));
+            //cv::Mat subImage = cv::Mat::zeros(input.cols*self.graphics.texture_width,input.rows*self.graphics.texture_height, input.type());
+            //cv::Size subSize = cv::Size(input.cols*self.graphics.texture_width,input.rows*self.graphics.texture_height);
+            //cv::getRectSubPix(input, subSize, inputQuadCentre, subImage, -1);
+            
+            std::cout << "subImage rows: " << subImage.rows << " subImage cols: " << subImage.cols << std::endl;
             lambda = cv::getPerspectiveTransform(inputQuad, outputQuad);
+            cv::Mat output = cv::Mat::zeros(frame.size(), frame.type());
+            cv::warpPerspective(subImage, output, lambda, output.size(), CV_INTER_LINEAR);
+            std::cout << "output rows: " << output.rows << " output cols: " << output.cols << std::endl;
 
-            cv::warpPerspective(subImage, output, lambda, output.size());
-            output.copyTo(frame, output);
+            output.copyTo(frame,output); //,output
         }
 
     }
