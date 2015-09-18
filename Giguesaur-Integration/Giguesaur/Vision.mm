@@ -137,7 +137,7 @@ float current_rotation = 0;
                                               cv::CALIB_CB_ADAPTIVE_THRESH + cv::CALIB_CB_NORMALIZE_IMAGE
                                               + cv::CALIB_CB_FAST_CHECK);
 
-    //SimpleMath *simpleMath = [[SimpleMath alloc] init];
+    SimpleMath *simpleMath = [[SimpleMath alloc] init];
     PieceCoords pieceCoords[self.graphics.num_of_pieces][4]; // 4 = number of corners
     int num_pieces_draw = 0;
 
@@ -160,53 +160,32 @@ float current_rotation = 0;
             }
         }
         Piece tempPiece = self.graphics.pieces[i];
-        tempPiece.rotation = 0;
-        //tempPiece.x_location += SIDE_LENGTH*col;
-        //tempPiece.y_location += SIDE_LENGTH*row;
+        tempPiece.rotation += current_rotation;
 
-        /*
-        if (tempPiece.rotation == 0) {
-            tempPiece.x_location += SIDE_LENGTH*col;
-            tempPiece.y_location += SIDE_LENGTH*row;
-        }
-        else if (tempPiece.rotation == 90) {
-            tempPiece.x_location -= SIDE_LENGTH*row;
-            tempPiece.y_location += SIDE_LENGTH*col;
-        }
-        else if (tempPiece.rotation == 180) {
-            tempPiece.x_location -= SIDE_LENGTH*col;
-            tempPiece.y_location -= SIDE_LENGTH*row;
-        }
-        else if (tempPiece.rotation == 270) {
-            tempPiece.x_location += SIDE_LENGTH*row;
-            tempPiece.y_location -= SIDE_LENGTH*col;
-        }
-        */
-        /*
         NSArray *rotatedPiece = [simpleMath pointsRotated:tempPiece];
         CGPoint topLeft = [[rotatedPiece objectAtIndex:0] CGPointValue];
         CGPoint topRight = [[rotatedPiece objectAtIndex:1] CGPointValue];
         CGPoint botRight = [[rotatedPiece objectAtIndex:2] CGPointValue];
         CGPoint botLeft = [[rotatedPiece objectAtIndex:3] CGPointValue];
-         */
+
         pieceCoords[i][0] = (PieceCoords) {
-            //{static_cast<float>(botLeft.x), static_cast<float>(botLeft.y), PIECE_Z},
-            {tempPiece.x_location-SIDE_HALF, tempPiece.y_location-SIDE_HALF, PIECE_Z},
+            {static_cast<float>(botLeft.x), static_cast<float>(botLeft.y), PIECE_Z},
+            //{tempPiece.x_location-SIDE_HALF, tempPiece.y_location-SIDE_HALF, PIECE_Z},
             {self.graphics.texture_width * col, self.graphics.texture_height * row}
         };
         pieceCoords[i][1] = (PieceCoords) {
-            //{static_cast<float>(botRight.x), static_cast<float>(botRight.y), PIECE_Z},
-            {tempPiece.x_location+SIDE_HALF, tempPiece.y_location-SIDE_HALF, PIECE_Z},
+            {static_cast<float>(botRight.x), static_cast<float>(botRight.y), PIECE_Z},
+            //{tempPiece.x_location+SIDE_HALF, tempPiece.y_location-SIDE_HALF, PIECE_Z},
             {self.graphics.texture_width * (col + 1), self.graphics.texture_height * row}
         };
         pieceCoords[i][2] = (PieceCoords) {
-            //{static_cast<float>(topRight.x), static_cast<float>(topRight.y), PIECE_Z},
-            {tempPiece.x_location+SIDE_HALF, tempPiece.y_location+SIDE_HALF, PIECE_Z},
+            {static_cast<float>(topRight.x), static_cast<float>(topRight.y), PIECE_Z},
+            //{tempPiece.x_location+SIDE_HALF, tempPiece.y_location+SIDE_HALF, PIECE_Z},
             {self.graphics.texture_width * (col + 1), self.graphics.texture_height * (row + 1)}
         };
         pieceCoords[i][3] = (PieceCoords) {
-            //{static_cast<float>(topLeft.x), static_cast<float>(topLeft.y), PIECE_Z},
-            {tempPiece.x_location-SIDE_HALF, tempPiece.y_location+SIDE_HALF, PIECE_Z},
+            {static_cast<float>(topLeft.x), static_cast<float>(topLeft.y), PIECE_Z},
+            //{tempPiece.x_location-SIDE_HALF, tempPiece.y_location+SIDE_HALF, PIECE_Z},
             {self.graphics.texture_width * col, self.graphics.texture_height * (row + 1)}
         };
 
@@ -230,11 +209,6 @@ float current_rotation = 0;
 
     if (vectors) {
         
-        for(int a = 0; a < 4; a++){
-            pieceCoords[1][a].TexCoord[0] = pieceCoords[0][a].TexCoord[0];
-            pieceCoords[1][a].TexCoord[1] = pieceCoords[0][a].TexCoord[1];
-        }
-        
         for (int piece = 0; piece < num_pieces_draw; piece++) {
             std::vector<cv::Point2f> imagePiece;
             std::vector<cv::Point3f> worldPiece;
@@ -255,49 +229,23 @@ float current_rotation = 0;
             cv::Mat lambda(3,3, CV_32FC1);
             //lambda = cv::Mat::zeros(input.rows*self.graphics.texture_height, input.cols*self.graphics.texture_width, input.type());
 
-            std::cout << "input type: " << input.type() << std::endl;
             cv::Point2f inputQuad[4];
             cv::Point2f outputQuad[4];
 
             cv::Point2f tempQuad = cv::Point2f(pieceCoords[piece][0].TexCoord[0]*width, pieceCoords[piece][0].TexCoord[1]*height);
             cv::Rect crop(tempQuad.x, tempQuad.y, width*self.graphics.texture_width, height*self.graphics.texture_height);
             cv::Mat subImage = input(crop);
-            
-            /*inputQuad[0] = cv::Point2f(pieceCoords[piece][0].TexCoord[0]*width, pieceCoords[piece][0].TexCoord[1]*height);
-            inputQuad[1] = cv::Point2f(pieceCoords[piece][1].TexCoord[0]*width, pieceCoords[piece][1].TexCoord[1]*height);
-            inputQuad[2] = cv::Point2f(pieceCoords[piece][2].TexCoord[0]*width, pieceCoords[piece][2].TexCoord[1]*height);
-            inputQuad[3] = cv::Point2f(pieceCoords[piece][3].TexCoord[0]*width, pieceCoords[piece][3].TexCoord[1]*height);*/
-            
+
             inputQuad[0] = cv::Point2f(0,0);
             inputQuad[1] = cv::Point2f(subImage.cols-1, 0);
             inputQuad[2] = cv::Point2f(subImage.cols-1, subImage.rows-1);
             inputQuad[3] = cv::Point2f(0, subImage.rows-1);
-
-            /*float cenX = (inputQuad[1].x - inputQuad[0].x)/2;
-            float cenY = (inputQuad[2].y - inputQuad[1].y)/2;
-            cv::Point2f inputQuadCentre = cv::Point2f(cenX,cenY);*/
             
             outputQuad[0] = imagepoints[corner];
             outputQuad[1] = imagepoints[corner+1];
             outputQuad[2] = imagepoints[corner+2];
             outputQuad[3] = imagepoints[corner+3];
-            
-            std::cout << "Piece: " << piece << std::endl;
-            std::cout << "Texture Coords: " << std::endl;
-            std::cout << inputQuad[0] << " " << inputQuad[1]<< " " << inputQuad[2] << " " << inputQuad[3] << std::endl;
-            std::cout << std::endl;
-            std::cout << "Image Coords" << std::endl;
-            std::cout << outputQuad[0] << " " << outputQuad[1] << " " << outputQuad[2] << " " << outputQuad[3] << std::endl;
-            std::cout << std::endl;
 
-            
-            //cv::Rect crop(inputQuad[0].x, inputQuad[0].y, width*self.graphics.texture_width, height*self.graphics.texture_height);
-            
-            //cv::Mat subImage = input(crop);//cv::Rect(inputQuad[0].x, inputQuad[0].y, width*self.graphics.texture_width, height*self.graphics.texture_height));
-            //cv::Mat subImage = cv::Mat::zeros(input.cols*self.graphics.texture_width,input.rows*self.graphics.texture_height, input.type());
-            //cv::Size subSize = cv::Size(input.cols*self.graphics.texture_width,input.rows*self.graphics.texture_height);
-            //cv::getRectSubPix(input, subSize, inputQuadCentre, subImage, -1);
-            
             std::cout << "subImage rows: " << subImage.rows << " subImage cols: " << subImage.cols << std::endl;
             lambda = cv::getPerspectiveTransform(inputQuad, outputQuad);
             cv::Mat output = cv::Mat::zeros(frame.size(), frame.type());
@@ -306,7 +254,6 @@ float current_rotation = 0;
 
             output.copyTo(frame,output); //,output
         }
-
     }
 
     @autoreleasepool {
