@@ -130,7 +130,10 @@ void dropPiece(int pieceNum, float x, float y, float r){
     // Check Piece Neighbours
     [pieceNeighbours checkThenSnapPiece:pieceNum andPieces:pieces];
     [pieceNeighbours checkThenCloseEdge:pieceNum andPieces:pieces];
-    
+
+    if (checkIfSolved(pieces)) {
+        NSLog(@"Puzzle has been solved!\nWe should do something to alert all players.");
+    }
     
     //Locations may have been changed by Ash's methods so reset messages
     const char* newX = getStringFromFloat(pieces[pieceNum].x_location);

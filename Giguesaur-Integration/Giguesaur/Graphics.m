@@ -286,7 +286,6 @@ const GLubyte ImageIndices[] = {
             [self placePiece:_holdingPiece andCoords:coords];
         }
         else {
-            printf("%.2f, %.2f\n", point.x, point.y);
             [self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[_holdingPiece].rotation];
         }
     }

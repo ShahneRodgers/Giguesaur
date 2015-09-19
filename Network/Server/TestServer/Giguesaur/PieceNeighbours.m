@@ -102,7 +102,7 @@
     if (upID >= 0 &&
         [simpleMath didPieceConnect:pieces[pieceID]
                      withOtherPiece:pieces[upID]
-                          whichSide:P_UP]) {
+                          whichSide:P_DOWN]) { // reverse logic for up/down
 
             pieces[pieceID].openEdge.up_open = isClosed;
             pieces[upID].openEdge.down_open = isClosed;
@@ -115,7 +115,7 @@
     if (downID >= 0 &&
         [simpleMath didPieceConnect:pieces[pieceID]
                      withOtherPiece:pieces[downID]
-                          whichSide:P_DOWN]) {
+                          whichSide:P_UP]) { // reverse logic for up/down
 
             pieces[pieceID].openEdge.down_open = isClosed;
             pieces[downID].openEdge.up_open = isClosed;
