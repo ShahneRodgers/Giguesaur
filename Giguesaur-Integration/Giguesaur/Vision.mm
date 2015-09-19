@@ -192,6 +192,16 @@ GLKMatrix4 modelView;
                 worldpieces.push_back(cv::Point3f(x,y,z));
             }
         }
+        else {
+            num_pieces_draw++;
+            for(int j = 0; j < 4; j++){
+                float x, y, z;
+                x = pieceCoords[i][j].Position[0];
+                y = pieceCoords[i][j].Position[1];
+                z = pieceCoords[i][j].Position[2]-1000000;
+                worldpieces.push_back(cv::Point3f(x,y,z));
+            }
+        }
     }
 
     if (patternfound) {
