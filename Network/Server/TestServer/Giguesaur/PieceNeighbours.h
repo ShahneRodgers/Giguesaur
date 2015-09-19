@@ -9,6 +9,8 @@
 #import "Puzzle.h"
 #import "SimpleMath.h"
 
+#define PRINT_PIECE_INFO 1
+
 @interface PieceNeighbours : NSObject
 
 // Checks to see if a piece should snap to another piece, if YES then the piece

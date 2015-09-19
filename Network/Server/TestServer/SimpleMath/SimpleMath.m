@@ -63,29 +63,29 @@
     float distance_1, distance_2;
     
     if (sideToCheck == P_UP) {
-        CGPoint upBotLeft = [[otherPieceRotated objectAtIndex:3] pointValue];
-        CGPoint upBotRight = [[otherPieceRotated objectAtIndex:2] pointValue];
+        CGPoint upTopLeft = [[otherPieceRotated objectAtIndex:0] pointValue];
+        CGPoint upTopRight = [[otherPieceRotated objectAtIndex:1] pointValue];
         
         distance_1 =
-            powf((pieceTopLeft.x - upBotLeft.x), 2) +
-            powf((pieceTopLeft.y - upBotLeft.y), 2);
+            powf((pieceBotLeft.x - upTopLeft.x), 2) +
+            powf((pieceBotLeft.y - upTopLeft.y), 2);
         
         distance_2 =
-            powf((pieceTopRight.x - upBotRight.x), 2) +
-            powf((pieceTopRight.y - upBotRight.y), 2);
+            powf((pieceBotRight.x - upTopRight.x), 2) +
+            powf((pieceBotRight.y - upTopRight.y), 2);
     }
     
     else if (sideToCheck == P_DOWN) {
-        CGPoint downTopLeft = [[otherPieceRotated objectAtIndex:0] pointValue];
-        CGPoint downTopRight = [[otherPieceRotated objectAtIndex:1] pointValue];
+        CGPoint downBotLeft = [[otherPieceRotated objectAtIndex:3] pointValue];
+        CGPoint downBotRight = [[otherPieceRotated objectAtIndex:2] pointValue];
         
         distance_1 =
-            powf((pieceBotLeft.x - downTopLeft.x), 2) +
-            powf((pieceBotLeft.y - downTopLeft.y), 2);
+            powf((pieceTopLeft.x - downBotLeft.x), 2) +
+            powf((pieceTopLeft.y - downBotLeft.y), 2);
         
         distance_2 =
-            powf((pieceBotRight.x - downTopRight.x), 2) +
-            powf((pieceBotRight.y - downTopRight.y), 2);
+            powf((pieceTopRight.x - downBotRight.x), 2) +
+            powf((pieceTopRight.y - downBotRight.y), 2);
     }
     
     else if (sideToCheck == P_LEFT) {
@@ -128,7 +128,7 @@
     NSArray *distances = [self distanceBetweenPiece:originalPiece
                                       andOtherPiece:otherPiece
                                           whichSide:sideToCheck];
-    
+
     return ([[distances objectAtIndex:0] floatValue] < distanceToSnap &&
             [[distances objectAtIndex:1] floatValue] < distanceToSnap);
 }

@@ -285,8 +285,10 @@ const GLubyte ImageIndices[] = {
             float coords[3] = {point.x, point.y, _pieces[_holdingPiece].rotation};
             [self placePiece:_holdingPiece andCoords:coords];
         }
-        else
+        else {
+            printf("%.2f, %.2f\n", point.x, point.y);
             [self.network droppedPiece:point.x WithY:point.y WithRotation:_pieces[_holdingPiece].rotation];
+        }
     }
     else {
         for (int i = 0; i < _num_of_pieces; i++) {
@@ -350,7 +352,7 @@ const GLubyte ImageIndices[] = {
 
     // Flush everything to the screen
     [_context presentRenderbuffer:GL_RENDERBUFFER];
-/*
+
     if (_holdingPiece >= 0) {
         DEBUG_PRINT(4, "Graphics.m :: Screen Centre [x,y] = [%.2f,%2.f]\n", screenCentre.x, screenCentre.y);
         CGPoint pieceCentreScreen = [self.vision projectedPoints:screenCentre];
@@ -370,7 +372,6 @@ const GLubyte ImageIndices[] = {
                                          }];
         }
     }
- */
 }
 
 - (id) initWithFrame: (CGRect) frame andNetwork: (Network*) theNetwork {

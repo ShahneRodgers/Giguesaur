@@ -3,6 +3,7 @@
 //  Giguesaur
 //
 //  Created by Local Joshua La Pine on 7/23/15.
+//  Modified by Ashley Manson
 //  Copyright (c) 2015 Giguesaur Team. All rights reserved.
 //
 
@@ -16,7 +17,6 @@ BOOL puzzleImageCopied = NO;
 std::vector<cv::Point2f> imagePlane;
 std::vector<cv::Point3f> polypoints;
 GLKMatrix4 modelView;
-float current_rotation = 0;
 
 @implementation Vision
 
@@ -129,7 +129,6 @@ float current_rotation = 0;
     cv::Mat rvec;
     cv::Mat tvec;
     cv::Mat rotation;
-    //cv::Mat output = cv::Mat::zeros(frame.size(), frame.type());
     int width = input.cols;
     int height = input.rows;
     bool vectors = false;
@@ -140,11 +139,6 @@ float current_rotation = 0;
     SimpleMath *simpleMath = [[SimpleMath alloc] init];
     PieceCoords pieceCoords[self.graphics.num_of_pieces][4]; // 4 = number of corners
     int num_pieces_draw = 0;
-
-    current_rotation += 5;
-    if (current_rotation >= 360) {
-        current_rotation = 0;
-    }
 
     for (int i = 0; i < self.graphics.num_of_pieces; i++) {
         // set row and col to get the sub-section of the texture
@@ -159,9 +153,8 @@ float current_rotation = 0;
                 row++;
             }
         }
-        Piece tempPiece = self.graphics.pieces[i];
-        tempPiece.rotation += current_rotation;
 
+        Piece tempPiece = self.graphics.pieces[i];
         NSArray *rotatedPiece = [simpleMath pointsRotated:tempPiece];
         CGPoint topLeft = [[rotatedPiece objectAtIndex:0] CGPointValue];
         CGPoint topRight = [[rotatedPiece objectAtIndex:1] CGPointValue];
@@ -227,7 +220,6 @@ float current_rotation = 0;
             imagepoints.push_back(imagePiece.at(3));
 
             cv::Mat lambda(3,3, CV_32FC1);
-            //lambda = cv::Mat::zeros(input.rows*self.graphics.texture_height, input.cols*self.graphics.texture_width, input.type());
 
             cv::Point2f inputQuad[4];
             cv::Point2f outputQuad[4];
@@ -246,13 +238,11 @@ float current_rotation = 0;
             outputQuad[2] = imagepoints[corner+2];
             outputQuad[3] = imagepoints[corner+3];
 
-            std::cout << "subImage rows: " << subImage.rows << " subImage cols: " << subImage.cols << std::endl;
             lambda = cv::getPerspectiveTransform(inputQuad, outputQuad);
             cv::Mat output = cv::Mat::zeros(frame.size(), frame.type());
             cv::warpPerspective(subImage, output, lambda, output.size(), CV_INTER_LINEAR);
-            std::cout << "output rows: " << output.rows << " output cols: " << output.cols << std::endl;
 
-            output.copyTo(frame,output); //,output
+            output.copyTo(frame,output);
         }
     }
 
@@ -264,9 +254,6 @@ float current_rotation = 0;
          frame = frame(crop);
          std::cout << frame.cols << " " << frame.rows << std::endl;*/
         UIImage *image = [self UIImageFromCVMat:frame];
-        /*[[self graphics] performSelectorOnMainThread:@selector(visionBackgroundRender:)
-         withObject:image
-         waitUntilDone:NO];*/
 
         dispatch_async(dispatch_get_main_queue(), ^{
             [[self graphics] setupTextureImage:image];
@@ -282,23 +269,11 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
     @autoreleasepool {
 
-        //NSLog(@"delegate works!");
         cv::Mat frame;
         [self fromSampleBuffer:sampleBuffer toCVMat: frame];
-        // std::cout << frame.size().height << frame.size().width << std::endl;
-        //std::cout << frame.cols << " " << frame.rows << std::endl;
         [self calculatePose:frame];
-        /* cv::cvtColor(frame, frame, CV_BGRA2RGBA);
-
-         UIImage *image = [self UIImageFromCVMat:frame];
-         [[self graphics] performSelectorOnMainThread:@selector(visionBackgroundRender:)
-         withObject:image
-         waitUntilDone:NO];*/
-
-        /* [[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];*/
         frame.release();
     }
-    //    imageView.image = image;
 }
 
 - (void)fromSampleBuffer:(CMSampleBufferRef)sampleBuffer
