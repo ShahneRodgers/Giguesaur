@@ -294,6 +294,7 @@ void free_data(void* data, void* hint){
     int pieceNum = atoi(zmq_msg_data(&piece));
     float locs[3] = {atof(zmq_msg_data(&x)), atof(zmq_msg_data(&y)), atof(zmq_msg_data(&rotation))};
    // [[self.buttons objectAtIndex:atoi(zmq_msg_data(&piece))]setTitle:title forState:normal];
+    DEBUG_PRINT(2, "Network.m :: Recieved [%.2f,%.2f]\n",locs[0],locs[1]);
     [self.graphics placePiece:pieceNum andCoords:locs];
     
     

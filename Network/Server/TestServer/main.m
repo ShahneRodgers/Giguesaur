@@ -127,6 +127,7 @@ void dropPiece(int pieceNum, float x, float y, float r){
     pieces[pieceNum].rotation = r;
     pieces[pieceNum].held = P_FALSE;
 
+    printf("Recieved [%.2f,%.2f] Stored [%.2f,%.2f]\n",x,y,pieces[pieceNum].x_location,pieces[pieceNum].y_location);
     // Check Piece Neighbours
     [pieceNeighbours checkThenSnapPiece:pieceNum andPieces:pieces];
     [pieceNeighbours checkThenCloseEdge:pieceNum andPieces:pieces];
@@ -139,7 +140,9 @@ void dropPiece(int pieceNum, float x, float y, float r){
     const char* newX = getStringFromFloat(pieces[pieceNum].x_location);
     const char* newY = getStringFromFloat(pieces[pieceNum].y_location);
     const char* newR = getStringFromFloat(pieces[pieceNum].rotation);
-    
+
+    printf("After Check [%.2f,%.2f]\n",pieces[pieceNum].x_location,pieces[pieceNum].y_location);
+
     //Inform everyone of the new location
     zmq_send(publisher, "Drop", 4, ZMQ_SNDMORE);
     zmq_send(publisher, piece, sizeof(piece), ZMQ_SNDMORE);

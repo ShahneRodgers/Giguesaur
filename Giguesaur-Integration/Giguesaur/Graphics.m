@@ -279,7 +279,7 @@ const GLubyte ImageIndices[] = {
         NSLog(@"Have not recieved the puzzle state yet!");
     }
     else if (_holdingPiece >= 0) {
-        DEBUG_PRINT(3, "Graphics.m :: Ask server to place piece %d\n", _holdingPiece);
+        DEBUG_PRINT(3, "Graphics.m :: Ask server to place piece %d at [%.2f,%.2f]\n", _holdingPiece, point.x, point.y);
         //[self.network droppedPiece:_pieces[_holdingPiece].x_location WithY:_pieces[_holdingPiece].y_location WithRotation:_pieces[_holdingPiece].rotation];
         if (PLAY_LOCAL) {
             float coords[3] = {point.x, point.y, _pieces[_holdingPiece].rotation};
