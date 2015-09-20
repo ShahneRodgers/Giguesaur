@@ -195,8 +195,8 @@ void free_data(void* data, void* hint){
 }
 
 /* Converts a float into a const char * so it can be sent to the server */
--(const char*)floatToString:(int)num{
-    return [[[NSString alloc] initWithFormat:@"%d", num] UTF8String];
+-(const char*)floatToString:(float)num{
+    return [[[NSString alloc] initWithFormat:@"%f", num] UTF8String];
 }
 
 /* Asks the server for the piece specified by the number */
