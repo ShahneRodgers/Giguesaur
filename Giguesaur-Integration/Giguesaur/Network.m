@@ -36,40 +36,10 @@ Piece *pieces;
     
 }
 
-/* Frees the memory */
+/* Frees the memory - hint is ignored */
 void free_data(void* data, void* hint){
     free(data);
 }
-
-/*For testing.
-- (IBAction)sendMessage:(UIButton *)sender {
-    for (int i = 0; i < self.buttons.count; i++){
-        //NSLog(@"%i", i);
-        if ([self.buttons objectAtIndex:i] == sender){
-            if (self.heldPiece == i)
-                return [self droppedPiece:3000 WithY:20 WithRotation:20];
-            else if (self.heldPiece != -1)
-                return NSLog(@"You can only hold one piece");
-            else
-                return [self requestPiece:i];
-        }
-    }
-    NSLog(@"Hello");
-    const char* message = [self.messages.text UTF8String];
-    int len = (int)strlen(message) + 1;
-    zmq_msg_t msg;
-    void *data = malloc(strlen(message));
-    memcpy(data, (const void*)message, len);
-    
-    zmq_msg_init_data(&msg, data, len, free_data, NULL);
-    
-    
-    zmq_msg_send(&msg, self.socket, 0);
-    self.messages.text = @"";
-    
-    zmq_msg_close(&msg);
-} */
-
 
 /*Creates the socket responsible for sending data and saves it to the client. */
 -(void)startSendSocket:(void *)context{
@@ -83,6 +53,7 @@ void free_data(void* data, void* hint){
     
 }
 
+/* Creates a Request socket and connects it to the server */
 -(void)startBoardRecv:(void *)context{
     void *socket = zmq_socket(context, ZMQ_REQ);
     const char* address = [[[NSString alloc] initWithFormat:@"tcp://%@:5557", self.address] UTF8String];
@@ -92,7 +63,7 @@ void free_data(void* data, void* hint){
     self.recvBoard = socket;
 }
 
-/* Creates the socket responsible for receiving messages and saves it to the client. */
+/* Creates the socket responsible for receiving messages and connects to the server. */
 -(void)startRecvSocket:(void *)context{
     void *socket = zmq_socket(context, ZMQ_SUB);
     const char* address = [[[NSString alloc] initWithFormat:@"tcp://%@:5556", self.address] UTF8String];
@@ -108,29 +79,10 @@ void free_data(void* data, void* hint){
 
 }
 
-
-
-/*For testing.
--(void)addButton:(int)x withTitle:(NSString*)title{
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button addTarget:self action:@selector(sendMessage:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:title forState:UIControlStateNormal];
-    button.frame = CGRectMake(220, x, 160, 40);
-    [self.view addSubview:button];
-    [self.buttons addObject:button];
-}
-
-//Displays the pieces - only for testing.
--(void)displayPieces:(int[5][3])arr withSize:(int)size{
-    self.buttons = [NSMutableArray array];
-    for (int i = 0; i < size; i++){
-        NSString *title = [[NSString alloc]initWithFormat:@"%i: %i,%i r%i",i, arr[i][0], arr[i][1], arr[i][2]];
-        [self addButton:30*i+160 withTitle:title];
-    }
-}
- */
-
-/* Receives the board image and initial piece locations from the server */
+/* Receives the board image and initial piece locations from the server.
+withImage should be true when the client does not have the image and number of rows and columns stored.
+If the method needs to be called again, withImage should be false.
+*/
 -(void)setUpMode:(BOOL)withImage{
     DEBUG_SAY(1, "Network.m :: setUpMode\n");
     zmq_msg_t picture;
@@ -230,6 +182,7 @@ void free_data(void* data, void* hint){
     self.lastRequest = [NSDate date];
 }
 
+/* Converts a zmq_msg_t to an NSString */
 -(NSString *)messageToNSString:(zmq_msg_t) message{
     char charIdent[zmq_msg_size(&message)+1];
     memcpy(charIdent, zmq_msg_data(&message), sizeof(charIdent));
@@ -287,13 +240,9 @@ void free_data(void* data, void* hint){
     if (self.heldPiece == atoi(zmq_msg_data(&piece)))
         self.heldPiece = -1;
     
-    /*NSString *title = [[NSString alloc]initWithFormat:@"%s: %s,%s r%s", zmq_msg_data(&piece),
-                       zmq_msg_data(&x),
-                       zmq_msg_data(&y),
-                       zmq_msg_data(&rotation)]; */
     int pieceNum = atoi(zmq_msg_data(&piece));
     float locs[3] = {atof(zmq_msg_data(&x)), atof(zmq_msg_data(&y)), atof(zmq_msg_data(&rotation))};
-   // [[self.buttons objectAtIndex:atoi(zmq_msg_data(&piece))]setTitle:title forState:normal];
+
     DEBUG_PRINT(2, "Network.m :: Recieved [%.2f,%.2f]\n",locs[0],locs[1]);
     [self.graphics placePiece:pieceNum andCoords:locs];
     
@@ -344,18 +293,10 @@ void free_data(void* data, void* hint){
             DEBUG_SAY(2, "Error message received\n");
             [self setUpMode:NO];
         }
-        self.recvMessagesCount = 0;
     } else {
         //NSLog(@"%@", stringType);
     }
     zmq_msg_close(&type);
-    
-    /*If a piece has been requested but we haven't had a response within TIMEOUT
-    int time = [self.lastRequest timeIntervalSinceNow] *-1;
-    if (self.wantedPiece != -1 && self.heldPiece == -1 && time > TIMEOUT){
-        [self requestPiece:self.wantedPiece];
-    }
-     */
     
 }
 
