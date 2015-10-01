@@ -1,9 +1,9 @@
 //
 //  BrowsingDelegate.m
-//  Giguesaur
+//  This class browses for Giguesaur servers on the WLAN and automatically 
+//  connects to the first class found.
 //
-//  Created by Local Joshua La Pine on 7/21/15.
-//  Copyright (c) 2015 Giguesaur Team. All rights reserved.
+//  Created by Shahne Rodgers.
 //
 
 
@@ -11,6 +11,9 @@
 
 @implementation BrowsingDelegate
 
+/*
+* This is called when an error occurs or a server is found.
+*/
 void MyBrowseCallBack (CFNetServiceBrowserRef browser,
                        CFOptionFlags flags,
                        CFTypeRef domainOrService,
@@ -29,6 +32,10 @@ void MyBrowseCallBack (CFNetServiceBrowserRef browser,
     
 }
 
+/*
+* This method is called when a server is found. It triggers the
+* viewcontroller to begin changing to the found address.
+*/
 void MyResolveCallback (
                         CFNetServiceRef theService,
                         CFStreamError* error,
@@ -57,6 +64,9 @@ void MyResolveCallback (
     }
 }
 
+/*
+* Starts looking for Giguesaur servers on the WLAN in a background thread.
+*/
 static Boolean MyStartBrowsingForServices(CFStringRef type, CFStringRef domain) {
     CFNetServiceClientContext clientContext = { 0, NULL, NULL, NULL, NULL };
     CFStreamError error;
