@@ -82,7 +82,7 @@ void free_data(void* data, void* hint){
 }
 
 /* Receives the board image and initial piece locations from the server.
-withImage should be true when the client does not have the image and number of rows and columns stored.
+withImage should be true when the client does not have the image stored.
 If the method needs to be called again, withImage should be false.
 */
 -(void)setUpMode:(BOOL)withImage{
