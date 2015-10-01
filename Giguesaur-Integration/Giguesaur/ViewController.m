@@ -1,10 +1,10 @@
 //
-//  ViewController.m
-//  Giguesaur
+//  ViewController.m is the first ViewController in Giguesaur.
+//  It uses BrowsingDelegate to search for a Giguesaur server.
+//  When the server is found, it switches to the main GameController view.
 //
-//  Created by Local Shahne on 4/9/15.
-//  Copyright (c) 2015 Local Shahne. All rights reserved.
-//
+//  Created by Shahne in 2015.
+
 
 #import "ViewController.h"
 
@@ -39,8 +39,8 @@
 }
 
 
-/* 
- * Adds a button to the screen with the given title.
+/* @deprecated
+ * Adds a button to the screen with the given title. 
  */
 -(void)addButton:(NSString*)title{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
