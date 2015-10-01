@@ -2,8 +2,7 @@
 //  BrowsingDelegate.h
 //  Giguesaur
 //
-//  Created by Local Joshua La Pine on 7/21/15.
-//  Copyright (c) 2015 Giguesaur Team. All rights reserved.
+//  Created by Shahne Rodgers in 2015.
 //
 
 #import <arpa/inet.h>
@@ -11,7 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "ViewController.h"
 
-static id viewClass;
+static id viewClass; //holds a reference to the view controller so that it can switch views when the server is found.
 
 @interface BrowsingDelegate : NSObject
 
