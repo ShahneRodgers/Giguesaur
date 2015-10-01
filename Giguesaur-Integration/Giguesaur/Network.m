@@ -1,9 +1,11 @@
 //
-//  ChatController.m
-//  Giguesaur
+//  Network.m
+//  This is the client class for the Giguesaur project. It is responsible
+// for coordinating with the server to ensure piece locations are consistent amoung
+// separate players.
 //
-//  Created by Local Shahne on 4/9/15.
-//  Copyright (c) 2015 Local Shahne. All rights reserved.
+//  Created by Shahne in 2015 for her COSC490 project.
+//
 //
 
 #import "Network.h"
