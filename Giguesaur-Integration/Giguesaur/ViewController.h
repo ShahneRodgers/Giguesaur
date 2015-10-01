@@ -1,9 +1,7 @@
 //
-//  ViewController.h
-//  Giguesaur
+//  The initial ViewController called when Giguesaur starts. 
 //
-//  Created by Local Shahne on 4/9/15.
-//  Copyright (c) 2015 Local Shahne. All rights reserved.
+//  Created by Shahne on 4/9/15.
 //
 
 #import <UIKit/UIKit.h>
