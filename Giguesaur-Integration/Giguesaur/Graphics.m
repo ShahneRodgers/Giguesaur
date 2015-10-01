@@ -351,7 +351,8 @@ const GLubyte ImageIndices[] = {
 
     // Flush everything to the screen
     [_context presentRenderbuffer:GL_RENDERBUFFER];
-
+    
+    /*
     if (_holdingPiece >= 0) {
         DEBUG_PRINT(4, "Graphics.m :: Screen Centre [x,y] = [%.2f,%2.f]\n", screenCentre.x, screenCentre.y);
         CGPoint pieceCentreScreen = [self.vision projectedPoints:screenCentre];
@@ -371,6 +372,7 @@ const GLubyte ImageIndices[] = {
                                          }];
         }
     }
+     */
 }
 
 - (id) initWithFrame: (CGRect) frame andNetwork: (Network*) theNetwork {

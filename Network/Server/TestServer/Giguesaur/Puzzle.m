@@ -16,14 +16,14 @@ void generatePieces(Piece *pieces) {
             .piece_id = i,
             .x_location = rand()%BOARD_WIDTH,
             .y_location = rand()%BOARD_HEIGHT,
-            .rotation = rand()%360,
+            .rotation = 0,//rand()%360,
             .held = P_FALSE
         };
-        if (i == 0) {
+        /*if (i == 0) {
             piece.x_location = 0;
             piece.y_location = 0;
             piece.rotation = 0;
-        }
+        }*/
         pieces[i] = piece;
     }
     

@@ -150,7 +150,9 @@ If the method needs to be called again, withImage should be false.
 
 /* Converts a float into a const char * so it can be sent to the server */
 -(const char*)floatToString:(float)num{
-    return [[[NSString alloc] initWithFormat:@"%f", num] UTF8String];
+    const char* result = [[[NSString alloc] initWithFormat:@"%f", num] UTF8String];
+    NSLog(@"%s\n", result);
+    return result;
 }
 
 /* Asks the server for the piece specified by the number */

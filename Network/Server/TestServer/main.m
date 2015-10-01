@@ -274,7 +274,6 @@ void sendAlive(){
     char* num = (char *)getStringFromInt(messagesSent);
     zmq_send(publisher, "Error", 5, ZMQ_SNDMORE);
     zmq_send(publisher, num, sizeof(num), 0);
-    messagesSent = 0;
 }
 
 void checkPieces(){
