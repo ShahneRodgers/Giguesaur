@@ -182,25 +182,17 @@ GLKMatrix4 modelView;
             {self.graphics.texture_width * col, self.graphics.texture_height * (row + 1)}
         };
 
-        if (!self.graphics.pieces[i].held || self.graphics.holdingPiece == i) {
-            num_pieces_draw++;
-            for(int j = 0; j < 4; j++){
-                float x, y, z;
-                x = pieceCoords[i][j].Position[0];
-                y = pieceCoords[i][j].Position[1];
+        num_pieces_draw++;
+        for(int j = 0; j < 4; j++){
+            float x, y, z;
+            x = pieceCoords[i][j].Position[0];
+            y = pieceCoords[i][j].Position[1];
+            if (!self.graphics.pieces[i].held || self.graphics.holdingPiece == i)
                 z = pieceCoords[i][j].Position[2];
-                worldpieces.push_back(cv::Point3f(x,y,z));
-            }
-        }
-        else {
-            num_pieces_draw++;
-            for(int j = 0; j < 4; j++){
-                float x, y, z;
-                x = pieceCoords[i][j].Position[0];
-                y = pieceCoords[i][j].Position[1];
+            else
                 z = pieceCoords[i][j].Position[2]-1000000;
-                worldpieces.push_back(cv::Point3f(x,y,z));
-            }
+
+            worldpieces.push_back(cv::Point3f(x,y,z));
         }
     }
 
