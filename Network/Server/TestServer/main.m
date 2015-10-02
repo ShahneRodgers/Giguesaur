@@ -1,10 +1,7 @@
 //
-//  main.m
-//  TestServer
+//  This is the Giguesaur server.
 //
-//  Created by Shahne Rodgers on 3/16/15.
-//  Modified by Ashley Manson
-//  Copyright (c) 2015 Shahne Rodgers. All rights reserved.
+//  Created by Shahne Rodgers and  Ashley Manson in 2015.
 //
 
 #import <Foundation/Foundation.h>
@@ -36,6 +33,7 @@ int imageLen;
 NSDate *lastSent;
 int messagesSent;
 
+//This is called if there's an error or when Apple Bonjour is properly set up.
 void registerCallback (
                        CFNetServiceRef theService,
                        CFStreamError* error,
@@ -44,6 +42,8 @@ void registerCallback (
     NSLog(@"Service registered: %@", error);
 }
 
+//Uses Apple's Bonjour technologies to advertise the server on the WLAN. The Port number is not used
+// by clients.
 void publishService(){
     broadcaster = CFNetServiceCreate(NULL, CFSTR(""), CFSTR("_zeromq._tcp"), CFSTR("Giguesaur"), 5555);
     CFStreamError error;
@@ -65,6 +65,11 @@ const char* getStringFromInt(int num){
     return [[[NSString alloc] initWithFormat:@"%d", num] UTF8String];
 }
 
+/*Sends the image, rows and columns to the client.
+* Still to be changed: rows and column numbers should be stored on the client so they
+* do not need to be resent and the request for everything should be changed to a human-readable
+* string.
+*/
 void sendBoard(){
     char buff[10];
     int i = zmq_recv(boardSocket, buff, 1, ZMQ_DONTWAIT);
@@ -84,20 +89,14 @@ void sendBoard(){
     zmq_send(boardSocket, pieces, sizeof(pieces), ZMQ_SNDMORE);
     zmq_send(boardSocket, numMessages, sizeof(numMessages), 0);
     
-    /*  OLD SEND
-     zmq_send(publisher, "SetupMode", 9, ZMQ_SNDMORE);
-    int pic = zmq_send(publisher, boardState, imageLen, ZMQ_SNDMORE);
-    char *numRows = (char *)getStringFromInt(NUM_OF_ROWS);
-    char *numCols = (char *)getStringFromInt(NUM_OF_COLS);
-    zmq_send(publisher, numRows, sizeof(numRows), ZMQ_SNDMORE);
-    zmq_send(publisher, numCols, sizeof(numCols), ZMQ_SNDMORE);
-    int arr = zmq_send(publisher, pieces, sizeof(pieces), 0);
-    if (pic < 0 || arr < 0)
-        NSLog(@"%s", strerror(errno));
-    */
     sendBoard();
 }
 
+/*
+* Gets an int from the first zmq_message. This should
+* only be called when a message is guaranteed to be there
+* because it will NOT return immediately.
+*/
 int getIntFromMessage(){
     zmq_msg_t message;
     zmq_msg_init(&message);
@@ -114,6 +113,7 @@ int getIntFromMessage(){
     return num;
 }
 
+//Drop the piece with id pieceNum at x,y with rotation r.
 void dropPiece(int pieceNum, float x, float y, float r){
     if (pieceNum >= [heldPieces count]){
         return;
@@ -127,7 +127,7 @@ void dropPiece(int pieceNum, float x, float y, float r){
     pieces[pieceNum].rotation = r;
     pieces[pieceNum].held = P_FALSE;
 
-    printf("Recieved [%.2f,%.2f] Stored [%.2f,%.2f]\n",x,y,pieces[pieceNum].x_location,pieces[pieceNum].y_location);
+    //printf("Received [%.2f,%.2f] Stored [%.2f,%.2f]\n",x,y,pieces[pieceNum].x_location,pieces[pieceNum].y_location);
     // Check Piece Neighbours
     [pieceNeighbours checkThenSnapPiece:pieceNum andPieces:pieces];
     [pieceNeighbours checkThenCloseEdge:pieceNum andPieces:pieces];
@@ -141,7 +141,7 @@ void dropPiece(int pieceNum, float x, float y, float r){
     const char* newY = getStringFromFloat(pieces[pieceNum].y_location);
     const char* newR = getStringFromFloat(pieces[pieceNum].rotation);
 
-    printf("After Check [%.2f,%.2f]\n",pieces[pieceNum].x_location,pieces[pieceNum].y_location);
+    //printf("After Check [%.2f,%.2f]\n",pieces[pieceNum].x_location,pieces[pieceNum].y_location);
 
     //Inform everyone of the new location
     zmq_send(publisher, "Drop", 4, ZMQ_SNDMORE);
@@ -159,6 +159,9 @@ NSString* messageToNSString(zmq_msg_t message){
     return [[NSString alloc] initWithFormat:@"%s", charIdent];
 }
 
+/* Checks for a ZMQ message and calls the appropriate method to deal with one or
+* returns immediately if there are no messages.
+*/
 void receiveMessage(){
     zmq_msg_t type;
     zmq_msg_init(&type);
@@ -239,35 +242,14 @@ void receiveMessage(){
         //Check that the piece hasn't already been dropped.
         if (![heldPieces[pieceNum] isEqual:[NSNull null]])
             heldPieces[pieceNum] = [NSDate date];
-    /*Ensure no duplicate names
-    } else if ([stringType hasPrefix:@"Intro"]){
-        NSString *name = messageToNSString(identity);
-        int clash = 0;
-        for (NSString *p in players){
-            if ([name isEqualToString:p]){
-                clash++;
-            }
-        }
-        [players addObject:name];
-        if (clash > 0){
-            NSLog(@"Name clash");
-            //sleep(3); //THERE HAS TO BE A BETTER FIX THAN THIS! TODO
-            const char *num = [[[NSString alloc] initWithFormat:@"%d", clash] UTF8String];
-            
-            zmq_send(publisher, "Error", 5, ZMQ_SNDMORE);
-            zmq_send(publisher, zmq_msg_data(&identity), zmq_msg_size(&identity), ZMQ_SNDMORE);
-            zmq_send(publisher, num, sizeof(num), 0);
-            name = [[NSString alloc]initWithFormat:@"%@%s", name, num];
-        }
-        NSLog(@"Name %@", name);
-    //Otherwise we'll assume it's a chat message. */
+    //The else below should never be reached.
     } else {
     }
     //NSLog(@"Held pieces: %@", heldPieces);
 }
 
-/* A method used by the server when it hasn't heard from any player
- * in a while to inform everyone that they haven't lost connection
+/* A method used by the server to send the message count
+* so that players know if they've missed a message.
  */
 void sendAlive(){
     messagesSent++;
@@ -276,6 +258,9 @@ void sendAlive(){
     zmq_send(publisher, num, sizeof(num), 0);
 }
 
+/*
+* Checks that a client hasn't died / left while holding a piece.
+*/
 void checkPieces(){
     for (int i = 0; i < [heldPieces count]; i++){
         id piece = heldPieces[i];
@@ -289,6 +274,9 @@ void checkPieces(){
     }
 }
 
+/*
+* Infinitely loops running the appropriate server code.
+*/
 void startServer(){
     //  Socket to talk to clients
     void *context = zmq_ctx_new ();
@@ -306,18 +294,12 @@ void startServer(){
     }
     lastSent = [NSDate date];
     
-    NSLog(@"Listening on port 5555. Publishing on port 5556");
-   // NSDate *boardDate = [NSDate date];
+    //NSLog(@"Listening on port 5555. Publishing on port 5556");
     NSDate *loseDate = [NSDate date];
     
     while (true){
         receiveMessage();
         sendBoard();
-        /*This loops too quickly if no messages are being received.
-        if ([boardDate timeIntervalSinceNow] < -SENDBOARD){
-            sendBoard();
-            boardDate = [NSDate date];
-        } */
         if ([loseDate timeIntervalSinceNow] < -LOSEPIECE){
             checkPieces();
             loseDate = [NSDate date];
@@ -330,6 +312,9 @@ void startServer(){
     
 }
 
+/*
+* Reads the image from the user-specified path.
+*/
 void readImageFromPath(NSString *path){
     NSError *errorPtr;
     NSData *image = [NSData dataWithContentsOfFile:path options:NSDataReadingUncached error:&errorPtr];
@@ -342,6 +327,10 @@ void readImageFromPath(NSString *path){
     memcpy(boardState, [image bytes], imageLen);
 }
 
+/*
+* Tries to grab a default image if the user presses cancel - this was
+* useful for testing but will probably not work on computers other than Shahne or Ash's.
+*/
 void readImage(NSURL *path){
     NSError *errorPtr;
     NSData *image = [NSData dataWithContentsOfURL:path options:NSDataReadingUncached error:&errorPtr];
@@ -354,7 +343,12 @@ void readImage(NSURL *path){
     memcpy(boardState, [image bytes], imageLen);
 }
 
+/*Asks the user to choose an image - works well if the server is run
+* from the commandline but not so great for XCode - the popup appears
+* behind XCode's window.
+*/
 void chooseImage(){
+    NSLog(@"Please make sure to choose an image - the file chooser may be behind XCode");
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setCanChooseFiles:YES];
     NSArray* imageTypes = [NSImage imageTypes];
@@ -370,6 +364,7 @@ void chooseImage(){
     }
 }
 
+//Asks the user to choose an image, starts Bonjour publishing and then goes to the main startServer loop.
 int main(int argc, const char * argv[]) {
     NSLog(@"Remember to check the address");
     pieceNeighbours = [[PieceNeighbours alloc] init];
